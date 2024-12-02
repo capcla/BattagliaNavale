@@ -68,7 +68,7 @@ class Nodo {
 	 * @param i Intero complessivo indicante sia la riga che la riga che la colonna
 	 *          della prima cella colpita di una nave
 	 */
-	public void setNodoAndNeighbours(int i, Griglia griglia) {
+	public void setNodosNeighbours(int i, Griglia griglia) {
 		final int r = i / griglia.getColonne();
 		final int c = i % griglia.getColonne();
 

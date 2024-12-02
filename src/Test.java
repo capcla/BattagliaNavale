@@ -33,7 +33,7 @@ public class Test {
 
 				ArrayList<Nodo> nodoList = new ArrayList<Nodo>();
 				Nodo nodo = new Nodo(new Cella(sparo / colonne, sparo % colonne));
-				nodo.setNodoAndNeighbours(i, grigliaAttacco);
+				nodo.setNodosNeighbours(i, grigliaAttacco);
 				nodoList.add(nodo);
 				
 				ArrayList<FreePosition> freePosition = new ArrayList<FreePosition>();
@@ -42,16 +42,16 @@ public class Test {
 				
 				
 				
-				nodo = new Nodo(new Cella(2, 2));
-				nodoList.add(nodo);
-		//		nodoList.get(0).aggiungiAdiacente(new Cella(3,4));
+				//nodo = new Nodo(new Cella(2, 2));
+				//nodoList.add(nodo);
 				
 				System.out.println(nodoList.size());
 				
 				
 				
 				
-
+				System.out.println(nodo.getHorizontalVertical().size());
+				
 				if (freePosition.size() > 0) {
 
 					System.out.print("(" + (i + 1) + ") ");
