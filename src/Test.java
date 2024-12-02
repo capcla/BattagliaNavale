@@ -36,23 +36,9 @@ public class Test {
 				nodo.setNodosNeighbours(i, grigliaAttacco);
 				nodoList.add(nodo);
 				
-				ArrayList<FreePosition> freePosition = new ArrayList<FreePosition>();
-				freePosition = grigliaAttacco.getFreeNearPosition(sparo);
+				System.out.println();
 				
-				
-				
-				
-				//nodo = new Nodo(new Cella(2, 2));
-				//nodoList.add(nodo);
-				
-				System.out.println(nodoList.size());
-				
-				
-				
-				
-				System.out.println(nodo.getHorizontalVertical().size());
-				
-				if (freePosition.size() > 0) {
+				if (nodo.getHorizontalVertical().size() > 0) {
 
 					System.out.print("(" + (i + 1) + ") ");
 					System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
@@ -68,9 +54,10 @@ public class Test {
 					grigliaAttacco.getGriglia();
 
 					Random random = new Random();
-					int randomNumber = random.nextInt(freePosition.size());
-					int riga = freePosition.get(randomNumber).getRiga();
-					int colonna = freePosition.get(randomNumber).getColonna();
+					int randomNumber = random.nextInt(nodo.getHorizontalVertical().size());
+					int riga = nodo.getHorizontalVertical().get(randomNumber).getRiga();
+					int colonna = nodo.getHorizontalVertical().get(randomNumber).getColonna();
+					
 					// DEBUG
 					int s = sparo / grigliaAttacco.getColonne();
 
