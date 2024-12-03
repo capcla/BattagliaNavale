@@ -10,6 +10,7 @@ public class Main {
 		Input input = new Input();
 		boolean validInputKeyboard = true;
 		String inputKeyboard;
+		ArrayList<Nodo> nodoList = new ArrayList<Nodo>();
 
 		// Elecnto del normale ordine di tutti gli spari che verranno effettuati
 		for (int i = 0; i < grigliaAttacco.getRigheColonne(); i++) {
@@ -24,10 +25,11 @@ public class Main {
 			// Se si sta attaccando in una cella vuota
 			if (grigliaAttacco.checkEmptyCell(sparo)) {
 
-				ArrayList<FreePosition> freePosition = new ArrayList<FreePosition>();
-				freePosition = grigliaAttacco.getFreeNearPosition(sparo);
+				Nodo nodo = new Nodo(new Cella(sparo / colonne, sparo % colonne));
+				nodo.setNodosNeighbours(sparo, grigliaAttacco);
+				nodoList.add(nodo);
 
-				if (freePosition.size() > 0) {
+				if (nodo.getHorizontalVertical().size() > 0) {
 					System.out.println();
 					grigliaAttacco.getRigaColonna(sparo);
 					System.out.print("(" + (i + 1) + ") ");
@@ -38,21 +40,22 @@ public class Main {
 
 					// se l'input è valido
 					if (validInputKeyboard) {
-						grigliaAttacco.setGriglia(inputKeyboard, sparo);
-						grigliaAttacco.getGriglia();
+//						Inserimento dello sparo nella sulla griglia e relativa visualizzazione
+//						grigliaAttacco.setGriglia(inputKeyboard, sparo);
+//						grigliaAttacco.getGriglia();
 
-						// Scelta casuale della direzione da andare a colpire tra le celle
-						// libere
+						// Scelta casuale della direzione da andare a colpire tra 
+						// le celle libere
 						Random random = new Random();
-						int randomNumber = random.nextInt(freePosition.size());
-						int riga = freePosition.get(randomNumber).getRiga();
-						int colonna = freePosition.get(randomNumber).getColonna();
+						int randomNumber = random.nextInt(nodo.getHorizontalVertical().size());
+						int riga = nodo.getHorizontalVertical().get(randomNumber).getRiga();
+						int colonna = nodo.getHorizontalVertical().get(randomNumber).getColonna();
 						// DEBUG
 						int s = sparo / colonne;
 
 //		                if(sparo/grigliaAttacco.getColonne() == riga)
 						if (true)
-							grigliaAttacco.searchAndDestroyOnRow(sparo, riga, colonna, false, 1);
+							grigliaAttacco.searchAndDestroyOnRow(sparo, riga, colonna, false, 1, nodoList);
 //		                else
 //		                	grigliaAttacco.searchAndDestroyOnColumn(sparo, riga, colonna, false, 1);
 					}
