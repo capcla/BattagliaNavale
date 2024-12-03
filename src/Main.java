@@ -29,6 +29,7 @@ public class Main {
 				nodo.setNodosNeighbours(sparo, grigliaAttacco);
 				nodoList.add(nodo);
 
+				//Controlla se c'è una direzione da esplorare in orizzontale o verticale
 				if (nodo.getHorizontalVertical().size() > 0) {
 					System.out.println();
 					grigliaAttacco.getRigaColonna(sparo);

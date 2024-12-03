@@ -298,58 +298,45 @@ class Griglia {
 	 * @return restituisce un oggetto FreePosition contenente le informazioni
 	 *         relative alle celle libere adiacenti di una cella colpita
 	 */
-	public ArrayList<FreePosition> getFreeNearPosition(final int i) {
-
-		final int r = i / getColonne();
-		final int c = i % getColonne();
-
-		ArrayList<FreePosition> freePosition = new ArrayList<FreePosition>();
-		// Random random = new Random();
-
-		for (int riga = r - 1; riga <= r + 1; riga++) {
-
-			// Controlla se gli iteratori sono compresi nei valori validi delle
-			// righe
-			if ((riga >= 0) && (riga <= getRighe() - 1)) {
-
-				for (int colonna = c - 1; colonna <= c + 1; colonna++) {
-
-					// Controlla se gli iteratori sono compresi nei valori
-					// validi delle colonne e se la cella indicata dagli
-					// iteratori è vuota
-					if ((colonna >= 0) && (colonna <= getColonne() - 1) && (checkEmptyCell(riga, colonna))) {
-
-						// Le due condizione devono verificarsi in maniera
-						// esclusiva per aggiungere, alle caselle libere, solo
-						// le celle orizzontali e verticali adiacenti alla cella
-						// (r,c)
-						if ((riga == r) ^ (colonna == c))
-							freePosition.add(new FreePosition(riga, colonna));
-
-						// Imposta lo stato in ASSEGANTO alle celle diagonali
-						// adiacenti rispetto alla cella se questa è vuota(r,c)
-						else
-							setAssigned(riga, colonna);
-					}
-				}
-			}
-		}
-
-		// DEBUG
-		// getGriglia(griglia);
-
-		return freePosition;
-		/*
-		 * if(freePosition.size() > 0){ //Scelta casuale della direzione da andare a
-		 * colpire tra le celle //libere int randomNumber =
-		 * random.nextInt(freePosition.size());
-		 * 
-		 * int riga = freePosition.get(randomNumber).getRiga(); int colonna =
-		 * freePosition.get(randomNumber).getColonna(); searchAndDestroy(r, c, riga,
-		 * colonna, false); }
-		 */
-	}
-	
+	/*
+	 * public ArrayList<FreePosition> getFreeNearPosition(final int i) {
+	 * 
+	 * final int r = i / getColonne(); final int c = i % getColonne();
+	 * 
+	 * ArrayList<FreePosition> freePosition = new ArrayList<FreePosition>(); //
+	 * Random random = new Random();
+	 * 
+	 * for (int riga = r - 1; riga <= r + 1; riga++) {
+	 * 
+	 * // Controlla se gli iteratori sono compresi nei valori validi delle // righe
+	 * if ((riga >= 0) && (riga <= getRighe() - 1)) {
+	 * 
+	 * for (int colonna = c - 1; colonna <= c + 1; colonna++) {
+	 * 
+	 * // Controlla se gli iteratori sono compresi nei valori // validi delle
+	 * colonne e se la cella indicata dagli // iteratori è vuota if ((colonna >= 0)
+	 * && (colonna <= getColonne() - 1) && (checkEmptyCell(riga, colonna))) {
+	 * 
+	 * // Le due condizione devono verificarsi in maniera // esclusiva per
+	 * aggiungere, alle caselle libere, solo // le celle orizzontali e verticali
+	 * adiacenti alla cella // (r,c) if ((riga == r) ^ (colonna == c))
+	 * freePosition.add(new FreePosition(riga, colonna));
+	 * 
+	 * // Imposta lo stato in ASSEGANTO alle celle diagonali // adiacenti rispetto
+	 * alla cella se questa è vuota(r,c) else setAssigned(riga, colonna); } } } }
+	 * 
+	 * // DEBUG // getGriglia(griglia);
+	 * 
+	 * return freePosition; /* if(freePosition.size() > 0){ //Scelta casuale della
+	 * direzione da andare a colpire tra le celle //libere int randomNumber =
+	 * random.nextInt(freePosition.size());
+	 * 
+	 * int riga = freePosition.get(randomNumber).getRiga(); int colonna =
+	 * freePosition.get(randomNumber).getColonna(); searchAndDestroy(r, c, riga,
+	 * colonna, false); }
+	 *
+	 * }
+	 */
 
 	/**
 	 * Assegna il vaolore ASSEGNATO ad una determinata cella di coordinate (r, c)
@@ -450,10 +437,10 @@ class Griglia {
 	 *                          ispezionando
 	 * @param oppositeDirection Boolean che segnala se la direzione opposta a quella
 	 *                          che si sta ispezionando è già stata ispezionata
-	 * @param caselleColpite 
+	 * @param caselleColpite
 	 * @param caselleColpite    Intero che indica quante sono le caselle colpite di
 	 *                          una nave
-	 * @param nodoList 
+	 * @param nodoList
 	 */
 	public void searchAndDestroyOnRow(final int i, final int riga, final int colonna, boolean oppositeDirection,
 			int caselleColpite, ArrayList<Nodo> nodoList) {
@@ -464,9 +451,7 @@ class Griglia {
 		// final int r = i / getColonne();
 		final int c = i % getColonne();
 		boolean quit = false;
-		
 		Nodo nodo;
-		
 
 		// Chiede all'utente conferma del colpo
 		do {
@@ -479,22 +464,27 @@ class Griglia {
 			if (validInputKeyboard == false)
 				System.out.println("Valore inserito errato");
 			else {
-				setGriglia(inputKeyboard, riga * getColonne() + colonna);
-				
+				// DEBUG
+//				setGriglia(inputKeyboard, riga * getColonne() + colonna);
+
 				checkColpito = input.checkColpito(inputKeyboard);
 				checkAffondato = input.checkAffondato(inputKeyboard);
 
 				// Controlla se la nava è stata colpita o affondata
 				if (checkColpito || checkAffondato) {
-					
+
 					// Crea un nuovo nodo, ne setta i vicini e lo aggiunge alla
 					// lista dei nodi
 					nodo = new Nodo(new Cella(riga, colonna));
 					nodo.setNodosNeighbours(riga * getColonne() + colonna, this);
 					nodoList.add(nodo);
 
+					// Se la nave è dichiarata affondata, vengono imposati i limiti
+					// della nave
 					if (checkAffondato) {
 						checkAndSetRowLimits(riga, colonna, c, nodoList.size());
+						setShipLimits(nodoList);
+						
 					}
 				} else if (oppositeDirection) {
 
@@ -521,9 +511,11 @@ class Griglia {
 			// della cella attuale mentre c indica il valore della colonna della
 			// prima cella colpita
 			if (colonna > c)
-				goRightDirection(i, riga, colonna, c, nodoList.size(), checkColpito, checkAffondato, oppositeDirection, nodoList);
+				goRightDirection(i, riga, colonna, c, nodoList.size(), checkColpito, checkAffondato, oppositeDirection,
+						nodoList);
 			else
-				goLeftDirection(i, riga, colonna, c, nodoList.size(), checkColpito, checkAffondato, oppositeDirection, nodoList);
+				goLeftDirection(i, riga, colonna, c, nodoList.size(), checkColpito, checkAffondato, oppositeDirection,
+						nodoList);
 		}
 
 		if (griglia[riga][colonna] != Casella.COLPITO && (oppositeDirection || nodoList.size() == 1)) {
@@ -532,6 +524,24 @@ class Griglia {
 			getGriglia();
 		}
 
+	}
+
+	/**
+	 * Prende in input l'array list nodoList e ne setta gli elementi diagonali come
+	 * valori assegnati qualora questi fossero vuoti
+	 * 
+	 * @param nodoList
+	 */
+	
+	private void setShipLimits(ArrayList<Nodo> nodoList) {
+		
+		for(int i = 0; i < nodoList.size(); i++) {
+			
+			for(int j = 0; j < nodoList.size(); j++)
+				
+				if(nodoList.get(i).getDiagonals().get(j).getPreviousValue() == Casella.VUOTO)
+					nodoList.get(i).getDiagonals().get(j).setPreviusValue(Casella.ASSEGNATO);
+		}
 	}
 
 	/**
@@ -724,10 +734,11 @@ class Griglia {
 	 *                          affondata
 	 * @param oppositeDirection boolean che segnala se la direzione opposta a quella
 	 *                          che si sta ispezionando è già stata ispezionata
-	 * @param nodoList 
+	 * @param nodoList
 	 */
 	private void goRightDirection(final int i, final int riga, final int colonna, final int c, final int caselleColpite,
-			final boolean checkColpito, final boolean checkAffondato, boolean oppositeDirection, ArrayList<Nodo> nodoList) {
+			final boolean checkColpito, final boolean checkAffondato, boolean oppositeDirection,
+			ArrayList<Nodo> nodoList) {
 
 		// Controlla se colonna+1 è nei limiti dell'array, se la cella
 		// (riga, colonna+1) è libera e se la cella è stata valutata come colpita o
@@ -770,10 +781,11 @@ class Griglia {
 	 *                          affondata
 	 * @param oppositeDirection boolean che segnala se la direzione opposta a quella
 	 *                          che si sta ispezionando è già stata ispezionata
-	 * @param nodoList 
+	 * @param nodoList
 	 */
 	private void goLeftDirection(final int i, final int riga, final int colonna, final int c, final int caselleColpite,
-			final boolean checkColpito, final boolean checkAffondato, boolean oppositeDirection, ArrayList<Nodo> nodoList) {
+			final boolean checkColpito, final boolean checkAffondato, boolean oppositeDirection,
+			ArrayList<Nodo> nodoList) {
 
 		// Controlla se colonna-1 è nei limiti della griglia, se la cella(riga,
 		// colonna-1) è libera e se la cella è stata valutata come colpita

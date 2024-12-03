@@ -43,5 +43,12 @@ public class Cella {
 	public Casella getPreviousValue() {
 		return previousValue;
 	}
+
+	public void setPreviusValue(Casella casella) {
+		this.previousValue = casella;
+		
+	}
+	
+	
 	
 }
