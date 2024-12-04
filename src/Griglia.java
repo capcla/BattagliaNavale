@@ -9,6 +9,8 @@ class Griglia {
 	private int spazioTraCaratteri;
 	private Casella griglia[][];
 	private int sparo[];
+	private int minRiga = 0;
+	private int minColonna = 0;
 
 	/**
 	 * Costruttore del campo di battaglia
@@ -484,7 +486,7 @@ class Griglia {
 					if (checkAffondato) {
 						checkAndSetRowLimits(riga, colonna, c, nodoList.size());
 						setShipLimits(nodoList);
-						
+
 					}
 				} else if (oppositeDirection) {
 
@@ -527,20 +529,46 @@ class Griglia {
 	}
 
 	/**
-	 * Prende in input l'array list nodoList e ne setta gli elementi diagonali come
-	 * valori assegnati qualora questi fossero vuoti
+	 * Prende in input l'array list nodoList e setta tutte le celle adiacenti alla
+	 * nave con il valore ASSEGNATO  se queste sono vuote
 	 * 
 	 * @param nodoList
 	 */
-	
+
 	private void setShipLimits(ArrayList<Nodo> nodoList) {
+		int minRiga = getRighe();
+		int minColonna = getColonne();
 		
-		for(int i = 0; i < nodoList.size(); i++) {
+		// Controlla tutti i nodi di nodoList
+		for (int i = 0; i < nodoList.size(); i++) {
 			
-			for(int j = 0; j < nodoList.size(); j++)
+			// Ricerca del valore minimo di riga e colonna
+			if (nodoList.get(i).getCella().getRiga() < minRiga || nodoList.get(i).getCella().getColonna() < minColonna) {
+				minRiga = nodoList.get(i).getCella().getRiga();
+				minColonna = nodoList.get(i).getCella().getColonna();
+			}
 				
-				if(nodoList.get(i).getDiagonals().get(j).getPreviousValue() == Casella.VUOTO)
-					nodoList.get(i).getDiagonals().get(j).setPreviusValue(Casella.ASSEGNATO);
+			// Controlla tutti i diagonali di un nodo
+			for (int j = 0; j < nodoList.get(i).getDiagonals().size(); j++)
+
+				// Controlla che il valore di un nodo diagonale sia vuoto
+				if (nodoList.get(i).getDiagonals().get(j).getValue() == Casella.VUOTO)
+					nodoList.get(i).getDiagonals().get(j).setValue(Casella.ASSEGNATO);
+		}
+		
+		// Controllo che minRiga e minColonna siano nei margini della griglia e che 
+		// la casella da loro indicata sia vuota
+		if (minRiga >= 0 && minColonna >= 0 && checkEmptyCell(minRiga, minColonna)) {
+			setAssigned(minRiga, minColonna);
+		}
+				
+		int maxRiga = minRiga + nodoList.size() + 1;
+		int maxColonna = minColonna + nodoList.size() + 1;
+				
+		// Controllo che maxRiga e maxColonna siano nei margini della griglia e che 
+				// la casella da loro indicata sia vuota
+		if (maxRiga < getRighe() && maxColonna < getColonne() && checkEmptyCell(maxRiga, maxColonna)) {
+			setAssigned(minRiga, minColonna);
 		}
 	}
 

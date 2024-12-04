@@ -9,7 +9,7 @@ public class Cella {
 	
 	private int riga;
 	private int colonna;
-	private Casella previousValue = null;
+	private Casella value = null;
 
 	Cella(int riga, int colonna) {
 		this.riga = riga;
@@ -19,7 +19,7 @@ public class Cella {
 	Cella(int riga, int colonna, Casella casella) {
 		this.riga = riga;
 		this.colonna = colonna;
-		this.previousValue = casella;
+		this.value = casella;
 	}
 	
 	
@@ -40,12 +40,12 @@ public class Cella {
 		this.colonna = colonna;
 	}
 	
-	public Casella getPreviousValue() {
-		return previousValue;
+	public Casella getValue() {
+		return value;
 	}
 
-	public void setPreviusValue(Casella casella) {
-		this.previousValue = casella;
+	public void setValue(Casella casella) {
+		this.value = casella;
 		
 	}
 	
