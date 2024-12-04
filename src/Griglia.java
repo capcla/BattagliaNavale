@@ -287,6 +287,24 @@ class Griglia {
 
 		// getGriglia(griglia);
 	}
+	
+	/**
+	 * 
+	 * 
+	 * @param nodoList
+	 */
+	public void setGriglia(ArrayList<Nodo> nodoList) {
+			
+		for (int i = 0; i < nodoList.size(); i++) {
+			
+			for (int j = 0; j < nodoList.size(); j++) {
+				int r = nodoList.get(i).getDiagonals().get(j).getRiga();
+				int c = nodoList.get(i).getDiagonals().get(j).getColonna();
+				griglia[r][c] = nodoList.get(i).getDiagonals().get(j).getValue();
+			}
+		}
+		
+	}
 
 	/**
 	 * Dato il valore dello sparo vengono calcolate le coordinate della cella di
@@ -466,9 +484,7 @@ class Griglia {
 			if (validInputKeyboard == false)
 				System.out.println("Valore inserito errato");
 			else {
-				// DEBUG
-//				setGriglia(inputKeyboard, riga * getColonne() + colonna);
-
+				setGriglia(inputKeyboard, riga * getColonne() + colonna);
 				checkColpito = input.checkColpito(inputKeyboard);
 				checkAffondato = input.checkAffondato(inputKeyboard);
 
@@ -486,7 +502,7 @@ class Griglia {
 					if (checkAffondato) {
 						//checkAndSetRowLimits(riga, colonna, c, nodoList.size());
 						setShipLimits(nodoList);
-
+						setGriglia(nodoList);
 					}
 				} else if (oppositeDirection) {
 
@@ -566,8 +582,8 @@ class Griglia {
 		
 		// Controllo che minRiga e minColonna siano nei margini della griglia e che 
 		// la casella da loro indicata sia vuota
-		if (minRiga >= 0 && minColonna >= 0 && checkEmptyCell(minRiga, minColonna)) {
-			setAssigned(minRiga, minColonna);
+		if (minRiga-1  >= 0 && minColonna-1 >= 0 && checkEmptyCell(minRiga, minColonna)) {
+			setAssigned(minRiga-1, minColonna-1);
 		}
 				
 		// Controllo che maxRiga e maxColonna siano nei margini della griglia e che 
