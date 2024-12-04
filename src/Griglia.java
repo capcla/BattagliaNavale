@@ -484,7 +484,7 @@ class Griglia {
 					// Se la nave è dichiarata affondata, vengono imposati i limiti
 					// della nave
 					if (checkAffondato) {
-						checkAndSetRowLimits(riga, colonna, c, nodoList.size());
+						//checkAndSetRowLimits(riga, colonna, c, nodoList.size());
 						setShipLimits(nodoList);
 
 					}
@@ -530,30 +530,38 @@ class Griglia {
 
 	/**
 	 * Prende in input l'array list nodoList e setta tutte le celle adiacenti alla
-	 * nave con il valore ASSEGNATO  se queste sono vuote
+	 * nave con il valore ASSEGNATO se queste sono vuote
 	 * 
-	 * @param nodoList
+	 * @param nodoList Struttura contenente le informazioni sui nodi e sulle caselle adiacenti
 	 */
 
 	private void setShipLimits(ArrayList<Nodo> nodoList) {
 		int minRiga = getRighe();
 		int minColonna = getColonne();
+		int maxRiga = 0;
+		int maxColonna = 0;
 		
 		// Controlla tutti i nodi di nodoList
 		for (int i = 0; i < nodoList.size(); i++) {
 			
-			// Ricerca del valore minimo di riga e colonna
+			// Ricerca del valore minimo delle coordinate riga e colonna e ne calcola 
+			// il massimo
 			if (nodoList.get(i).getCella().getRiga() < minRiga || nodoList.get(i).getCella().getColonna() < minColonna) {
 				minRiga = nodoList.get(i).getCella().getRiga();
 				minColonna = nodoList.get(i).getCella().getColonna();
+				maxRiga = minRiga + nodoList.size();
+				maxColonna = minColonna + nodoList.size();
 			}
+			
+			//setAssigned(nodoList.get(i).getCella().getRiga(), nodoList.get(i).getCella().getColonna());
 				
 			// Controlla tutti i diagonali di un nodo
 			for (int j = 0; j < nodoList.get(i).getDiagonals().size(); j++)
 
 				// Controlla che il valore di un nodo diagonale sia vuoto
-				if (nodoList.get(i).getDiagonals().get(j).getValue() == Casella.VUOTO)
+				if (nodoList.get(i).getDiagonals().get(j).getValue() == Casella.VUOTO) {
 					nodoList.get(i).getDiagonals().get(j).setValue(Casella.ASSEGNATO);
+				}	
 		}
 		
 		// Controllo che minRiga e minColonna siano nei margini della griglia e che 
@@ -562,11 +570,8 @@ class Griglia {
 			setAssigned(minRiga, minColonna);
 		}
 				
-		int maxRiga = minRiga + nodoList.size() + 1;
-		int maxColonna = minColonna + nodoList.size() + 1;
-				
 		// Controllo che maxRiga e maxColonna siano nei margini della griglia e che 
-				// la casella da loro indicata sia vuota
+		// la casella da loro indicata sia vuota
 		if (maxRiga < getRighe() && maxColonna < getColonne() && checkEmptyCell(maxRiga, maxColonna)) {
 			setAssigned(minRiga, minColonna);
 		}
