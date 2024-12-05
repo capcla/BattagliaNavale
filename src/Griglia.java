@@ -287,23 +287,23 @@ class Griglia {
 
 		// getGriglia(griglia);
 	}
-	
+
 	/**
 	 * 
 	 * 
 	 * @param nodoList
 	 */
 	public void setGriglia(ArrayList<Nodo> nodoList) {
-			
+
 		for (int i = 0; i < nodoList.size(); i++) {
-			
-			for (int j = 0; j < nodoList.size(); j++) {
+
+			for (int j = 0; j < nodoList.get(i).getDiagonals().size(); j++) {
 				int r = nodoList.get(i).getDiagonals().get(j).getRiga();
 				int c = nodoList.get(i).getDiagonals().get(j).getColonna();
 				griglia[r][c] = nodoList.get(i).getDiagonals().get(j).getValue();
 			}
 		}
-		
+
 	}
 
 	/**
@@ -500,7 +500,7 @@ class Griglia {
 					// Se la nave è dichiarata affondata, vengono imposati i limiti
 					// della nave
 					if (checkAffondato) {
-						//checkAndSetRowLimits(riga, colonna, c, nodoList.size());
+						// checkAndSetRowLimits(riga, colonna, c, nodoList.size());
 						setShipLimits(nodoList);
 						setGriglia(nodoList);
 					}
@@ -548,49 +548,90 @@ class Griglia {
 	 * Prende in input l'array list nodoList e setta tutte le celle adiacenti alla
 	 * nave con il valore ASSEGNATO se queste sono vuote
 	 * 
-	 * @param nodoList Struttura contenente le informazioni sui nodi e sulle caselle adiacenti
+	 * @param nodoList Struttura contenente le informazioni sui nodi e sulle caselle
+	 *                 adiacenti
 	 */
 
 	private void setShipLimits(ArrayList<Nodo> nodoList) {
-		int minRiga = getRighe();
-		int minColonna = getColonne();
+		int minRiga = nodoList.get(0).getCella().getRiga();
+		int minColonna = nodoList.get(0).getCella().getColonna();
 		int maxRiga = 0;
 		int maxColonna = 0;
-		
+		boolean colonnaChange = false;
+
 		// Controlla tutti i nodi di nodoList
 		for (int i = 0; i < nodoList.size(); i++) {
-			
-			// Ricerca del valore minimo delle coordinate riga e colonna e ne calcola 
+
+			// Ricerca del valore minimo delle coordinate riga e colonna e ne calcola
 			// il massimo
-			if (nodoList.get(i).getCella().getRiga() < minRiga || nodoList.get(i).getCella().getColonna() < minColonna) {
+//			if (nodoList.get(i).getCella().getRiga() < minRiga || nodoList.get(i).getCella().getColonna() < minColonna) {
+//				minRiga = nodoList.get(i).getCella().getRiga();
+//				minColonna = nodoList.get(i).getCella().getColonna();
+//				maxRiga = minRiga + nodoList.size();
+//				maxColonna = minColonna + nodoList.size();
+//			}
+
+//			// Se la riga rimane fissa, bisogna cercare qual è il valore più piccolo di
+//			// colonna
+//			if (minRiga == nodoList.get(0).getCella().getRiga()
+//					&& nodoList.get(0).getCella().getColonna() < minColonna) {
+//				minColonna = nodoList.get(i).getCella().getColonna();
+//			}
+//
+//			// Se la colonna rimane fissa, bisogna cercare qual è il valore più piccolo di
+//			// riga
+//			if (minColonna == nodoList.get(0).getCella().getColonna()
+//					&& nodoList.get(0).getCella().getRiga() < minRiga) {
+//				minRiga = nodoList.get(i).getCella().getRiga();
+//			}
+
+			if (minRiga == nodoList.get(0).getCella().getRiga()) {
+
+				if (nodoList.get(0).getCella().getColonna() < minColonna) {
+					colonnaChange = true;
+					minColonna = nodoList.get(i).getCella().getColonna();
+				}
+			} else if (nodoList.get(0).getCella().getRiga() < minRiga) {
 				minRiga = nodoList.get(i).getCella().getRiga();
-				minColonna = nodoList.get(i).getCella().getColonna();
-				maxRiga = minRiga + nodoList.size();
-				maxColonna = minColonna + nodoList.size();
 			}
-			
-			//setAssigned(nodoList.get(i).getCella().getRiga(), nodoList.get(i).getCella().getColonna());
-				
+
+			// setAssigned(nodoList.get(i).getCella().getRiga(),
+			// nodoList.get(i).getCella().getColonna());
+
 			// Controlla tutti i diagonali di un nodo
 			for (int j = 0; j < nodoList.get(i).getDiagonals().size(); j++)
 
 				// Controlla che il valore di un nodo diagonale sia vuoto
 				if (nodoList.get(i).getDiagonals().get(j).getValue() == Casella.VUOTO) {
 					nodoList.get(i).getDiagonals().get(j).setValue(Casella.ASSEGNATO);
-				}	
+				}
 		}
-		
-		// Controllo che minRiga e minColonna siano nei margini della griglia e che 
+
+		// Controllo che minRiga e minColonna siano nei margini della griglia e che
 		// la casella da loro indicata sia vuota
-		if (minRiga-1  >= 0 && minColonna-1 >= 0 && checkEmptyCell(minRiga, minColonna)) {
-			setAssigned(minRiga-1, minColonna-1);
-		}
-				
-		// Controllo che maxRiga e maxColonna siano nei margini della griglia e che 
+//		if (minRiga-1  >= 0 && minColonna-1 >= 0 && checkEmptyCell(minRiga-1, minColonna-1)) {
+//			setAssigned(minRiga-1, minColonna-1);
+//		}
+
+		// Controllo che maxRiga e maxColonna siano nei margini della griglia e che
 		// la casella da loro indicata sia vuota
-		if (maxRiga < getRighe() && maxColonna < getColonne() && checkEmptyCell(maxRiga, maxColonna)) {
-			setAssigned(minRiga, minColonna);
+
+//		if (maxRiga < getRighe() && maxColonna < getColonne() && checkEmptyCell(maxRiga, maxColonna)) {
+//			setAssigned(maxRiga, maxColonna);
+//		}
+
+		if (colonnaChange) {
+			if (minColonna-1 >= 0 && minColonna + nodoList.size() < getColonne()) {
+				setAssigned(minRiga, minColonna - 1);
+				setAssigned(minRiga, minColonna + nodoList.size());
+			}
+		} else {
+			if (minRiga-1 >=0 && minRiga + nodoList.size() < getRighe()) {
+				setAssigned(minRiga - 1, minColonna);
+				setAssigned(minRiga + nodoList.size(), minColonna);
+			}
 		}
+
 	}
 
 	/**

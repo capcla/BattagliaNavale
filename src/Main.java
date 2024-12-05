@@ -42,7 +42,7 @@ public class Main {
 					// se l'input è valido
 					if (validInputKeyboard) {
 //						Inserimento dello sparo nella sulla griglia e relativa visualizzazione
-//						grigliaAttacco.setGriglia(inputKeyboard, sparo);
+						grigliaAttacco.setGriglia(inputKeyboard, sparo);
 //						grigliaAttacco.getGriglia();
 
 						// Scelta casuale della direzione da andare a colpire tra 
