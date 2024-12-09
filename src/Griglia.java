@@ -551,49 +551,21 @@ class Griglia {
 	 * @param nodoList Struttura contenente le informazioni sui nodi e sulle caselle
 	 *                 adiacenti
 	 */
-
 	private void setShipLimits(ArrayList<Nodo> nodoList) {
-		int minRiga = nodoList.get(0).getCella().getRiga();
-		int minColonna = nodoList.get(0).getCella().getColonna();
-		int maxRiga = 0;
-		int maxColonna = 0;
-		boolean colonnaChange = false;
+		int minRiga = getRighe();
+		int minColonna = getColonne();
+
 
 		// Controlla tutti i nodi di nodoList
 		for (int i = 0; i < nodoList.size(); i++) {
 
-			// Ricerca del valore minimo delle coordinate riga e colonna e ne calcola
-			// il massimo
-//			if (nodoList.get(i).getCella().getRiga() < minRiga || nodoList.get(i).getCella().getColonna() < minColonna) {
-//				minRiga = nodoList.get(i).getCella().getRiga();
-//				minColonna = nodoList.get(i).getCella().getColonna();
-//				maxRiga = minRiga + nodoList.size();
-//				maxColonna = minColonna + nodoList.size();
-//			}
-
-//			// Se la riga rimane fissa, bisogna cercare qual è il valore più piccolo di
-//			// colonna
-//			if (minRiga == nodoList.get(0).getCella().getRiga()
-//					&& nodoList.get(0).getCella().getColonna() < minColonna) {
-//				minColonna = nodoList.get(i).getCella().getColonna();
-//			}
-//
-//			// Se la colonna rimane fissa, bisogna cercare qual è il valore più piccolo di
-//			// riga
-//			if (minColonna == nodoList.get(0).getCella().getColonna()
-//					&& nodoList.get(0).getCella().getRiga() < minRiga) {
-//				minRiga = nodoList.get(i).getCella().getRiga();
-//			}
-
-			if (minRiga == nodoList.get(0).getCella().getRiga()) {
-
-				if (nodoList.get(0).getCella().getColonna() < minColonna) {
-					colonnaChange = true;
-					minColonna = nodoList.get(i).getCella().getColonna();
-				}
-			} else if (nodoList.get(0).getCella().getRiga() < minRiga) {
+			// Impostazione della coordinata riga più piccola
+			if (nodoList.get(i).getCella().getRiga() < minRiga)
 				minRiga = nodoList.get(i).getCella().getRiga();
-			}
+
+			// Impostazione della coordinata colonna più piccola
+			if (nodoList.get(i).getCella().getColonna() < minColonna)
+				minColonna = nodoList.get(i).getCella().getColonna();
 
 			// setAssigned(nodoList.get(i).getCella().getRiga(),
 			// nodoList.get(i).getCella().getColonna());
@@ -606,32 +578,25 @@ class Griglia {
 					nodoList.get(i).getDiagonals().get(j).setValue(Casella.ASSEGNATO);
 				}
 		}
+		 
+		// Se c'è differenza tra le righe di due celle, ci si sta muovendo in verticale
+		// e quindi si devono settare i limiti superiore e inferiore sulle righe
+		// altrimenti si devono settare i limiti destro e sinistro sulle colonne
+		if (nodoList.get(0).getCella().getRiga() - nodoList.get(1).getCella().getRiga() != 0) {
 
-		// Controllo che minRiga e minColonna siano nei margini della griglia e che
-		// la casella da loro indicata sia vuota
-//		if (minRiga-1  >= 0 && minColonna-1 >= 0 && checkEmptyCell(minRiga-1, minColonna-1)) {
-//			setAssigned(minRiga-1, minColonna-1);
-//		}
-
-		// Controllo che maxRiga e maxColonna siano nei margini della griglia e che
-		// la casella da loro indicata sia vuota
-
-//		if (maxRiga < getRighe() && maxColonna < getColonne() && checkEmptyCell(maxRiga, maxColonna)) {
-//			setAssigned(maxRiga, maxColonna);
-//		}
-
-		if (colonnaChange) {
-			if (minColonna-1 >= 0 && minColonna + nodoList.size() < getColonne()) {
-				setAssigned(minRiga, minColonna - 1);
-				setAssigned(minRiga, minColonna + nodoList.size());
-			}
-		} else {
-			if (minRiga-1 >=0 && minRiga + nodoList.size() < getRighe()) {
+			if (minRiga - 1 >= 0 && checkEmptyCell(minRiga - 1, minColonna))
 				setAssigned(minRiga - 1, minColonna);
-				setAssigned(minRiga + nodoList.size(), minColonna);
-			}
-		}
 
+			if (minRiga + nodoList.size() < getRighe() && checkEmptyCell(minRiga + nodoList.size(), minColonna))
+				setAssigned(minRiga + nodoList.size(), minColonna);
+		}else {
+			
+			if(minColonna -1 >= 0 && checkEmptyCell(minRiga, minColonna-1))
+				setAssigned(minRiga, minColonna-1);
+			
+			if (minColonna + nodoList.size() < getColonne() && checkEmptyCell(minRiga,  minColonna + nodoList.size()))
+				setAssigned(minRiga,  minColonna + nodoList.size());	
+		}
 	}
 
 	/**
