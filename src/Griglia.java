@@ -306,67 +306,18 @@ class Griglia {
 
 	}
 
-	/**
-	 * Dato il valore dello sparo vengono calcolate le coordinate della cella di
-	 * riferimento, viene creato un oggetto freePosition per memorizzare la
-	 * posizione delle celle adiacenti orizzontali e verticali libere rispetto a
-	 * quella colpita e viene impostato lo stato ASSEGNATO alle caselle libere
-	 * adiacenti diagonali
-	 * 
-	 * @param i intero complessivo che indica i valori riga e colonna di una
-	 *          determinata cella
-	 * @return restituisce un oggetto FreePosition contenente le informazioni
-	 *         relative alle celle libere adiacenti di una cella colpita
-	 */
-	/*
-	 * public ArrayList<FreePosition> getFreeNearPosition(final int i) {
-	 * 
-	 * final int r = i / getColonne(); final int c = i % getColonne();
-	 * 
-	 * ArrayList<FreePosition> freePosition = new ArrayList<FreePosition>(); //
-	 * Random random = new Random();
-	 * 
-	 * for (int riga = r - 1; riga <= r + 1; riga++) {
-	 * 
-	 * // Controlla se gli iteratori sono compresi nei valori validi delle // righe
-	 * if ((riga >= 0) && (riga <= getRighe() - 1)) {
-	 * 
-	 * for (int colonna = c - 1; colonna <= c + 1; colonna++) {
-	 * 
-	 * // Controlla se gli iteratori sono compresi nei valori // validi delle
-	 * colonne e se la cella indicata dagli // iteratori è vuota if ((colonna >= 0)
-	 * && (colonna <= getColonne() - 1) && (checkEmptyCell(riga, colonna))) {
-	 * 
-	 * // Le due condizione devono verificarsi in maniera // esclusiva per
-	 * aggiungere, alle caselle libere, solo // le celle orizzontali e verticali
-	 * adiacenti alla cella // (r,c) if ((riga == r) ^ (colonna == c))
-	 * freePosition.add(new FreePosition(riga, colonna));
-	 * 
-	 * // Imposta lo stato in ASSEGANTO alle celle diagonali // adiacenti rispetto
-	 * alla cella se questa è vuota(r,c) else setAssigned(riga, colonna); } } } }
-	 * 
-	 * // DEBUG // getGriglia(griglia);
-	 * 
-	 * return freePosition; /* if(freePosition.size() > 0){ //Scelta casuale della
-	 * direzione da andare a colpire tra le celle //libere int randomNumber =
-	 * random.nextInt(freePosition.size());
-	 * 
-	 * int riga = freePosition.get(randomNumber).getRiga(); int colonna =
-	 * freePosition.get(randomNumber).getColonna(); searchAndDestroy(r, c, riga,
-	 * colonna, false); }
-	 *
-	 * }
-	 */
 
 	/**
 	 * Assegna il vaolore ASSEGNATO ad una determinata cella di coordinate (r, c)
+	 * se la cella è libera
 	 * 
 	 * @param r Intero indicante la coordinata riga della cella attuale
 	 * @param c Intero indicante la coordianta colonna della cella attuale
 	 */
 	public void setAssigned(int r, int c) {
 
-		griglia[r][c] = Casella.ASSEGNATO;
+		if (checkEmptyCell(r, c))
+			griglia[r][c] = Casella.ASSEGNATO;
 	}
 
 	/**
@@ -555,7 +506,6 @@ class Griglia {
 		int minRiga = getRighe();
 		int minColonna = getColonne();
 
-
 		// Controlla tutti i nodi di nodoList
 		for (int i = 0; i < nodoList.size(); i++) {
 
@@ -567,9 +517,6 @@ class Griglia {
 			if (nodoList.get(i).getCella().getColonna() < minColonna)
 				minColonna = nodoList.get(i).getCella().getColonna();
 
-			// setAssigned(nodoList.get(i).getCella().getRiga(),
-			// nodoList.get(i).getCella().getColonna());
-
 			// Controlla tutti i diagonali di un nodo
 			for (int j = 0; j < nodoList.get(i).getDiagonals().size(); j++)
 
@@ -578,24 +525,25 @@ class Griglia {
 					nodoList.get(i).getDiagonals().get(j).setValue(Casella.ASSEGNATO);
 				}
 		}
-		 
+
 		// Se c'è differenza tra le righe di due celle, ci si sta muovendo in verticale
-		// e quindi si devono settare i limiti superiore e inferiore sulle righe
-		// altrimenti si devono settare i limiti destro e sinistro sulle colonne
+		// e quindi si devono settare i limiti superiore e inferiore della nave 
+		// sulle righe altrimenti si devono settare i limiti destro e sinistro 
+		// sulle colonne
 		if (nodoList.get(0).getCella().getRiga() - nodoList.get(1).getCella().getRiga() != 0) {
 
-			if (minRiga - 1 >= 0 && checkEmptyCell(minRiga - 1, minColonna))
+			if (minRiga - 1 >= 0)
 				setAssigned(minRiga - 1, minColonna);
 
-			if (minRiga + nodoList.size() < getRighe() && checkEmptyCell(minRiga + nodoList.size(), minColonna))
+			if (minRiga + nodoList.size() < getRighe())
 				setAssigned(minRiga + nodoList.size(), minColonna);
-		}else {
-			
-			if(minColonna -1 >= 0 && checkEmptyCell(minRiga, minColonna-1))
-				setAssigned(minRiga, minColonna-1);
-			
-			if (minColonna + nodoList.size() < getColonne() && checkEmptyCell(minRiga,  minColonna + nodoList.size()))
-				setAssigned(minRiga,  minColonna + nodoList.size());	
+		} else {
+
+			if (minColonna - 1 >= 0)
+				setAssigned(minRiga, minColonna - 1);
+
+			if (minColonna + nodoList.size() < getColonne())
+				setAssigned(minRiga, minColonna + nodoList.size());
 		}
 	}
 
@@ -732,7 +680,7 @@ class Griglia {
 	 * @param colonna intero parametro colonna della riga
 	 */
 	private void setAdjacentCells(final int riga, final int colonna) {
-		if (colonna >= 0 && colonna < getColonne() && checkEmptyCell(riga, colonna)) {
+		if (colonna >= 0 && colonna < getColonne()) {
 			setAssigned(riga, colonna);
 		}
 	}
@@ -757,7 +705,7 @@ class Griglia {
 					// Controlla se gli iteratori sono compresi nei valori
 					// validi delle colonne e se la cella indicata dagli
 					// iteratori è vuota
-					if (colonna >= 0 && colonna < getColonne() && (checkEmptyCell(riga, colonna))) {
+					if (colonna >= 0 && colonna < getColonne()) {
 
 						// Controlla se gli iteratori sono in diagonale rispetto
 						// agli indici della cella
