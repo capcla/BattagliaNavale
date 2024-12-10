@@ -289,11 +289,11 @@ class Griglia {
 	}
 
 	/**
+	 * Setta sulla griglia il valore di cella diagonale dell'array list
 	 * 
-	 * 
-	 * @param nodoList
+	 * @param nodoList Array list delle celle e delle sue celle diagonali
 	 */
-	public void setGriglia(ArrayList<Nodo> nodoList) {
+	public void setDiagonals(ArrayList<Nodo> nodoList) {
 
 		for (int i = 0; i < nodoList.size(); i++) {
 
@@ -451,9 +451,8 @@ class Griglia {
 					// Se la nave è dichiarata affondata, vengono imposati i limiti
 					// della nave
 					if (checkAffondato) {
-						// checkAndSetRowLimits(riga, colonna, c, nodoList.size());
 						setShipLimits(nodoList);
-						setGriglia(nodoList);
+						setDiagonals(nodoList);
 					}
 				} else if (oppositeDirection) {
 
@@ -496,8 +495,9 @@ class Griglia {
 	}
 
 	/**
-	 * Prende in input l'array list nodoList e setta tutte le celle adiacenti alla
-	 * nave con il valore ASSEGNATO se queste sono vuote
+	 * Prende in input l'array list nodoList e setta le caselle diagonali ad una
+	 * cella dell'array list con il valore ASSEGNATO se il corrispettivo valore
+	 * sulla griglia risulta essere VUOTO
 	 * 
 	 * @param nodoList Struttura contenente le informazioni sui nodi e sulle caselle
 	 *                 adiacenti
@@ -658,18 +658,18 @@ class Griglia {
 	 * @param caselleColpite intero indica quante caselle di una nave sono state
 	 *                       colpite
 	 */
-	private void checkAndSetColumnLimits(final int riga, final int colonna, final int r, final int caselleColpite) {
-
-		if (riga > r) {
-			setAdjacentCells(riga + 1, colonna);
-			setAdjacentCells(riga - caselleColpite, colonna);
-		} else {
-			setAdjacentCells(riga - 1, colonna);
-			setAdjacentCells(riga + caselleColpite, colonna);
-		}
-
-		getGriglia();
-	}
+//	private void checkAndSetColumnLimits(final int riga, final int colonna, final int r, final int caselleColpite) {
+//
+//		if (riga > r) {
+//			setAdjacentCells(riga + 1, colonna);
+//			setAdjacentCells(riga - caselleColpite, colonna);
+//		} else {
+//			setAdjacentCells(riga - 1, colonna);
+//			setAdjacentCells(riga + caselleColpite, colonna);
+//		}
+//
+//		getGriglia();
+//	}
 
 	/**
 	 * Controlla che la coordinata colonna sia nei limiti della griglia e che la

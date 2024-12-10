@@ -24,8 +24,7 @@ class Nodo {
 	}
 
 	/**
-	 * Aggiunge una cella alla lista dei nodi adiacenti orizzontali e
-	 * verticali
+	 * Aggiunge una cella alla lista dei nodi adiacenti orizzontali e verticali
 	 * 
 	 * @param cella
 	 */
@@ -43,18 +42,28 @@ class Nodo {
 	}
 
 	/**
-	 *  Restituisce una cella
-	 *  
+	 * Restituisce il riferimento di una cella
+	 * 
 	 * @return cella
 	 */
 	public Cella getCella() {
 		return cella;
 	}
 
+	/**
+	 * Restituisce del riferimento dell'arrayList horizontalVertical
+	 * 
+	 * @return riferimento dell'arrayList horizontalVertical
+	 */
 	public ArrayList<Cella> getHorizontalVertical() {
 		return horizontalVertical;
 	}
 
+	/**
+	 * Restituisce del riferimento dell'arrayList diagonals
+	 * 
+	 * @return riferimento dell'arrayList diagonals
+	 */
 	public ArrayList<Cella> getDiagonals() {
 		return diagonals;
 	}
@@ -65,8 +74,10 @@ class Nodo {
 	 * se sono vuoti; i nodi diagonali, invece, vengono aggiunti a prescindere ma si
 	 * memorizza il loro status precedente al controllo
 	 * 
-	 * @param i Intero complessivo indicante sia la riga che la riga che la colonna
-	 *          della prima cella colpita di una nave
+	 * @param i       Intero complessivo indicante sia la riga che la riga che la
+	 *                colonna della prima cella colpita di una nave
+	 * 
+	 * @param griglia Griglia sulla quale si sta operando
 	 */
 	public void setNodosNeighbours(int i, Griglia griglia) {
 		final int r = i / griglia.getColonne();
@@ -85,7 +96,7 @@ class Nodo {
 					if ((colonna >= 0) && (colonna <= griglia.getColonne() - 1)) {
 
 						// Condizione vera se le due sotto condizioni si verificano
-						// in maniera  disgiunta
+						// in maniera disgiunta
 						if (((riga == r) ^ (colonna == c))) {
 
 							// Verifica se la cella è libera
