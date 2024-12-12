@@ -29,7 +29,7 @@ public class Main {
 				nodo.setNodosNeighbours(sparo, grigliaAttacco);
 				nodoList.add(nodo);
 
-				//Controlla se c'è una direzione da esplorare in orizzontale o verticale
+				// Controlla se c'è una direzione da esplorare in orizzontale o verticale
 				if (nodo.getHorizontalVertical().size() > 0) {
 					System.out.println();
 					grigliaAttacco.getRigaColonna(sparo);
@@ -43,31 +43,31 @@ public class Main {
 					if (validInputKeyboard) {
 //						Inserimento dello sparo nella sulla griglia e relativa visualizzazione
 						grigliaAttacco.setGriglia(inputKeyboard, sparo);
-//						grigliaAttacco.getGriglia();
+						grigliaAttacco.getGriglia();
 
-						// Scelta casuale della direzione da andare a colpire tra 
+						// Scelta casuale della direzione da andare a colpire tra
 						// le celle libere
 						Random random = new Random();
 						int randomNumber = random.nextInt(nodo.getHorizontalVertical().size());
 						int riga = nodo.getHorizontalVertical().get(randomNumber).getRiga();
 						int colonna = nodo.getHorizontalVertical().get(randomNumber).getColonna();
-						// DEBUG
-						int s = sparo / colonne;
 
-//		                if(sparo/grigliaAttacco.getColonne() == riga)
-						if (true)
-							grigliaAttacco.searchAndDestroyOnRow(sparo, riga, colonna, false, 1, nodoList);
-//		                else
-//		                	grigliaAttacco.searchAndDestroyOnColumn(sparo, riga, colonna, false, 1);
+						// Se non c'è differenza tra la riga del primo colpo (sparo / colonne) 
+						// e la riga estratta estratta casualmente, si sta cercando
+						//sulle righe
+						if ((sparo / colonne) == riga)
+							grigliaAttacco.searchAndDestroyOnRow(sparo, riga, colonna, false, nodoList);
+						else
+							grigliaAttacco.searchAndDestroyOnColumn(sparo, riga, colonna, false, nodoList);
 					}
-					
+
 					// se l'input non è valido
 					else {
 						System.out.println("Valori dell\'input errati!");
 						i--;
 					}
 				}
-				
+
 				// Se la cella non ha vicini liberi, deve essere impostata come
 				// assegnata
 				else {

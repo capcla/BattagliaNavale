@@ -306,10 +306,9 @@ class Griglia {
 
 	}
 
-
 	/**
-	 * Assegna il vaolore ASSEGNATO ad una determinata cella di coordinate (r, c)
-	 * se la cella è libera
+	 * Assegna il valore ASSEGNATO ad una determinata cella di coordinate (r, c) se
+	 * la cella è libera
 	 * 
 	 * @param r Intero indicante la coordinata riga della cella attuale
 	 * @param c Intero indicante la coordianta colonna della cella attuale
@@ -408,13 +407,11 @@ class Griglia {
 	 *                          ispezionando
 	 * @param oppositeDirection Boolean che segnala se la direzione opposta a quella
 	 *                          che si sta ispezionando è già stata ispezionata
-	 * @param caselleColpite
-	 * @param caselleColpite    Intero che indica quante sono le caselle colpite di
-	 *                          una nave
-	 * @param nodoList
+	 * @param nodoList          Struttura contenente le informazioni sui nodi e
+	 *                          sulle caselle adiacenti
 	 */
 	public void searchAndDestroyOnRow(final int i, final int riga, final int colonna, boolean oppositeDirection,
-			int caselleColpite, ArrayList<Nodo> nodoList) {
+			ArrayList<Nodo> nodoList) {
 
 		Input input = new Input();
 		String inputKeyboard;
@@ -479,11 +476,9 @@ class Griglia {
 			// della cella attuale mentre c indica il valore della colonna della
 			// prima cella colpita
 			if (colonna > c)
-				goRightDirection(i, riga, colonna, c, nodoList.size(), checkColpito, checkAffondato, oppositeDirection,
-						nodoList);
+				goRightDirection(i, riga, colonna, c, checkColpito, checkAffondato, oppositeDirection, nodoList);
 			else
-				goLeftDirection(i, riga, colonna, c, nodoList.size(), checkColpito, checkAffondato, oppositeDirection,
-						nodoList);
+				goLeftDirection(i, riga, colonna, c, checkColpito, checkAffondato, oppositeDirection, nodoList);
 		}
 
 		if (griglia[riga][colonna] != Casella.COLPITO && (oppositeDirection || nodoList.size() == 1)) {
@@ -527,8 +522,8 @@ class Griglia {
 		}
 
 		// Se c'è differenza tra le righe di due celle, ci si sta muovendo in verticale
-		// e quindi si devono settare i limiti superiore e inferiore della nave 
-		// sulle righe altrimenti si devono settare i limiti destro e sinistro 
+		// e quindi si devono settare i limiti superiore e inferiore della nave
+		// sulle righe altrimenti si devono settare i limiti destro e sinistro
 		// sulle colonne
 		if (nodoList.get(0).getCella().getRiga() - nodoList.get(1).getCella().getRiga() != 0) {
 
@@ -566,17 +561,18 @@ class Griglia {
 	 *                          ispezionando
 	 * @param oppositeDirection boolean che segnala se la direzione opposta a quella
 	 *                          che si sta ispezionando è già stata ispezionata
-	 * @param caselleColpite    intero che indica quante sono le caselle colpite di
-	 *                          una nave
+	 * @param nodoList          Struttura contenente le informazioni sui nodi e
+	 *                          sulle caselle adiacenti
 	 */
 	public void searchAndDestroyOnColumn(final int i, final int riga, final int colonna, boolean oppositeDirection,
-			int caselleColpite) {
+			ArrayList<Nodo> nodoList) {
 
 		Input input = new Input();
 		String inputKeyboard;
 		boolean validInputKeyboard, checkColpito = false, checkAffondato = false;
 		final int r = i / getColonne();
 		boolean quit = false;
+		Nodo nodo;
 
 		// Chiede all'utente conferma del colpo
 		do {
@@ -593,15 +589,32 @@ class Griglia {
 				checkColpito = input.checkColpito(inputKeyboard);
 				checkAffondato = input.checkAffondato(inputKeyboard);
 
+				// Controlla se la nava è stata colpita o affondata
 				if (checkColpito || checkAffondato) {
-					// imposta le caselle diagonali di una cella(riga, colonna)
-					// su ASSEGNATO
-					caselleColpite++;
-					searchAndSetDiagonals(riga, colonna);
 
+					// Crea un nuovo nodo, ne setta i vicini e lo aggiunge alla
+					// lista dei nodi
+					nodo = new Nodo(new Cella(riga, colonna));
+					nodo.setNodosNeighbours(riga * getColonne() + colonna, this);
+					nodoList.add(nodo);
+
+					// Se la nave è dichiarata affondata, vengono imposati i limiti
+					// della nave
 					if (checkAffondato) {
-						checkAndSetRowLimits(riga, colonna, r, caselleColpite);
+						setShipLimits(nodoList);
+						setDiagonals(nodoList);
 					}
+				} else if (oppositeDirection) {
+
+					quit = true;
+
+					// Dialogo con l'utente o cambio della scelta
+					if (nodoList.size() == 1) {
+						setAssigned(r, i % getColonne());
+					} else {
+
+					}
+
 				}
 			}
 
@@ -614,9 +627,9 @@ class Griglia {
 		// cella attuale mentre r indica il valore della riga della prima cella
 		// colpita
 		if (riga > r)
-			goUpDirection(i, riga, colonna, r, caselleColpite, checkColpito, checkAffondato, oppositeDirection);
+			goUpDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList);
 		else
-			goDownDirection(i, riga, colonna, r, caselleColpite, checkColpito, checkAffondato, oppositeDirection);
+			goDownDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList);
 //		}
 
 	}
@@ -737,9 +750,10 @@ class Griglia {
 	 *                          affondata
 	 * @param oppositeDirection boolean che segnala se la direzione opposta a quella
 	 *                          che si sta ispezionando è già stata ispezionata
-	 * @param nodoList
+	 * @param nodoList          Struttura contenente le informazioni sui nodi e
+	 *                          sulle caselle adiacenti
 	 */
-	private void goRightDirection(final int i, final int riga, final int colonna, final int c, final int caselleColpite,
+	private void goRightDirection(final int i, final int riga, final int colonna, final int c,
 			final boolean checkColpito, final boolean checkAffondato, boolean oppositeDirection,
 			ArrayList<Nodo> nodoList) {
 
@@ -748,7 +762,7 @@ class Griglia {
 		// affondata
 		if (colonna + 1 < getColonne() && checkEmptyCell(riga, colonna + 1) && (checkColpito || checkAffondato)) {
 
-			searchAndDestroyOnRow(i, riga, colonna + 1, oppositeDirection, caselleColpite, nodoList);
+			searchAndDestroyOnRow(i, riga, colonna + 1, oppositeDirection, nodoList);
 		}
 		// (riga, colonna+1) risulta non libera o colonna+1 esce dai limiti
 		// dell'array
@@ -756,10 +770,10 @@ class Griglia {
 		// Controlla se c-1 è nei limiti dell'array, se cella(riga, c-1) è
 		// libera e se la direzione opposta non è stata già ispezionata
 		else {
-//			oppositeDirection = true;
+			// oppositeDirection = true;
 
 			if (c - 1 >= 0 && checkEmptyCell(riga, c - 1) && !oppositeDirection) {
-				searchAndDestroyOnRow(i, riga, c - 1, true, caselleColpite, nodoList);
+				searchAndDestroyOnRow(i, riga, c - 1, true, nodoList);
 			}
 		}
 	}
@@ -784,9 +798,10 @@ class Griglia {
 	 *                          affondata
 	 * @param oppositeDirection boolean che segnala se la direzione opposta a quella
 	 *                          che si sta ispezionando è già stata ispezionata
-	 * @param nodoList
+	 * @param nodoList          Struttura contenente le informazioni sui nodi e
+	 *                          sulle caselle adiacenti
 	 */
-	private void goLeftDirection(final int i, final int riga, final int colonna, final int c, final int caselleColpite,
+	private void goLeftDirection(final int i, final int riga, final int colonna, final int c,
 			final boolean checkColpito, final boolean checkAffondato, boolean oppositeDirection,
 			ArrayList<Nodo> nodoList) {
 
@@ -794,7 +809,7 @@ class Griglia {
 		// colonna-1) è libera e se la cella è stata valutata come colpita
 		// o affondata
 		if (colonna - 1 >= 0 && checkEmptyCell(riga, colonna - 1) && (checkColpito || checkAffondato))
-			searchAndDestroyOnRow(i, riga, colonna - 1, oppositeDirection, caselleColpite, nodoList);
+			searchAndDestroyOnRow(i, riga, colonna - 1, oppositeDirection, nodoList);
 
 		// (riga, colonna-1) risulta non libera o colonna-1 esce dai limiti
 		// dell'array o il valore immesso non indica COLPITO
@@ -802,20 +817,58 @@ class Griglia {
 		// Controlla se c+1 è nei limiti della griglia, se (riga, c+1) è libera
 		// e se la direzione opposta è stata ispezionata
 		else {
-//			oppositeDirection = true;
+			// oppositeDirection = true;
 
 			if (c + 1 < getColonne() && checkEmptyCell(riga, c + 1) && !oppositeDirection)
-				searchAndDestroyOnRow(i, riga, c + 1, true, caselleColpite, nodoList);
+				searchAndDestroyOnRow(i, riga, c + 1, true, nodoList);
 		}
 	}
 
-	private void goUpDirection(final int i, final int riga, final int colonna, final int r, final int caselleColpite,
-			final boolean checkColpito, final boolean checkAffondato, final boolean oppositeDirection) {
+	private void goUpDirection(final int i, final int riga, final int colonna, final int r, final boolean checkColpito,
+			final boolean checkAffondato, final boolean oppositeDirection, ArrayList<Nodo> nodoList) {
 
+		// Controlla se riga-1 è nei limiti della griglia, se la cella(riga-1,
+		// colonna) è libera e se la cella è stata valutata come colpita
+		// o affondata
+		if (riga - 1 >= 0 && checkEmptyCell(riga - 1, colonna) && (checkColpito || checkAffondato))
+			searchAndDestroyOnRow(i, riga - 1, colonna, oppositeDirection, nodoList);
+
+		// (riga-1, colonna) risulta non libera o colonna-1 esce dai limiti
+		// dell'array o il valore immesso non indica COLPITO
+
+		// Controlla se c+1 è nei limiti della griglia, se (riga, c+1) è libera
+		// e se la direzione opposta è stata ispezionata
+		else {
+			// oppositeDirection = true;
+
+			if (r + 1 < getRighe() && checkEmptyCell(r + 1, colonna) && !oppositeDirection)
+				searchAndDestroyOnRow(i, r + 1, colonna, true, nodoList);
+		}
 	}
 
-	private void goDownDirection(final int i, final int riga, final int colonna, final int r, final int caselleColpite,
-			final boolean checkColpito, final boolean checkAffondato, final boolean oppositeDirection) {
+	private void goDownDirection(final int i, final int riga, final int colonna, final int r,
+			final boolean checkColpito, final boolean checkAffondato, final boolean oppositeDirection,
+			ArrayList<Nodo> nodoList) {
+
+		// Controlla se colonna+1 è nei limiti dell'array, se la cella (riga+1,
+		// colonna) è libera e se la cella è stata valutata come colpita o
+		// affondata
+		if (riga + 1 < getRighe() && checkEmptyCell(riga + 1, colonna) && (checkColpito || checkAffondato)) {
+
+			searchAndDestroyOnRow(i, riga + 1, colonna, oppositeDirection, nodoList);
+		}
+		// (riga+1, colonna) risulta non libera o colonna+1 esce dai limiti
+		// dell'array
+
+		// Controlla se c-1 è nei limiti dell'array, se cella(riga, c-1) è
+		// libera e se la direzione opposta non è stata già ispezionata
+		else {
+			// oppositeDirection = true;
+
+			if (r - 1 >= 0 && checkEmptyCell(r - 1, colonna) && !oppositeDirection) {
+				searchAndDestroyOnRow(i, r - 1, colonna, true, nodoList);
+			}
+		}
 
 	}
 
