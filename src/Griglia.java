@@ -611,17 +611,24 @@ class Griglia {
 						setShipLimits(nodoList);
 						setDiagonals(nodoList);
 					}
-				} else if (oppositeDirection) {
-
-					quit = true;
-
-					// Dialogo con l'utente o cambio della scelta
-					if (nodoList.size() == 1) {
-						setAssigned(r, i % getColonne());
-					} else {
-
+				} else {
+					
+					if (input.checkAcqua(inputKeyboard)) {
+						nodoList.get(0).removeHorizzontalVertical(riga, colonna);
 					}
 
+					if (oppositeDirection) {
+
+						quit = true;
+
+						// Dialogo con l'utente o cambio della scelta
+						if (nodoList.size() == 1) {
+							setAssigned(r, i % getColonne());
+						} else {
+
+						}
+
+					}
 				}
 			}
 
@@ -878,14 +885,13 @@ class Griglia {
 		getGriglia(griglia);
 	}
 
-	
 	/**
-	 * Cambia il valore della cella di coordinate (r, c) 
+	 * Cambia il valore della cella di coordinate (r, c)
 	 * 
 	 * @param r Intero indicante la riga della cella attuale
 	 * @param c Intero indicante la colonna della cella attuale
 	 */
 	public void changeInAssigned(int r, int c) {
-		griglia[r][c] = Casella.ASSEGNATO;		
+		griglia[r][c] = Casella.ASSEGNATO;
 	}
 }
