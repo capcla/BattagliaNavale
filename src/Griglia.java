@@ -453,6 +453,9 @@ class Griglia {
 					}
 				} else {
 
+					// Se un nodo presente nella lista dei nodi orizzontali e verticali
+					// è contrassegnato come ACQUA va tolto da questa lista perché
+					// la direzione da lui occupata non è percorribile
 					if (input.checkAcqua(inputKeyboard)) {
 						nodoList.get(0).removeHorizzontalVertical(riga, colonna);
 					}
@@ -613,6 +616,9 @@ class Griglia {
 					}
 				} else {
 					
+					// Se un nodo presente nella lista dei nodi orizzontali e verticali
+					// è contrassegnato come ACQUA va tolto da questa lista perché
+					// la direzione da lui occupata non è percorribile
 					if (input.checkAcqua(inputKeyboard)) {
 						nodoList.get(0).removeHorizzontalVertical(riga, colonna);
 					}
