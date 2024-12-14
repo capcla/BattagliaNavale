@@ -451,15 +451,22 @@ class Griglia {
 						setShipLimits(nodoList);
 						setDiagonals(nodoList);
 					}
-				} else if (oppositeDirection) {
+				} else {
 
-					quit = true;
+					if (input.checkAcqua(inputKeyboard)) {
+						nodoList.get(0).removeHorizzontalVertical(riga, colonna);
+					}
 
-					// Dialogo con l'utente o cambio della scelta
-					if (nodoList.size() == 1) {
-						setAssigned(i / getColonne(), c);
-					} else {
+					if (oppositeDirection) {
 
+						quit = true;
+
+						// Dialogo con l'utente o cambio della scelta
+						if (nodoList.size() == 1) {
+							setAssigned(i / getColonne(), c);
+						} else {
+
+						}
 					}
 
 				}
@@ -646,18 +653,17 @@ class Griglia {
 	 * @param caselleColpite intero indica quante caselle di una nave sono state
 	 *                       colpite
 	 */
-	private void checkAndSetRowLimits(final int riga, final int colonna, final int c, final int caselleColpite) {
-
-		if (colonna > c) {
-			setAdjacentCells(riga, colonna + 1);
-			setAdjacentCells(riga, colonna - caselleColpite);
-		} else {
-			setAdjacentCells(riga, colonna - 1);
-			setAdjacentCells(riga, colonna + caselleColpite);
-		}
-
-		getGriglia();
-	}
+	/*
+	 * private void checkAndSetRowLimits(final int riga, final int colonna, final
+	 * int c, final int caselleColpite) {
+	 * 
+	 * if (colonna > c) { setAdjacentCells(riga, colonna + 1);
+	 * setAdjacentCells(riga, colonna - caselleColpite); } else {
+	 * setAdjacentCells(riga, colonna - 1); setAdjacentCells(riga, colonna +
+	 * caselleColpite); }
+	 * 
+	 * getGriglia(); }
+	 */
 
 	/**
 	 * Quando una nave è dichiarata affondata, richiama una funzione che imposti le
@@ -692,11 +698,10 @@ class Griglia {
 	 * @param riga    intero parametro riga della cella
 	 * @param colonna intero parametro colonna della riga
 	 */
-	private void setAdjacentCells(final int riga, final int colonna) {
-		if (colonna >= 0 && colonna < getColonne()) {
-			setAssigned(riga, colonna);
-		}
-	}
+	/*
+	 * private void setAdjacentCells(final int riga, final int colonna) { if
+	 * (colonna >= 0 && colonna < getColonne()) { setAssigned(riga, colonna); } }
+	 */
 
 	/**
 	 * Ricerca le diagonali di una determinata cella (r, c) e, nel caso sono libere,
@@ -705,30 +710,24 @@ class Griglia {
 	 * @param r intero indicante la riga della cella
 	 * @param c intero indicante la colonna della cella
 	 */
-	private void searchAndSetDiagonals(final int r, final int c) {
-
-		for (int riga = r - 1; riga <= r + 1; riga++) {
-
-			// Controlla se gli iteratori sono compresi nei valori validi delle
-			// righe
-			if (riga >= 0 && riga < getRighe()) {
-
-				for (int colonna = c - 1; colonna <= c + 1; colonna++) {
-
-					// Controlla se gli iteratori sono compresi nei valori
-					// validi delle colonne e se la cella indicata dagli
-					// iteratori è vuota
-					if (colonna >= 0 && colonna < getColonne()) {
-
-						// Controlla se gli iteratori sono in diagonale rispetto
-						// agli indici della cella
-						if ((riga != r) && (colonna != c))
-							setAssigned(riga, colonna);
-					}
-				}
-			}
-		}
-	}
+	/*
+	 * private void searchAndSetDiagonals(final int r, final int c) {
+	 * 
+	 * for (int riga = r - 1; riga <= r + 1; riga++) {
+	 * 
+	 * // Controlla se gli iteratori sono compresi nei valori validi delle // righe
+	 * if (riga >= 0 && riga < getRighe()) {
+	 * 
+	 * for (int colonna = c - 1; colonna <= c + 1; colonna++) {
+	 * 
+	 * // Controlla se gli iteratori sono compresi nei valori // validi delle
+	 * colonne e se la cella indicata dagli // iteratori è vuota if (colonna >= 0 &&
+	 * colonna < getColonne()) {
+	 * 
+	 * // Controlla se gli iteratori sono in diagonale rispetto // agli indici della
+	 * cella if ((riga != r) && (colonna != c)) setAssigned(riga, colonna); } } } }
+	 * }
+	 */
 
 	/**
 	 * Richiama ricorsivamente la funzione searchAndDestroyOnRow dalla quale questa
@@ -785,18 +784,18 @@ class Griglia {
 	 * richiama searchAndDestroyOnRow segnalando il cambio di direzione tramite
 	 * l'opportuno parametro
 	 * 
-	 * @param i                 intero complessivo indicante sia la riga che la riga
+	 * @param i                 Intero complessivo indicante sia la riga che la riga
 	 *                          che la colonna della prima cella colpita di una nave
-	 * @param riga              intero indicante la riga della cella attuale
-	 * @param colonna           intero indicante la colonna della cella attuale
-	 * @param c                 intero indicante la posizione della prima colonna
+	 * @param riga              Intero indicante la riga della cella attuale
+	 * @param colonna           Intero indicante la colonna della cella attuale
+	 * @param c                 Intero indicante la posizione della prima colonna
 	 *                          colpita di una nave
-	 * @param caselleColpite    intero delle caselle colpite di una nave
-	 * @param checkColpito      boolean che segnala se una cella è stata dichiarata
+	 * @param caselleColpite    Intero delle caselle colpite di una nave
+	 * @param checkColpito      Boolean che segnala se una cella è stata dichiarata
 	 *                          colpita
-	 * @param checkAffondato    boolean che segnala se la nave è stata dichiarata
+	 * @param checkAffondato    Boolean che segnala se la nave è stata dichiarata
 	 *                          affondata
-	 * @param oppositeDirection boolean che segnala se la direzione opposta a quella
+	 * @param oppositeDirection Boolean che segnala se la direzione opposta a quella
 	 *                          che si sta ispezionando è già stata ispezionata
 	 * @param nodoList          Struttura contenente le informazioni sui nodi e
 	 *                          sulle caselle adiacenti
@@ -877,5 +876,16 @@ class Griglia {
 	 */
 	void getGriglia() {
 		getGriglia(griglia);
+	}
+
+	
+	/**
+	 * Cambia il valore della cella di coordinate (r, c) 
+	 * 
+	 * @param r Intero indicante la riga della cella attuale
+	 * @param c Intero indicante la colonna della cella attuale
+	 */
+	public void changeInAssigned(int r, int c) {
+		griglia[r][c] = Casella.ASSEGNATO;		
 	}
 }

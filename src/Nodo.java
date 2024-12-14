@@ -69,6 +69,28 @@ class Nodo {
 	}
 
 	/**
+	 * Rimuove un nodo la cui riga e colonna corrispondono ai parametri in input
+	 * 
+	 * @param r Intero indicante la riga della cella che si sta ispezionando
+	 * @param c Intero indicante la colonna della cella che si sta ispezionando
+	 */
+	public void removeHorizzontalVertical(int r, int c) {
+
+		boolean found = false;
+		int i = 0;
+			
+		while (!found) {	
+			
+			if (horizontalVertical.get(i).getRiga() == r && horizontalVertical.get(i).getColonna() == c) {
+				horizontalVertical.remove(i);
+				found = true;
+			}
+			
+			i++;
+		}
+	}
+
+	/**
 	 * Dato le coordinate di un nodo, la funzione controlla i suoi adiacenti. I nodi
 	 * adiacenti orizzontali e verticali vengono aggiunti ad una apposita lista solo
 	 * se sono vuoti; i nodi diagonali, invece, vengono aggiunti a prescindere ma si
