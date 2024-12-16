@@ -496,7 +496,6 @@ class Griglia {
 			setAssigned(i / getColonne(), c);
 			getGriglia();
 		}
-
 	}
 
 	/**
@@ -615,7 +614,7 @@ class Griglia {
 						setDiagonals(nodoList);
 					}
 				} else {
-					
+
 					// Se un nodo presente nella lista dei nodi orizzontali e verticali
 					// è contrassegnato come ACQUA va tolto da questa lista perché
 					// la direzione da lui occupata non è percorribile
@@ -640,18 +639,23 @@ class Griglia {
 
 		} while (!validInputKeyboard);
 
-//		if (!quit) {
+		if (!quit) {
 
-		// Verifica se si deve ispezionare il lato superiore (riga > r) o inferiore
-		// (riga < r) della nave. Il valore riga indica il valore della riga della
-		// cella attuale mentre r indica il valore della riga della prima cella
-		// colpita
-		if (riga > r)
-			goUpDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList);
-		else
-			goDownDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList);
-//		}
+			// Verifica se si deve ispezionare il lato superiore (riga > r) o inferiore
+			// (riga < r) della nave. Il valore riga indica il valore della riga della
+			// cella attuale mentre r indica il valore della riga della prima cella
+			// colpita
+			if (riga > r)
+				goUpDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList);
+			else
+				goDownDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList);
+		}
 
+		if (griglia[riga][colonna] != Casella.COLPITO && (oppositeDirection || nodoList.size() == 1)) {
+			// Dialogo con l'utente o cambio della scelta
+			setAssigned(r, i % getColonne());
+			getGriglia();
+		}
 	}
 
 	/**
