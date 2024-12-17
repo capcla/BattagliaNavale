@@ -79,10 +79,10 @@ class Nodo {
 		boolean found = false;
 		int i = 0;
 			
-		while (!found && i < horizontalVertical.size()) {	
+		while (!found && i < getHorizontalVertical().size()) {	
 			
-			if (horizontalVertical.get(i).getRiga() == r && horizontalVertical.get(i).getColonna() == c) {
-				horizontalVertical.remove(i);
+			if (getHorizontalVertical().get(i).getRiga() == r && getHorizontalVertical().get(i).getColonna() == c) {
+				getHorizontalVertical().remove(i);
 				found = true;
 			}
 			
@@ -91,7 +91,7 @@ class Nodo {
 	}
 
 	/**
-	 * Dato le coordinate di un nodo, la funzione controlla i suoi adiacenti. I nodi
+	 * Date le coordinate di un nodo, la funzione controlla i suoi adiacenti. I nodi
 	 * adiacenti orizzontali e verticali vengono aggiunti ad una apposita lista solo
 	 * se sono vuoti; i nodi diagonali, invece, vengono aggiunti a prescindere ma si
 	 * memorizza il loro status precedente al controllo
