@@ -457,7 +457,7 @@ class Griglia {
 					// è contrassegnato come ACQUA va tolto da questa lista perché
 					// la direzione da lui occupata non è percorribile
 					if (input.checkAcqua(inputKeyboard)) {
-						nodoList.get(0).removeHorizzontalVertical(riga, colonna);
+						nodoList.get(0).removeHorizontalVertical(riga, colonna);
 					}
 
 					if (oppositeDirection) {
@@ -619,7 +619,7 @@ class Griglia {
 					// è contrassegnato come ACQUA va tolto da questa lista perché
 					// la direzione da lui occupata non è percorribile
 					if (input.checkAcqua(inputKeyboard)) {
-						nodoList.get(0).removeHorizzontalVertical(riga, colonna);
+						nodoList.get(0).removeHorizontalVertical(riga, colonna);
 					}
 
 					if (oppositeDirection) {

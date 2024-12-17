@@ -74,7 +74,7 @@ class Nodo {
 	 * @param r Intero indicante la riga della cella che si sta ispezionando
 	 * @param c Intero indicante la colonna della cella che si sta ispezionando
 	 */
-	public void removeHorizzontalVertical(int r, int c) {
+	public void removeHorizontalVertical(int r, int c) {
 
 		boolean found = false;
 		int i = 0;
