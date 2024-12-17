@@ -10,7 +10,6 @@ public class Main {
 		Input input = new Input();
 		boolean validInputKeyboard = true;
 		String inputKeyboard;
-		ArrayList<Nodo> nodoList = new ArrayList<Nodo>();
 
 		// Elecnto del normale ordine di tutti gli spari che verranno effettuati
 		for (int i = 0; i < grigliaAttacco.getRigheColonne(); i++) {
@@ -25,6 +24,7 @@ public class Main {
 			// Se si sta attaccando in una cella vuota
 			if (grigliaAttacco.checkEmptyCell(sparo)) {
 
+				ArrayList<Nodo> nodoList = new ArrayList<Nodo>();
 				Nodo nodo = new Nodo(new Cella(sparo / colonne, sparo % colonne));
 				nodo.setNodosNeighbours(sparo, grigliaAttacco);
 				nodoList.add(nodo);
@@ -65,13 +65,13 @@ public class Main {
 							else
 								grigliaAttacco.searchAndDestroyOnColumn(sparo, riga, colonna, false, nodoList);
 						}
-						
-						// Se il nodo non ha vicini orizzontali o verticali liberi, 
+
+						// Se il nodo non ha vicini orizzontali o verticali liberi,
 						// va impostato come assegnato
-						if(nodoList.get(0).getHorizontalVertical().size() == 0) {
+						if (nodoList.get(0).getHorizontalVertical().size() == 0) {
 							grigliaAttacco.changeInAssigned(sparo / colonne, sparo % colonne);
 						}
-							
+
 					}
 
 					// se l'input non è valido

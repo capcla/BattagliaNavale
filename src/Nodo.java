@@ -79,7 +79,7 @@ class Nodo {
 		boolean found = false;
 		int i = 0;
 			
-		while (!found) {	
+		while (!found && i < horizontalVertical.size()) {	
 			
 			if (horizontalVertical.get(i).getRiga() == r && horizontalVertical.get(i).getColonna() == c) {
 				horizontalVertical.remove(i);

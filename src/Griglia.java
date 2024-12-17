@@ -646,9 +646,9 @@ class Griglia {
 			// cella attuale mentre r indica il valore della riga della prima cella
 			// colpita
 			if (riga > r)
-				goUpDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList);
-			else
 				goDownDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList);
+			else
+				goUpDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList);
 		}
 
 		if (griglia[riga][colonna] != Casella.COLPITO && (oppositeDirection || nodoList.size() == 1)) {
