@@ -17,9 +17,15 @@ public class Main {
 		}
 
 		int i = -1;
+		
+		grigliaAttacco.setGriglia("A", 1);
+		grigliaAttacco.setGriglia("A", 10);
+		grigliaAttacco.setGriglia("A", 21);
+		grigliaAttacco.setGriglia("A", 12);
 
 		while (validInputKeyboard && ++i < grigliaAttacco.getRigheColonne()) {
-			int sparo = grigliaAttacco.getSparo(i);
+//			int sparo = grigliaAttacco.getSparo(i);
+			int sparo = 11;
 
 			// Se si sta attaccando in una cella vuota
 			if (grigliaAttacco.checkEmptyCell(sparo)) {

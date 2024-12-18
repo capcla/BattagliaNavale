@@ -9,8 +9,6 @@ class Griglia {
 	private int spazioTraCaratteri;
 	private Casella griglia[][];
 	private int sparo[];
-	private int minRiga = 0;
-	private int minColonna = 0;
 
 	/**
 	 * Costruttore del campo di battaglia
@@ -657,94 +655,6 @@ class Griglia {
 			getGriglia();
 		}
 	}
-
-	/**
-	 * Quando una nave è dichiarata affondata, richiama una funzione che imposti le
-	 * celle adiacenti orizzontali confinanti ad una nave
-	 * 
-	 * @param riga           intero indicante la coordinata riga di una cella
-	 * @param colonna        intero indicante la coordinata della colonna attuale di
-	 *                       una cella
-	 * @param c              intero posizione della colonna della prima cella in cui
-	 *                       si è scoperta la nave
-	 * @param caselleColpite intero indica quante caselle di una nave sono state
-	 *                       colpite
-	 */
-	/*
-	 * private void checkAndSetRowLimits(final int riga, final int colonna, final
-	 * int c, final int caselleColpite) {
-	 * 
-	 * if (colonna > c) { setAdjacentCells(riga, colonna + 1);
-	 * setAdjacentCells(riga, colonna - caselleColpite); } else {
-	 * setAdjacentCells(riga, colonna - 1); setAdjacentCells(riga, colonna +
-	 * caselleColpite); }
-	 * 
-	 * getGriglia(); }
-	 */
-
-	/**
-	 * Quando una nave è dichiarata affondata, richiama una funzione che imposti le
-	 * celle adiacenti verticali confinanti ad una nave
-	 * 
-	 * @param riga           intero indicante la coordinata riga di una cella
-	 * @param colonna        intero indicante la coordinata della colonna attuale di
-	 *                       una cella
-	 * @param r              intero posizione della riga della prima cella in cui si
-	 *                       è scoperta la nave
-	 * @param caselleColpite intero indica quante caselle di una nave sono state
-	 *                       colpite
-	 */
-//	private void checkAndSetColumnLimits(final int riga, final int colonna, final int r, final int caselleColpite) {
-//
-//		if (riga > r) {
-//			setAdjacentCells(riga + 1, colonna);
-//			setAdjacentCells(riga - caselleColpite, colonna);
-//		} else {
-//			setAdjacentCells(riga - 1, colonna);
-//			setAdjacentCells(riga + caselleColpite, colonna);
-//		}
-//
-//		getGriglia();
-//	}
-
-	/**
-	 * Controlla che la coordinata colonna sia nei limiti della griglia e che la
-	 * cella(riga, colonna) sia vuota per richiamare la funzione che imposterà la
-	 * cella su ASSEGNATO
-	 * 
-	 * @param riga    intero parametro riga della cella
-	 * @param colonna intero parametro colonna della riga
-	 */
-	/*
-	 * private void setAdjacentCells(final int riga, final int colonna) { if
-	 * (colonna >= 0 && colonna < getColonne()) { setAssigned(riga, colonna); } }
-	 */
-
-	/**
-	 * Ricerca le diagonali di una determinata cella (r, c) e, nel caso sono libere,
-	 * imposta il loro valore su ASSEGNATO
-	 * 
-	 * @param r intero indicante la riga della cella
-	 * @param c intero indicante la colonna della cella
-	 */
-	/*
-	 * private void searchAndSetDiagonals(final int r, final int c) {
-	 * 
-	 * for (int riga = r - 1; riga <= r + 1; riga++) {
-	 * 
-	 * // Controlla se gli iteratori sono compresi nei valori validi delle // righe
-	 * if (riga >= 0 && riga < getRighe()) {
-	 * 
-	 * for (int colonna = c - 1; colonna <= c + 1; colonna++) {
-	 * 
-	 * // Controlla se gli iteratori sono compresi nei valori // validi delle
-	 * colonne e se la cella indicata dagli // iteratori è vuota if (colonna >= 0 &&
-	 * colonna < getColonne()) {
-	 * 
-	 * // Controlla se gli iteratori sono in diagonale rispetto // agli indici della
-	 * cella if ((riga != r) && (colonna != c)) setAssigned(riga, colonna); } } } }
-	 * }
-	 */
 
 	/**
 	 * Richiama ricorsivamente la funzione searchAndDestroyOnRow dalla quale questa
