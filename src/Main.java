@@ -89,6 +89,8 @@ public class Main {
 					System.out.println("Valori dell\'input errati!");
 					i--;
 				}
+				
+				grigliaAttacco.getGriglia();
 			}
 
 		}

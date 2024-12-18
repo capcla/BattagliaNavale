@@ -847,7 +847,7 @@ class Griglia {
 		// colonna) è libera e se la cella è stata valutata come colpita
 		// o affondata
 		if (riga - 1 >= 0 && checkEmptyCell(riga - 1, colonna) && (checkColpito || checkAffondato))
-			searchAndDestroyOnRow(i, riga - 1, colonna, oppositeDirection, nodoList);
+			searchAndDestroyOnColumn(i, riga - 1, colonna, oppositeDirection, nodoList);
 
 		// (riga-1, colonna) risulta non libera o colonna-1 esce dai limiti
 		// dell'array o il valore immesso non indica COLPITO
@@ -858,7 +858,7 @@ class Griglia {
 			// oppositeDirection = true;
 
 			if (r + 1 < getRighe() && checkEmptyCell(r + 1, colonna) && !oppositeDirection)
-				searchAndDestroyOnRow(i, r + 1, colonna, true, nodoList);
+				searchAndDestroyOnColumn(i, r + 1, colonna, true, nodoList);
 		}
 	}
 
@@ -871,7 +871,7 @@ class Griglia {
 		// affondata
 		if (riga + 1 < getRighe() && checkEmptyCell(riga + 1, colonna) && (checkColpito || checkAffondato)) {
 
-			searchAndDestroyOnRow(i, riga + 1, colonna, oppositeDirection, nodoList);
+			searchAndDestroyOnColumn(i, riga + 1, colonna, oppositeDirection, nodoList);
 		}
 		// (riga+1, colonna) risulta non libera o colonna+1 esce dai limiti
 		// dell'array
@@ -882,7 +882,7 @@ class Griglia {
 			// oppositeDirection = true;
 
 			if (r - 1 >= 0 && checkEmptyCell(r - 1, colonna) && !oppositeDirection) {
-				searchAndDestroyOnRow(i, r - 1, colonna, true, nodoList);
+				searchAndDestroyOnColumn(i, r - 1, colonna, true, nodoList);
 			}
 		}
 
