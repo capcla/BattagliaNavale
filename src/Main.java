@@ -32,28 +32,32 @@ public class Main {
 
 				ArrayList<Nodo> nodoList = new ArrayList<Nodo>();
 
-				// Controlla se c'è una direzione da esplorare in orizzontale o verticale
-
-				System.out.println();
-				grigliaAttacco.getRigaColonna(sparo);
-				System.out.print("(" + (i + 1) + ") ");
-				System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
-				input.setInputTastiera();
-				inputKeyboard = input.getInputTastiera();
-				validInputKeyboard = input.checkStringFormat(inputKeyboard);
+				
 
 				// se l'input è valido
-				if (validInputKeyboard) {
-					// Inserimento dello sparo nella sulla griglia e relativa visualizzazione
-					grigliaAttacco.setGriglia(inputKeyboard, sparo);
-					grigliaAttacco.getGriglia();
-
-					if (input.checkColpito(inputKeyboard)) {
+//				if (validInputKeyboard) {
+					
+//					if (input.checkColpito(inputKeyboard)) {
 						Nodo nodo = new Nodo(new Cella(sparo / colonne, sparo % colonne));
 						nodo.setNodosNeighbours(sparo, grigliaAttacco);
 						nodoList.add(nodo);
 
+						//Controlla se c'è una direzione da esplorare in orizzontale
+						// o verticale
 						if (nodo.getHorizontalVertical().size() > 0) {
+							System.out.println();
+							grigliaAttacco.getRigaColonna(sparo);
+							System.out.print("(" + (i + 1) + ") ");
+							System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
+							input.setInputTastiera();
+							inputKeyboard = input.getInputTastiera();
+							validInputKeyboard = input.checkStringFormat(inputKeyboard);
+							
+							// Inserimento dello sparo nella sulla griglia e relativa 
+							// visualizzazione
+							grigliaAttacco.setGriglia(inputKeyboard, sparo);
+							grigliaAttacco.getGriglia();
+							
 							// Scelta casuale della direzione da andare a colpire tra
 							// le celle libere
 							Random random = new Random();
@@ -87,8 +91,8 @@ public class Main {
 						else {
 							grigliaAttacco.setAssigned(sparo / colonne, sparo % colonne);
 						}
-					}
-				}
+//					}
+//				}
 
 				// se l'input non è valido
 				else {
