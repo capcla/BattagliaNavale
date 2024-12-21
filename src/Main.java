@@ -17,47 +17,40 @@ public class Main {
 		}
 
 		int i = -1;
-		
-		grigliaAttacco.setGriglia("A", 1);
-		grigliaAttacco.setGriglia("A", 10);
-		grigliaAttacco.setGriglia("A", 21);
-		grigliaAttacco.setGriglia("A", 12);
 
 		while (validInputKeyboard && ++i < grigliaAttacco.getRigheColonne()) {
-//			int sparo = grigliaAttacco.getSparo(i);
-			int sparo = 11;
+			int sparo = grigliaAttacco.getSparo(i);
+
 
 			// Se si sta attaccando in una cella vuota
 			if (grigliaAttacco.checkEmptyCell(sparo)) {
 
 				ArrayList<Nodo> nodoList = new ArrayList<Nodo>();
+				Nodo nodo = new Nodo(new Cella(sparo / colonne, sparo % colonne));
+				nodo.setNodosNeighbours(sparo, grigliaAttacco);
+				nodoList.add(nodo);
 
-				
+				// Controlla se c'è una direzione da esplorare in orizzontale o
+				// verticale
+				if (nodo.getHorizontalVertical().size() > 0) {
+					System.out.println();
+					grigliaAttacco.getRigaColonna(sparo);
+					System.out.print("(" + (i + 1) + ") ");
+					System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
+					input.setInputTastiera();
+					inputKeyboard = input.getInputTastiera();
+					validInputKeyboard = input.checkStringFormat(inputKeyboard);
 
-				// se l'input è valido
-//				if (validInputKeyboard) {
-					
-//					if (input.checkColpito(inputKeyboard)) {
-						Nodo nodo = new Nodo(new Cella(sparo / colonne, sparo % colonne));
-						nodo.setNodosNeighbours(sparo, grigliaAttacco);
-						nodoList.add(nodo);
+					// Controlla la validità dell'input l'input è valido
+					if (validInputKeyboard) {
 
-						//Controlla se c'è una direzione da esplorare in orizzontale
-						// o verticale
-						if (nodo.getHorizontalVertical().size() > 0) {
-							System.out.println();
-							grigliaAttacco.getRigaColonna(sparo);
-							System.out.print("(" + (i + 1) + ") ");
-							System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
-							input.setInputTastiera();
-							inputKeyboard = input.getInputTastiera();
-							validInputKeyboard = input.checkStringFormat(inputKeyboard);
-							
-							// Inserimento dello sparo nella sulla griglia e relativa 
+						if (input.checkColpito(inputKeyboard)) {
+
+							// Inserimento dello sparo nella sulla griglia e relativa
 							// visualizzazione
 							grigliaAttacco.setGriglia(inputKeyboard, sparo);
 							grigliaAttacco.getGriglia();
-							
+
 							// Scelta casuale della direzione da andare a colpire tra
 							// le celle libere
 							Random random = new Random();
@@ -85,21 +78,23 @@ public class Main {
 								grigliaAttacco.changeInAssigned(sparo / colonne, sparo % colonne);
 							}
 						}
-
-						// Se la cella non ha vicini liberi, deve essere impostata
-						// come assegnata
+						// Se l'input non è colpito
 						else {
-							grigliaAttacco.setAssigned(sparo / colonne, sparo % colonne);
+							grigliaAttacco.setGriglia(inputKeyboard, sparo);
 						}
-//					}
-//				}
-
-				// se l'input non è valido
-				else {
-					System.out.println("Valori dell\'input errati!");
-					i--;
+					}
+					// L'input non è valido
+					else {
+						System.out.println("Valori dell\'input errati!");
+						i--;
+					}
 				}
-				
+				// Se la cella non ha vicini liberi, deve essere impostata
+				// come assegnata
+				else {
+					grigliaAttacco.setAssigned(sparo / colonne, sparo % colonne);
+				}
+
 				grigliaAttacco.getGriglia();
 			}
 
