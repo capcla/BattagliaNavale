@@ -806,7 +806,8 @@ class Griglia {
 	}
 
 	/**
-	 * Cambia il valore della cella di coordinate (r, c)
+	 * Cambia il valore della cella di coordinate (r, c) a prescindere dal suo
+	 * valore precedente
 	 * 
 	 * @param r Intero indicante la riga della cella attuale
 	 * @param c Intero indicante la colonna della cella attuale

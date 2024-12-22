@@ -43,22 +43,20 @@ public class Main {
 
 					// Controlla la validità dell'input l'input è valido
 					if (validInputKeyboard) {
+						// Inserimento dello sparo nella sulla griglia
+						grigliaAttacco.setGriglia(inputKeyboard, sparo);
 
 						if (input.checkColpito(inputKeyboard)) {
-
-							// Inserimento dello sparo nella sulla griglia e relativa
-							// visualizzazione
-							grigliaAttacco.setGriglia(inputKeyboard, sparo);
 							grigliaAttacco.getGriglia();
 
 							// Scelta casuale della direzione da andare a colpire tra
 							// le celle libere
 							Random random = new Random();
 
-							// Ripete l'estrazione di una direzione random quando il
-							// nodo aggiunto a nodoList è solo uno e la dimensione
-							// dell'arrayList horizontalVertical è != 0
-							while (nodoList.size() == 1 && nodoList.get(0).getHorizontalVertical().size() != 0) {
+							// Ripete l'estrazione di una direzione random fino a 
+							// quando horizontalVertical è > 0 e quindi c'è una
+							// direzione da esplorare
+							while (nodoList.get(0).getHorizontalVertical().size() > 0) {
 								int randomNumber = random.nextInt(nodo.getHorizontalVertical().size());
 								int riga = nodo.getHorizontalVertical().get(randomNumber).getRiga();
 								int colonna = nodo.getHorizontalVertical().get(randomNumber).getColonna();
@@ -77,10 +75,6 @@ public class Main {
 							if (nodoList.get(0).getHorizontalVertical().size() == 0) {
 								grigliaAttacco.changeInAssigned(sparo / colonne, sparo % colonne);
 							}
-						}
-						// Se l'input non è colpito
-						else {
-							grigliaAttacco.setGriglia(inputKeyboard, sparo);
 						}
 					}
 					// L'input non è valido
