@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 	public static void main(String[] args) {
@@ -10,6 +11,14 @@ public class Main {
 		Input input = new Input();
 		boolean validInputKeyboard = true;
 		String inputKeyboard;
+		List<Nave> naviNemicheList = new ArrayList<>();
+		
+		// Creazione delle navi nemiche e immissione di queste in una lista
+		naviNemicheList.add(new Nave(5));
+		naviNemicheList.add(new Nave(4));
+		naviNemicheList.add(new Nave(3));
+		naviNemicheList.add(new Nave(3));
+		naviNemicheList.add(new Nave(2));
 
 		// Elecnto del normale ordine di tutti gli spari che verranno effettuati
 		for (int i = 0; i < grigliaAttacco.getRigheColonne(); i++) {
@@ -18,13 +27,12 @@ public class Main {
 
 		int i = -1;
 
-		while (validInputKeyboard && ++i < grigliaAttacco.getRigheColonne()) {
+		while (validInputKeyboard && ++i < grigliaAttacco.getRigheColonne() && naviNemicheList.size() > 0) {
 			int sparo = grigliaAttacco.getSparo(i);
 
 
 			// Se si sta attaccando in una cella vuota
 			if (grigliaAttacco.checkEmptyCell(sparo)) {
-
 				ArrayList<Nodo> nodoList = new ArrayList<Nodo>();
 				Nodo nodo = new Nodo(new Cella(sparo / colonne, sparo % colonne));
 				nodo.setNodosNeighbours(sparo, grigliaAttacco);

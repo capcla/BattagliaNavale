@@ -17,7 +17,18 @@ public class Nave {
 	
 	// Numero navi affondate
 	int naviAffondate = 0;
-
+	int dimensione; //Dimensione della nave
+	
+	
+	/**
+	 * Costruttore della classe nave
+	 * 
+	 * @param dimensione Intero indicante la dimensione della nave
+	 */
+	Nave(int dimensione){
+		this.dimensione = dimensione;
+	}
+	
 	/**
 	 * Restituisce la grandezza massima di una nave
 	 * 
