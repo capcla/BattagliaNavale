@@ -73,9 +73,9 @@ public class Main {
 								// e la riga estratta estratta casualmente, si sta cercando
 								// sulle righe
 								if ((sparo / colonne) == riga)
-									grigliaAttacco.searchAndDestroyOnRow(sparo, riga, colonna, false, nodoList);
+									grigliaAttacco.searchAndDestroyOnRow(sparo, riga, colonna, false, nodoList, naviNemicheList);
 								else
-									grigliaAttacco.searchAndDestroyOnColumn(sparo, riga, colonna, false, nodoList);
+									grigliaAttacco.searchAndDestroyOnColumn(sparo, riga, colonna, false, nodoList, naviNemicheList);
 							}
 
 							// Se il nodo non ha vicini orizzontali o verticali liberi,

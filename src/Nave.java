@@ -5,6 +5,7 @@
 /**
  * 
  */
+
 public class Nave {
 	// Dimensione massima della nave
 	final int MAX_DIM_NAVE = 5;
@@ -18,9 +19,10 @@ public class Nave {
 	// Numero navi affondate
 	int naviAffondate = 0;
 	int dimensione; //Dimensione della nave
-	
-	
-	/**
+
+
+
+/**
 	 * Costruttore della classe nave
 	 * 
 	 * @param dimensione Intero indicante la dimensione della nave
@@ -57,5 +59,14 @@ public class Nave {
 	 */
 	public boolean inShipDimensions(int caselle) {
 		return getMIN_DIM_NAVE() >= caselle && caselle <= getMAX_DIM_NAVE();
+	}
+	
+	/**
+	 * Restituisce la dimenzione di una nave
+	 * 
+	 * @return Intero che indica la dimensione di una nave
+	 */
+	public int getDimensione() {
+		return dimensione;
 	}
 }

@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.List;
 
 class Griglia {
 
@@ -407,9 +408,10 @@ class Griglia {
 	 *                          che si sta ispezionando è già stata ispezionata
 	 * @param nodoList          Struttura contenente le informazioni sui nodi e
 	 *                          sulle caselle adiacenti
+	 * @param naviNemicheList
 	 */
 	public void searchAndDestroyOnRow(final int i, final int riga, final int colonna, boolean oppositeDirection,
-			ArrayList<Nodo> nodoList) {
+			ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {
 
 		Input input = new Input();
 		String inputKeyboard;
@@ -448,6 +450,7 @@ class Griglia {
 					if (checkAffondato) {
 						setShipLimits(nodoList);
 						setDiagonals(nodoList);
+						removeNave(naviNemicheList, nodoList.size());
 					}
 				} else {
 
@@ -484,9 +487,11 @@ class Griglia {
 			// della cella attuale mentre c indica il valore della colonna della
 			// prima cella colpita
 			if (colonna > c)
-				goRightDirection(i, riga, colonna, c, checkColpito, checkAffondato, oppositeDirection, nodoList);
+				goRightDirection(i, riga, colonna, c, checkColpito, checkAffondato, oppositeDirection, nodoList,
+						naviNemicheList);
 			else
-				goLeftDirection(i, riga, colonna, c, checkColpito, checkAffondato, oppositeDirection, nodoList);
+				goLeftDirection(i, riga, colonna, c, checkColpito, checkAffondato, oppositeDirection, nodoList,
+						naviNemicheList);
 		}
 
 		if (griglia[riga][colonna] != Casella.COLPITO && (oppositeDirection || nodoList.size() == 1)) {
@@ -494,6 +499,22 @@ class Griglia {
 			setAssigned(i / getColonne(), c);
 			getGriglia();
 		}
+	}
+
+	
+	/**
+	 * Rimuove una nave dalla lista delle navi quando la sua dimensione è pari
+	 * al parametro passato
+	 * 
+	 * @param naviNemicheList Lista delle navi
+	 * @param lunghezzaNave Intero che indica la lunghezza della nave da cercare
+	 */
+	private void removeNave(List<Nave> navi, int lunghezzaNave) {
+		
+		for (int i = 0; i < navi.size(); i++)
+			
+			if (navi.get(i).getDimensione() == lunghezzaNave)
+				navi.remove(i);
 	}
 
 	/**
@@ -572,7 +593,7 @@ class Griglia {
 	 *                          sulle caselle adiacenti
 	 */
 	public void searchAndDestroyOnColumn(final int i, final int riga, final int colonna, boolean oppositeDirection,
-			ArrayList<Nodo> nodoList) {
+			ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {
 
 		Input input = new Input();
 		String inputKeyboard;
@@ -610,6 +631,7 @@ class Griglia {
 					if (checkAffondato) {
 						setShipLimits(nodoList);
 						setDiagonals(nodoList);
+						removeNave(naviNemicheList, nodoList.size());
 					}
 				} else {
 
@@ -644,9 +666,9 @@ class Griglia {
 			// cella attuale mentre r indica il valore della riga della prima cella
 			// colpita
 			if (riga > r)
-				goDownDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList);
+				goDownDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList, naviNemicheList);
 			else
-				goUpDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList);
+				goUpDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList, naviNemicheList);
 		}
 
 		if (griglia[riga][colonna] != Casella.COLPITO && (oppositeDirection || nodoList.size() == 1)) {
@@ -681,14 +703,14 @@ class Griglia {
 	 */
 	private void goRightDirection(final int i, final int riga, final int colonna, final int c,
 			final boolean checkColpito, final boolean checkAffondato, boolean oppositeDirection,
-			ArrayList<Nodo> nodoList) {
+			ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {
 
 		// Controlla se colonna+1 è nei limiti dell'array, se la cella
 		// (riga, colonna+1) è libera e se la cella è stata valutata come colpita o
 		// affondata
 		if (colonna + 1 < getColonne() && checkEmptyCell(riga, colonna + 1) && (checkColpito || checkAffondato)) {
 
-			searchAndDestroyOnRow(i, riga, colonna + 1, oppositeDirection, nodoList);
+			searchAndDestroyOnRow(i, riga, colonna + 1, oppositeDirection, nodoList, naviNemicheList);
 		}
 		// (riga, colonna+1) risulta non libera o colonna+1 esce dai limiti
 		// dell'array
@@ -699,7 +721,7 @@ class Griglia {
 			// oppositeDirection = true;
 
 			if (c - 1 >= 0 && checkEmptyCell(riga, c - 1) && !oppositeDirection) {
-				searchAndDestroyOnRow(i, riga, c - 1, true, nodoList);
+				searchAndDestroyOnRow(i, riga, c - 1, true, nodoList, naviNemicheList);
 			}
 		}
 	}
@@ -729,13 +751,13 @@ class Griglia {
 	 */
 	private void goLeftDirection(final int i, final int riga, final int colonna, final int c,
 			final boolean checkColpito, final boolean checkAffondato, boolean oppositeDirection,
-			ArrayList<Nodo> nodoList) {
+			ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {
 
 		// Controlla se colonna-1 è nei limiti della griglia, se la cella(riga,
 		// colonna-1) è libera e se la cella è stata valutata come colpita
 		// o affondata
 		if (colonna - 1 >= 0 && checkEmptyCell(riga, colonna - 1) && (checkColpito || checkAffondato))
-			searchAndDestroyOnRow(i, riga, colonna - 1, oppositeDirection, nodoList);
+			searchAndDestroyOnRow(i, riga, colonna - 1, oppositeDirection, nodoList, naviNemicheList);
 
 		// (riga, colonna-1) risulta non libera o colonna-1 esce dai limiti
 		// dell'array o il valore immesso non indica COLPITO
@@ -746,18 +768,18 @@ class Griglia {
 			// oppositeDirection = true;
 
 			if (c + 1 < getColonne() && checkEmptyCell(riga, c + 1) && !oppositeDirection)
-				searchAndDestroyOnRow(i, riga, c + 1, true, nodoList);
+				searchAndDestroyOnRow(i, riga, c + 1, true, nodoList, naviNemicheList);
 		}
 	}
 
 	private void goUpDirection(final int i, final int riga, final int colonna, final int r, final boolean checkColpito,
-			final boolean checkAffondato, final boolean oppositeDirection, ArrayList<Nodo> nodoList) {
+			final boolean checkAffondato, final boolean oppositeDirection, ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {
 
 		// Controlla se riga-1 è nei limiti della griglia, se la cella(riga-1,
 		// colonna) è libera e se la cella è stata valutata come colpita
 		// o affondata
 		if (riga - 1 >= 0 && checkEmptyCell(riga - 1, colonna) && (checkColpito || checkAffondato))
-			searchAndDestroyOnColumn(i, riga - 1, colonna, oppositeDirection, nodoList);
+			searchAndDestroyOnColumn(i, riga - 1, colonna, oppositeDirection, nodoList, naviNemicheList);
 
 		// (riga-1, colonna) risulta non libera o colonna-1 esce dai limiti
 		// dell'array o il valore immesso non indica COLPITO
@@ -768,20 +790,20 @@ class Griglia {
 			// oppositeDirection = true;
 
 			if (r + 1 < getRighe() && checkEmptyCell(r + 1, colonna) && !oppositeDirection)
-				searchAndDestroyOnColumn(i, r + 1, colonna, true, nodoList);
+				searchAndDestroyOnColumn(i, r + 1, colonna, true, nodoList, naviNemicheList);
 		}
 	}
 
 	private void goDownDirection(final int i, final int riga, final int colonna, final int r,
 			final boolean checkColpito, final boolean checkAffondato, final boolean oppositeDirection,
-			ArrayList<Nodo> nodoList) {
+			ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {
 
 		// Controlla se colonna+1 è nei limiti dell'array, se la cella (riga+1,
 		// colonna) è libera e se la cella è stata valutata come colpita o
 		// affondata
 		if (riga + 1 < getRighe() && checkEmptyCell(riga + 1, colonna) && (checkColpito || checkAffondato)) {
 
-			searchAndDestroyOnColumn(i, riga + 1, colonna, oppositeDirection, nodoList);
+			searchAndDestroyOnColumn(i, riga + 1, colonna, oppositeDirection, nodoList, naviNemicheList);
 		}
 		// (riga+1, colonna) risulta non libera o colonna+1 esce dai limiti
 		// dell'array
@@ -792,7 +814,7 @@ class Griglia {
 			// oppositeDirection = true;
 
 			if (r - 1 >= 0 && checkEmptyCell(r - 1, colonna) && !oppositeDirection) {
-				searchAndDestroyOnColumn(i, r - 1, colonna, true, nodoList);
+				searchAndDestroyOnColumn(i, r - 1, colonna, true, nodoList, naviNemicheList);
 			}
 		}
 
