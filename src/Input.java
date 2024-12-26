@@ -103,6 +103,21 @@ class Input {
 		return s.matches("[A]");
 	}
 
+	/**
+	 * Evita che la nave venga dichiarata affondata trasformando la dichiarazione
+	 * di affondamento nello stato di COLPITO
+	 */
+	public void avoidSinking() {
+		try {
+			this.inputTastiera = iT.readLine().toUpperCase();
+			
+			if (this.inputTastiera.matches("[F]"))
+				this.inputTastiera = "C";
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/*
 	 * private void setInt (int i) { this.i = i; }
 	 * 

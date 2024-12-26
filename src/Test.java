@@ -33,7 +33,7 @@ public class Test {
 
 				ArrayList<Nodo> nodoList = new ArrayList<Nodo>();
 				Nodo nodo = new Nodo(new Cella(sparo / colonne, sparo % colonne));
-				nodo.setNodosNeighbours(i, grigliaAttacco);
+				nodo.setNeighboursNodoes(i, grigliaAttacco);
 				nodoList.add(nodo);
 				
 				System.out.println();

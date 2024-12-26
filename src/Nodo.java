@@ -20,7 +20,7 @@ class Nodo {
 		this.cella = cella;
 		this.horizontalVertical = new ArrayList<>();
 		this.diagonals = new ArrayList<>();
-		nodo = this;
+		this.nodo = this;
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Nodo {
 	 * 
 	 * @param griglia Griglia sulla quale si sta operando
 	 */
-	public void setNodosNeighbours(int i, Griglia griglia) {
+	public void setNeighboursNodoes(int i, Griglia griglia) {
 		final int r = i / griglia.getColonne();
 		final int c = i % griglia.getColonne();
 
