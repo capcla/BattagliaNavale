@@ -408,9 +408,9 @@ class Griglia {
 	 *                          che si sta ispezionando è già stata ispezionata
 	 * @param nodoList          Struttura contenente le informazioni sui nodi e
 	 *                          sulle caselle adiacenti
-	 * @param naviNemicheList
+	 * @param naviNemicheList   Lista delle navi nemiche e delle loro informaizoni
 	 */
-	public void searchAndDestroyOnRow(final int i, final int riga, final int colonna, boolean oppositeDirection,
+/*	public void searchAndDestroyOnRow(final int i, final int riga, final int colonna, boolean oppositeDirection,
 			ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {
 
 		Input input = new Input();
@@ -500,76 +500,7 @@ class Griglia {
 			getGriglia();
 		}
 	}
-
-	
-	/**
-	 * Rimuove una nave dalla lista delle navi quando la sua dimensione è pari
-	 * al parametro passato
-	 * 
-	 * @param naviNemicheList Lista delle navi
-	 * @param lunghezzaNave Intero che indica la lunghezza della nave da cercare
-	 */
-	private void removeNave(List<Nave> navi, int lunghezzaNave) {
-		
-		for (int i = 0; i < navi.size(); i++)
-			
-			if (navi.get(i).getDimensione() == lunghezzaNave)
-				navi.remove(i);
-	}
-
-	/**
-	 * Prende in input l'array list nodoList e setta le caselle diagonali ad una
-	 * cella dell'array list con il valore ASSEGNATO se il corrispettivo valore
-	 * sulla griglia risulta essere VUOTO
-	 * 
-	 * @param nodoList Struttura contenente le informazioni sui nodi e sulle caselle
-	 *                 adiacenti
-	 */
-	private void setShipLimits(ArrayList<Nodo> nodoList) {
-		int minRiga = getRighe();
-		int minColonna = getColonne();
-
-		// Controlla tutti i nodi di nodoList
-		for (int i = 0; i < nodoList.size(); i++) {
-
-			// Impostazione della coordinata riga più piccola
-			if (nodoList.get(i).getCella().getRiga() < minRiga)
-				minRiga = nodoList.get(i).getCella().getRiga();
-
-			// Impostazione della coordinata colonna più piccola
-			if (nodoList.get(i).getCella().getColonna() < minColonna)
-				minColonna = nodoList.get(i).getCella().getColonna();
-
-			// Controlla tutti i diagonali di un nodo
-			for (int j = 0; j < nodoList.get(i).getDiagonals().size(); j++)
-
-				// Controlla che il valore di un nodo diagonale sia vuoto
-				if (nodoList.get(i).getDiagonals().get(j).getValue() == Casella.VUOTO) {
-					nodoList.get(i).getDiagonals().get(j).setValue(Casella.ASSEGNATO);
-				}
-		}
-
-		// Se c'è differenza tra le righe di due celle, ci si sta muovendo in verticale
-		// e quindi si devono settare i limiti superiore e inferiore della nave
-		// sulle righe altrimenti si devono settare i limiti destro e sinistro
-		// sulle colonne
-		if (nodoList.get(0).getCella().getRiga() - nodoList.get(1).getCella().getRiga() != 0) {
-
-			if (minRiga - 1 >= 0)
-				setAssigned(minRiga - 1, minColonna);
-
-			if (minRiga + nodoList.size() < getRighe())
-				setAssigned(minRiga + nodoList.size(), minColonna);
-		} else {
-
-			if (minColonna - 1 >= 0)
-				setAssigned(minRiga, minColonna - 1);
-
-			if (minColonna + nodoList.size() < getColonne())
-				setAssigned(minRiga, minColonna + nodoList.size());
-		}
-	}
-
+*/
 	/**
 	 * La funzione riceve i parametri della cella di partenza, della riga e della
 	 * colonna della cella attuale (dove si intende ispezionare?), dell'avvenuta
@@ -591,8 +522,10 @@ class Griglia {
 	 *                          che si sta ispezionando è già stata ispezionata
 	 * @param nodoList          Struttura contenente le informazioni sui nodi e
 	 *                          sulle caselle adiacenti
+	 * @param naviNemicheList   Lista delle navi nemiche e delle loro informaizoni
+	 * 
 	 */
-	public void searchAndDestroyOnColumn(final int i, final int riga, final int colonna, boolean oppositeDirection,
+/*	public void searchAndDestroyOnColumn(final int i, final int riga, final int colonna, boolean oppositeDirection,
 			ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {
 
 		Input input = new Input();
@@ -666,15 +599,201 @@ class Griglia {
 			// cella attuale mentre r indica il valore della riga della prima cella
 			// colpita
 			if (riga > r)
-				goDownDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList, naviNemicheList);
+				goDownDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList,
+						naviNemicheList);
 			else
-				goUpDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList, naviNemicheList);
+				goUpDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList,
+						naviNemicheList);
+
+		}
+
+		if (griglia[riga][colonna] != Casella.COLPITO && (oppositeDirection || nodoList.size() == 1))
+
+		{
+			// Dialogo con l'utente o cambio della scelta
+			setAssigned(r, i % getColonne());
+			getGriglia();
+		}
+	}
+*/
+	public void searchAndDestroy(final int i, final int riga, final int colonna, boolean oppositeDirection,
+			ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {
+
+		Input input = new Input();
+		String inputKeyboard;
+		boolean validInputKeyboard, checkColpito = false, checkAffondato = false;
+		final int r = i / getColonne();
+		final int c = i % getColonne();
+		boolean quit = false;
+		Nodo nodo;
+
+		// Chiede all'utente conferma del colpo
+		do {
+			getRigaColonna(riga * getColonne() + colonna);
+			System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
+			input.setInputTastiera();
+			inputKeyboard = input.getInputTastiera();
+			validInputKeyboard = input.checkStringFormat(inputKeyboard);
+
+			if (validInputKeyboard == false)
+				System.out.println("Valore inserito errato");
+			else {
+				setGriglia(inputKeyboard, riga * getColonne() + colonna);
+				checkColpito = input.checkColpito(inputKeyboard);
+				checkAffondato = input.checkAffondato(inputKeyboard);
+
+				// Controlla se la nava è stata colpita o affondata
+				if (checkColpito || checkAffondato) {
+
+					// Crea un nuovo nodo, ne setta i vicini e lo aggiunge alla
+					// lista dei nodi
+					nodo = new Nodo(new Cella(riga, colonna));
+					nodo.setNodosNeighbours(riga * getColonne() + colonna, this);
+					nodoList.add(nodo);
+					
+					// Se la nave è dichiarata affondata, vengono imposati i limiti
+					// della nave
+					if (checkAffondato) {
+						setShipLimits(nodoList);
+						setDiagonals(nodoList);
+						removeNave(naviNemicheList, nodoList.size());
+					}
+				} else {
+
+					// Se un nodo presente nella lista dei nodi orizzontali e verticali
+					// è contrassegnato come ACQUA va tolto da questa lista perché
+					// la direzione da lui occupata non è percorribile
+					if (input.checkAcqua(inputKeyboard)) {
+						nodoList.get(0).removeHorizontalVertical(riga, colonna);
+					}
+
+					if (oppositeDirection) {
+
+						quit = true;
+
+						// Dialogo con l'utente o cambio della scelta
+						if (nodoList.size() == 1) {
+							setAssigned(r, i % getColonne());
+						} else {
+
+						}
+
+					}
+				}
+			}
+
+		} while (!validInputKeyboard);
+		
+		getGriglia(griglia);
+
+		if (!quit) {
+
+			if (riga != r) {
+				// Verifica se si deve ispezionare il lato superiore (riga > r) o inferiore
+				// (riga < r) della nave. Il valore riga indica il valore della riga della
+				// cella attuale mentre r indica il valore della riga della prima cella
+				// colpita
+				if (riga > r)
+					goDownDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList,
+							naviNemicheList);
+				else
+					goUpDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList,
+							naviNemicheList);
+			} else {
+				// Verifica se si deve ispezionare il lato destro (colonna > c) o il sinistro
+				// (colonna < c) della nave. Il valore colonna indica il valore colonna
+				// della cella attuale mentre c indica il valore della colonna della
+				// prima cella colpita
+
+				if (colonna > c)
+					goRightDirection(i, riga, colonna, c, checkColpito, checkAffondato, oppositeDirection, nodoList,
+							naviNemicheList);
+				else
+					goLeftDirection(i, riga, colonna, c, checkColpito, checkAffondato, oppositeDirection, nodoList,
+							naviNemicheList);
+			}
 		}
 
 		if (griglia[riga][colonna] != Casella.COLPITO && (oppositeDirection || nodoList.size() == 1)) {
 			// Dialogo con l'utente o cambio della scelta
-			setAssigned(r, i % getColonne());
+			setAssigned(r, c);
 			getGriglia();
+		}
+	}
+
+	/**
+	 * Rimuove una nave dalla lista delle navi quando la sua dimensione è pari al
+	 * parametro passato
+	 * 
+	 * @param naviNemicheList Lista delle navi
+	 * @param lunghezzaNave   Intero che indica la lunghezza della nave da cercare
+	 */
+	private void removeNave(List<Nave> navi, int lunghezzaNave) {
+
+		boolean trovato = false;
+
+		for (int i = 0; i < navi.size() && !trovato; i++)
+
+			if (navi.get(i).getDimensione() == lunghezzaNave) {
+				navi.remove(i);
+				trovato = true;
+			}
+
+		if (trovato == false) {
+			System.out.println("Non esiste più una nave di dimensione " + lunghezzaNave);
+		}
+	}
+
+	/**
+	 * Prende in input l'array list nodoList e setta le caselle diagonali ad una
+	 * cella dell'array list con il valore ASSEGNATO se il corrispettivo valore
+	 * sulla griglia risulta essere VUOTO
+	 * 
+	 * @param nodoList Struttura contenente le informazioni sui nodi e sulle caselle
+	 *                 adiacenti
+	 */
+	private void setShipLimits(ArrayList<Nodo> nodoList) {
+		int minRiga = getRighe();
+		int minColonna = getColonne();
+
+		// Controlla tutti i nodi di nodoList
+		for (int i = 0; i < nodoList.size(); i++) {
+
+			// Impostazione della coordinata riga più piccola
+			if (nodoList.get(i).getCella().getRiga() < minRiga)
+				minRiga = nodoList.get(i).getCella().getRiga();
+
+			// Impostazione della coordinata colonna più piccola
+			if (nodoList.get(i).getCella().getColonna() < minColonna)
+				minColonna = nodoList.get(i).getCella().getColonna();
+
+			// Controlla tutti i diagonali di un nodo
+			for (int j = 0; j < nodoList.get(i).getDiagonals().size(); j++)
+
+				// Controlla che il valore di un nodo diagonale sia vuoto
+				if (nodoList.get(i).getDiagonals().get(j).getValue() == Casella.VUOTO) {
+					nodoList.get(i).getDiagonals().get(j).setValue(Casella.ASSEGNATO);
+				}
+		}
+
+		// Se c'è differenza tra le righe di due celle, ci si sta muovendo in verticale
+		// e quindi si devono settare i limiti superiore e inferiore della nave
+		// sulle righe altrimenti si devono settare i limiti destro e sinistro
+		// sulle colonne
+		if (nodoList.get(0).getCella().getRiga() - nodoList.get(1).getCella().getRiga() != 0) {
+
+			if (minRiga - 1 >= 0)
+				setAssigned(minRiga - 1, minColonna);
+
+			if (minRiga + nodoList.size() < getRighe())
+				setAssigned(minRiga + nodoList.size(), minColonna);
+		} else {
+
+			if (minColonna - 1 >= 0)
+				setAssigned(minRiga, minColonna - 1);
+
+			if (minColonna + nodoList.size() < getColonne())
+				setAssigned(minRiga, minColonna + nodoList.size());
 		}
 	}
 
@@ -710,7 +829,7 @@ class Griglia {
 		// affondata
 		if (colonna + 1 < getColonne() && checkEmptyCell(riga, colonna + 1) && (checkColpito || checkAffondato)) {
 
-			searchAndDestroyOnRow(i, riga, colonna + 1, oppositeDirection, nodoList, naviNemicheList);
+			searchAndDestroy(i, riga, colonna + 1, oppositeDirection, nodoList, naviNemicheList);
 		}
 		// (riga, colonna+1) risulta non libera o colonna+1 esce dai limiti
 		// dell'array
@@ -721,7 +840,7 @@ class Griglia {
 			// oppositeDirection = true;
 
 			if (c - 1 >= 0 && checkEmptyCell(riga, c - 1) && !oppositeDirection) {
-				searchAndDestroyOnRow(i, riga, c - 1, true, nodoList, naviNemicheList);
+				searchAndDestroy(i, riga, c - 1, true, nodoList, naviNemicheList);
 			}
 		}
 	}
@@ -757,7 +876,7 @@ class Griglia {
 		// colonna-1) è libera e se la cella è stata valutata come colpita
 		// o affondata
 		if (colonna - 1 >= 0 && checkEmptyCell(riga, colonna - 1) && (checkColpito || checkAffondato))
-			searchAndDestroyOnRow(i, riga, colonna - 1, oppositeDirection, nodoList, naviNemicheList);
+			searchAndDestroy(i, riga, colonna - 1, oppositeDirection, nodoList, naviNemicheList);
 
 		// (riga, colonna-1) risulta non libera o colonna-1 esce dai limiti
 		// dell'array o il valore immesso non indica COLPITO
@@ -768,18 +887,19 @@ class Griglia {
 			// oppositeDirection = true;
 
 			if (c + 1 < getColonne() && checkEmptyCell(riga, c + 1) && !oppositeDirection)
-				searchAndDestroyOnRow(i, riga, c + 1, true, nodoList, naviNemicheList);
+				searchAndDestroy(i, riga, c + 1, true, nodoList, naviNemicheList);
 		}
 	}
 
 	private void goUpDirection(final int i, final int riga, final int colonna, final int r, final boolean checkColpito,
-			final boolean checkAffondato, final boolean oppositeDirection, ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {
+			final boolean checkAffondato, final boolean oppositeDirection, ArrayList<Nodo> nodoList,
+			List<Nave> naviNemicheList) {
 
 		// Controlla se riga-1 è nei limiti della griglia, se la cella(riga-1,
 		// colonna) è libera e se la cella è stata valutata come colpita
 		// o affondata
 		if (riga - 1 >= 0 && checkEmptyCell(riga - 1, colonna) && (checkColpito || checkAffondato))
-			searchAndDestroyOnColumn(i, riga - 1, colonna, oppositeDirection, nodoList, naviNemicheList);
+			searchAndDestroy(i, riga - 1, colonna, oppositeDirection, nodoList, naviNemicheList);
 
 		// (riga-1, colonna) risulta non libera o colonna-1 esce dai limiti
 		// dell'array o il valore immesso non indica COLPITO
@@ -790,7 +910,7 @@ class Griglia {
 			// oppositeDirection = true;
 
 			if (r + 1 < getRighe() && checkEmptyCell(r + 1, colonna) && !oppositeDirection)
-				searchAndDestroyOnColumn(i, r + 1, colonna, true, nodoList, naviNemicheList);
+				searchAndDestroy(i, r + 1, colonna, true, nodoList, naviNemicheList);
 		}
 	}
 
@@ -803,7 +923,7 @@ class Griglia {
 		// affondata
 		if (riga + 1 < getRighe() && checkEmptyCell(riga + 1, colonna) && (checkColpito || checkAffondato)) {
 
-			searchAndDestroyOnColumn(i, riga + 1, colonna, oppositeDirection, nodoList, naviNemicheList);
+			searchAndDestroy(i, riga + 1, colonna, oppositeDirection, nodoList, naviNemicheList);
 		}
 		// (riga+1, colonna) risulta non libera o colonna+1 esce dai limiti
 		// dell'array
@@ -814,7 +934,7 @@ class Griglia {
 			// oppositeDirection = true;
 
 			if (r - 1 >= 0 && checkEmptyCell(r - 1, colonna) && !oppositeDirection) {
-				searchAndDestroyOnColumn(i, r - 1, colonna, true, nodoList, naviNemicheList);
+				searchAndDestroy(i, r - 1, colonna, true, nodoList, naviNemicheList);
 			}
 		}
 

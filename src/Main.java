@@ -64,7 +64,7 @@ public class Main {
 							// Ripete l'estrazione di una direzione random fino a 
 							// quando horizontalVertical è > 0 e quindi c'è una
 							// direzione da esplorare
-							while (nodoList.get(0).getHorizontalVertical().size() > 0) {
+							while (nodoList.size() == 1 && nodoList.get(0).getHorizontalVertical().size() > 0) {
 								int randomNumber = random.nextInt(nodo.getHorizontalVertical().size());
 								int riga = nodo.getHorizontalVertical().get(randomNumber).getRiga();
 								int colonna = nodo.getHorizontalVertical().get(randomNumber).getColonna();
@@ -72,10 +72,12 @@ public class Main {
 								// Se non c'è differenza tra la riga del primo colpo (sparo / colonne)
 								// e la riga estratta estratta casualmente, si sta cercando
 								// sulle righe
-								if ((sparo / colonne) == riga)
-									grigliaAttacco.searchAndDestroyOnRow(sparo, riga, colonna, false, nodoList, naviNemicheList);
-								else
-									grigliaAttacco.searchAndDestroyOnColumn(sparo, riga, colonna, false, nodoList, naviNemicheList);
+//								if ((sparo / colonne) == riga)
+//									grigliaAttacco.searchAndDestroyOnRow(sparo, riga, colonna, false, nodoList, naviNemicheList);
+//								else
+//									grigliaAttacco.searchAndDestroyOnColumn(sparo, riga, colonna, false, nodoList, naviNemicheList);
+								
+								grigliaAttacco.searchAndDestroy(sparo, riga, colonna, false, nodoList, naviNemicheList);
 							}
 
 							// Se il nodo non ha vicini orizzontali o verticali liberi,
