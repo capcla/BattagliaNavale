@@ -444,7 +444,7 @@ class Griglia {
 					nodo = new Nodo(new Cella(riga, colonna));
 					nodo.setNeighboursNodoes(riga * getColonne() + colonna, this);
 					nodoList.add(nodo);
-					
+
 					// Se la nave è dichiarata affondata, vengono imposati i limiti
 					// della nave
 					if (checkAffondato) {
@@ -477,7 +477,7 @@ class Griglia {
 			}
 
 		} while (!validInputKeyboard);
-		
+
 		getGriglia(griglia);
 
 		if (!quit) {
@@ -516,8 +516,8 @@ class Griglia {
 	}
 
 	/**
-	 * Rimuove una nave dalla lista delle navi quando la sua dimensione è pari al
-	 * parametro passato
+	 * Cerca e rimuove una nave dalla lista delle navi quando la sua dimensione
+	 * è pari al parametro passato
 	 * 
 	 * @param naviNemicheList Lista delle navi
 	 * @param lunghezzaNave   Intero che indica la lunghezza della nave da cercare
@@ -592,10 +592,10 @@ class Griglia {
 	}
 
 	/**
-	 * Richiama ricorsivamente la funzione searchAndDestroyOnRow dalla quale questa
-	 * funzione è lanciata sull'opportune cella e con gli opportuni parametri. Se
+	 * Richiama ricorsivamente la funzione searchAndDestroy dalla quale questa
+	 * funzione è lanciata sull'opportuna cella e con gli opportuni parametri. Se
 	 * l'ispezione del lato destro termina per qualche motivo, la funzione richiama
-	 * searchAndDestroyOnRow segnalando il cambio di direzione tramite l'opportuno
+	 * searchAndDestroy segnalando il cambio di direzione tramite l'opportuno
 	 * parametro
 	 * 
 	 * @param i                 intero complessivo indicante sia la riga che la riga
@@ -640,10 +640,10 @@ class Griglia {
 	}
 
 	/**
-	 * Richiama ricorsivamente la funzione searchAndDestroyOnRow dalla quale questa
-	 * funzione è lanciata sull'opportune cella e con gli opportuni parametri. Se
-	 * l'ispezione del lato sinistro termina per qualche motivo, la funzione
-	 * richiama searchAndDestroyOnRow segnalando il cambio di direzione tramite
+	 * Richiama ricorsivamente la funzione searchAndDestroy dalla quale questa
+	 * funzione è lanciata sull'opportuna cella e con gli opportuni parametri.
+	 * Se l'ispezione del lato sinistro termina per qualche motivo, la funzione
+	 * richiama searchAndDestroy segnalando il cambio di direzione tramite
 	 * l'opportuno parametro
 	 * 
 	 * @param i                 Intero complessivo indicante sia la riga che la riga
@@ -685,6 +685,30 @@ class Griglia {
 		}
 	}
 
+	
+	/**
+	 * Richiama ricorsivamente la funzione searchAndDestroy dalla quale questa
+	 * funzione è lanciata sull'opportuna cella e con gli opportuni parametri.
+	 * Se l'ispezione del lato superiore termina per qualche motivo, la funzione
+	 * richiama searchAndDestroy segnalando il cambio di direzione tramite
+	 * l'opportuno parametro
+	 * 
+	 * @param i                 Intero complessivo indicante sia la riga che la riga
+	 *                          che la colonna della prima cella colpita di una nave
+	 * @param riga              Intero indicante la riga della cella attuale
+	 * @param colonna           Intero indicante la colonna della cella attuale
+	 * @param c                 Intero indicante la posizione della prima colonna
+	 *                          colpita di una nave
+	 * @param caselleColpite    Intero delle caselle colpite di una nave
+	 * @param checkColpito      Boolean che segnala se una cella è stata dichiarata
+	 *                          colpita
+	 * @param checkAffondato    Boolean che segnala se la nave è stata dichiarata
+	 *                          affondata
+	 * @param oppositeDirection Boolean che segnala se la direzione opposta a quella
+	 *                          che si sta ispezionando è già stata ispezionata
+	 * @param nodoList          Struttura contenente le informazioni sui nodi e
+	 *                          sulle caselle adiacenti
+	 */	
 	private void goUpDirection(final int i, final int riga, final int colonna, final int r, final boolean checkColpito,
 			final boolean checkAffondato, final boolean oppositeDirection, ArrayList<Nodo> nodoList,
 			List<Nave> naviNemicheList) {
@@ -708,6 +732,30 @@ class Griglia {
 		}
 	}
 
+	
+	/**
+	 * Richiama ricorsivamente la funzione searchAndDestroy dalla quale questa
+	 * funzione è lanciata sull'opportuna cella e con gli opportuni parametri.
+	 * Se l'ispezione del lato inferiore termina per qualche motivo, la funzione
+	 * richiama searchAndDestroy segnalando il cambio di direzione tramite
+	 * l'opportuno parametro
+	 * 
+	 * @param i                 Intero complessivo indicante sia la riga che la riga
+	 *                          che la colonna della prima cella colpita di una nave
+	 * @param riga              Intero indicante la riga della cella attuale
+	 * @param colonna           Intero indicante la colonna della cella attuale
+	 * @param c                 Intero indicante la posizione della prima colonna
+	 *                          colpita di una nave
+	 * @param caselleColpite    Intero delle caselle colpite di una nave
+	 * @param checkColpito      Boolean che segnala se una cella è stata dichiarata
+	 *                          colpita
+	 * @param checkAffondato    Boolean che segnala se la nave è stata dichiarata
+	 *                          affondata
+	 * @param oppositeDirection Boolean che segnala se la direzione opposta a quella
+	 *                          che si sta ispezionando è già stata ispezionata
+	 * @param nodoList          Struttura contenente le informazioni sui nodi e
+	 *                          sulle caselle adiacenti
+	 */	
 	private void goDownDirection(final int i, final int riga, final int colonna, final int r,
 			final boolean checkColpito, final boolean checkAffondato, final boolean oppositeDirection,
 			ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {

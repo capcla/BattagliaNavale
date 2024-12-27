@@ -45,7 +45,7 @@ public class Main {
 					grigliaAttacco.getRigaColonna(sparo);
 					System.out.print("(" + (i + 1) + ") ");
 					System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
-					input.avoidSinking(); //Una nave non può essere affondata al primo colpo e va dichiarata colpita
+					input.avoidSinking(); // Una nave non può essere affondata al primo colpo e va dichiarata colpita
 					inputKeyboard = input.getInputTastiera();
 					validInputKeyboard = input.checkStringFormat(inputKeyboard);
 
