@@ -14,6 +14,7 @@ public class Main {
 		List<Nave> naviNemicheList = new ArrayList<>();
 		
 		// Creazione delle navi nemiche e immissione di queste in una lista
+		// Le navi sono inserite dalla più grande alla più piccola
 		naviNemicheList.add(new Nave(5));
 		naviNemicheList.add(new Nave(4));
 		naviNemicheList.add(new Nave(3));
@@ -45,13 +46,14 @@ public class Main {
 					grigliaAttacco.getRigaColonna(sparo);
 					System.out.print("(" + (i + 1) + ") ");
 					System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
-					input.avoidSinking(); // Una nave non può essere affondata al primo colpo e va dichiarata colpita
+					input.setInputTastiera();
 					inputKeyboard = input.getInputTastiera();
 					validInputKeyboard = input.checkStringFormat(inputKeyboard);
 
 					// Controlla la validità dell'input l'input è valido
 					if (validInputKeyboard) {
 						// Inserimento dello sparo nella sulla griglia
+						input.avoidFalseSinking(nodoList, naviNemicheList); // Una nave non può essere affondata al primo colpo e va dichiarata colpita
 						grigliaAttacco.setGriglia(inputKeyboard, sparo);
 
 						if (input.checkColpito(inputKeyboard)) {

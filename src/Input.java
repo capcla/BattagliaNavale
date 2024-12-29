@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.IOException;
 
 class Input {
@@ -40,8 +42,8 @@ class Input {
 	}
 
 	/**
-	 * Controlla il formato della stringa string mediante espressioni le
-	 * regolari. I formati accettati sono: [0-9][A-Z]|[0-9][0-9][A-Z]|[A-Z][0-9]
+	 * Controlla il formato della stringa string mediante espressioni le regolari. I
+	 * formati accettati sono: [0-9][A-Z]|[0-9][0-9][A-Z]|[A-Z][0-9]
 	 * |[A-Z][0-9][0-9|[A]|[C]|[F]]
 	 * 
 	 * @param stringa input dell'utente
@@ -104,19 +106,39 @@ class Input {
 	}
 
 	/**
-	 * Evita che la nave venga dichiarata affondata trasformando la dichiarazione
-	 * di affondamento nello stato di COLPITO
+	 * Evita che la nave venga dichiarata affondata trasformando la dichiarazione di
+	 * affondamento nello stato di COLPITO
 	 */
-	public void avoidSinking() {
-		try {
-			this.inputTastiera = iT.readLine().toUpperCase();
-			
-			if (this.inputTastiera.matches("[F]"))
-				this.inputTastiera = "C";
-		} catch (IOException e) {
-			e.printStackTrace();
+	public void avoidFalseSinking(ArrayList<Nodo> nodoList, List<Nave> naviList) {
+
+		// Se è stato scoperto un solo nodo e viene dichiarato affondato, la
+		// dichirazione viene cambiata in colpito
+		/*
+		 * if (nodoList.size() == 1) {
+		 * 
+		 * if (this.inputTastiera.matches("[F]")) { this.inputTastiera = "C";
+		 * System.out.println("Non può essere affondata una nave di dimensione " +
+		 * nodoList.size() + ". Il report è stato cambiato in COLPITO"); } else {
+		 */
+		int maxShipDimension = naviList.get(0).getDimensione();
+		int minShipDimension = naviList.get(naviList.size() - 1).getDimensione();
+		boolean inDimension = (nodoList.size() >= minShipDimension  && nodoList.size()<= maxShipDimension);
+
+		boolean trovato = false;
+
+		for (int i = 0; i < naviList.size() && !trovato && inDimension; i++) {
+
+			if (naviList.get(i).getDimensione() == naviList.size()) {
+				trovato = true;
+			}
+
+		}
+
+		if (!trovato || !inDimension) {
+			System.out.println("Non esiste nessuna nave di questa dimensione!");
 		}
 	}
+//			}
 
 	/*
 	 * private void setInt (int i) { this.i = i; }
