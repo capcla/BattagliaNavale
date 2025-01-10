@@ -122,19 +122,28 @@ class Input {
 		 */
 		int maxShipDimension = naviList.get(0).getDimensione();
 		int minShipDimension = naviList.get(naviList.size() - 1).getDimensione();
-		boolean inDimension = (nodoList.size() >= minShipDimension  && nodoList.size()<= maxShipDimension);
+		boolean inDimension = (nodoList.size() >= minShipDimension && nodoList.size() <= maxShipDimension);
 
 		boolean trovato = false;
 
-		for (int i = 0; i < naviList.size() && !trovato && inDimension; i++) {
+		if (inDimension) {
+			for (int i = 0; i < naviList.size() && !trovato; i++) {
 
-			if (naviList.get(i).getDimensione() == naviList.size()) {
-				trovato = true;
+				// Confronta la dimensione della nave affondata con la dimensione delle
+				// navi presenti nella lista delle navi nemiche
+				if (nodoList.size() == naviList.get(i).getDimensione()) {
+					trovato = true;
+				}
+
 			}
-
+		} else {
+			if (nodoList.size() < minShipDimension)
+				System.out.println("Nave di dimensione " + nodoList.size() + "troppo piccola!");
+			else
+				System.out.println("Nave troppo grande di " + (nodoList.size() - maxShipDimension) +  " elementi");
 		}
 
-		if (!trovato || !inDimension) {
+		if (!trovato) {
 			System.out.println("Non esiste nessuna nave di questa dimensione!");
 		}
 	}
