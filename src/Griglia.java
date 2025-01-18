@@ -799,4 +799,45 @@ class Griglia {
 	public void changeInAssigned(int r, int c) {
 		griglia[r][c] = Casella.ASSEGNATO;
 	}
+	
+	/**
+	 * Il metodo restituisce VERO se una nave è presente nella lista delle navi
+	 * presenti in gioco; FALSO altrimenti
+	 *
+	 * @param nodoList Struttura contenente le informazioni sui nodi e sulle caselle
+	 *                 adiacenti
+	 * @param naviList Struttura contenente le informazioni sulla lista delle navi
+	 *                 presenti in gioco
+	 */
+	public boolean avoidFalseSinking(ArrayList<Nodo> nodoList, List<Nave> naviList) {
+
+		int maxShipDimension = naviList.get(0).getDimensione(); //Dimensione massima della nave
+		int minShipDimension = naviList.get(naviList.size() - 1).getDimensione(); //Dimensione minima della nave
+		boolean inDimension = (nodoList.size() >= minShipDimension && nodoList.size() <= maxShipDimension); //VERO se la nave è nelle dimensioni stabilite; Falso altrimenti
+		boolean trovato = false;
+
+		if (inDimension) {
+			for (int i = 0; i < naviList.size() && !trovato; i++) {
+
+				// Confronta la dimensione della nave affondata con la dimensione delle
+				// navi presenti nella lista delle navi nemiche
+				if (nodoList.size() == naviList.get(i).getDimensione()) {
+					trovato = true;
+				}
+			}
+			
+			if (!trovato)
+				System.out.println("Non esiste nessuna nave di dimensione!" + nodoList.size());
+			
+		} else {
+			
+			// Verifica se la nave è troppo grande o troppo piccola
+			if (nodoList.size() < minShipDimension)
+				System.out.println("Nave di dimensione " + nodoList.size() + "troppo piccola!");
+			else
+				System.out.println("Nave troppo grande di " + (nodoList.size() - maxShipDimension) + " elementi");
+		}
+
+		return (inDimension && trovato);
+	}
 }
