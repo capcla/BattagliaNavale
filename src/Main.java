@@ -52,10 +52,7 @@ public class Main {
 					// Controlla la validità dell'input l'input è valido
 					if (validInputKeyboard) {
 
-						// Verifica della possibilità di affodnamento di una nave
-						// if (grigliaAttacco.avoidFalseSinking(nodoList, naviNemicheList)) {
 						// Inserimento dello sparo nella sulla griglia
-
 						if (input.checkColpito(inputKeyboard)) {
 							grigliaAttacco.setGriglia(inputKeyboard, sparo);
 							grigliaAttacco.getGriglia();
@@ -66,7 +63,7 @@ public class Main {
 
 							// Ripete l'estrazione di una direzione random fino a
 							// quando la dimensione di nodoList == 1, quindi c'è
-							// un solo nodo nella lista, e la dimensione dihorizontalVertical
+							// un solo nodo nella lista, e la dimensione di horizontalVertical
 							// è > 0 e quindi c'è una direzione orizontale o verticale
 							// da esplorare
 							while (nodoList.size() == 1 && nodoList.get(0).getHorizontalVertical().size() > 0) {
@@ -86,20 +83,21 @@ public class Main {
 							// al primo colpo
 							if (input.checkAffondato(inputKeyboard)) {
 								System.out.println("Una nave non può essere affondata al primo colpo");
+								System.out.println("Reinserire la scelta");
 								i--;
-							}
+							} else // Il colpo è stato valutato come ACQUA
+								grigliaAttacco.setGriglia(inputKeyboard, sparo);
 						}
-
 					}
 					// L'input non è valido
 					else {
 						System.out.println("Valori dell\'input errati!");
+						System.out.println("Reinserire la scelta");
 						i--;
-						grigliaAttacco.getGriglia();
 					}
-				}
-				// Se la cella non ha vicini liberi, deve essere impostata
-				// come assegnata
+					
+				} 
+				// Se la cella non ha vicini liberi, la casella deve essere impostata come ASSEGANTA
 				else {
 					grigliaAttacco.setAssigned(sparo / colonne, sparo % colonne);
 				}
