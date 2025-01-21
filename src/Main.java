@@ -53,42 +53,49 @@ public class Main {
 					if (validInputKeyboard) {
 
 						// Verifica della possibilità di affodnamento di una nave
-						if (grigliaAttacco.avoidFalseSinking(nodoList, naviNemicheList)) {
-							// Inserimento dello sparo nella sulla griglia
+						// if (grigliaAttacco.avoidFalseSinking(nodoList, naviNemicheList)) {
+						// Inserimento dello sparo nella sulla griglia
+
+						if (input.checkColpito(inputKeyboard)) {
 							grigliaAttacco.setGriglia(inputKeyboard, sparo);
+							grigliaAttacco.getGriglia();
 
-							if (input.checkColpito(inputKeyboard)) {
-								grigliaAttacco.getGriglia();
+							// Scelta casuale della direzione da andare a colpire tra
+							// le celle libere
+							Random random = new Random();
 
-								// Scelta casuale della direzione da andare a colpire tra
-								// le celle libere
-								Random random = new Random();
+							// Ripete l'estrazione di una direzione random fino a
+							// quando la dimensione di nodoList == 1, quindi c'è
+							// un solo nodo nella lista, e la dimensione dihorizontalVertical
+							// è > 0 e quindi c'è una direzione orizontale o verticale
+							// da esplorare
+							while (nodoList.size() == 1 && nodoList.get(0).getHorizontalVertical().size() > 0) {
+								int randomNumber = random.nextInt(nodo.getHorizontalVertical().size());
+								int riga = nodo.getHorizontalVertical().get(randomNumber).getRiga();
+								int colonna = nodo.getHorizontalVertical().get(randomNumber).getColonna();
+								grigliaAttacco.searchAndDestroy(sparo, riga, colonna, false, nodoList, naviNemicheList);
+							}
 
-								// Ripete l'estrazione di una direzione random fino a
-								// quando la dimensione di nodoList == 1, quindi c'è
-								// un solo nodo nella lista, e la dimensione dihorizontalVertical
-								// è > 0 e quindi c'è una direzione orizontale o verticale
-								// da esplorare
-								while (nodoList.size() == 1 && nodoList.get(0).getHorizontalVertical().size() > 0) {
-									int randomNumber = random.nextInt(nodo.getHorizontalVertical().size());
-									int riga = nodo.getHorizontalVertical().get(randomNumber).getRiga();
-									int colonna = nodo.getHorizontalVertical().get(randomNumber).getColonna();
-									grigliaAttacco.searchAndDestroy(sparo, riga, colonna, false, nodoList,
-											naviNemicheList);
-								}
-
-								// Se il nodo non ha vicini orizzontali o verticali liberi,
-								// va impostato come assegnato
-								if (nodoList.get(0).getHorizontalVertical().size() == 0) {
-									grigliaAttacco.changeInAssigned(sparo / colonne, sparo % colonne);
-								}
+							// Se il nodo non ha vicini orizzontali o verticali liberi,
+							// va impostato come assegnato
+							if (nodoList.get(0).getHorizontalVertical().size() == 0) {
+								grigliaAttacco.changeInAssigned(sparo / colonne, sparo % colonne);
+							}
+						} else {
+							// se è AFFONDATO ripetere la casella perché una nave non può essere affondata
+							// al primo colpo
+							if (input.checkAffondato(inputKeyboard)) {
+								System.out.println("Una nave non può essere affondata al primo colpo");
+								i--;
 							}
 						}
+
 					}
 					// L'input non è valido
 					else {
 						System.out.println("Valori dell\'input errati!");
 						i--;
+						grigliaAttacco.getGriglia();
 					}
 				}
 				// Se la cella non ha vicini liberi, deve essere impostata
