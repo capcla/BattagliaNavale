@@ -448,9 +448,13 @@ class Griglia {
 					// Se la nave è dichiarata affondata, vengono imposati i limiti
 					// della nave
 					if (checkAffondato) {
-						setShipLimits(nodoList);
-						setDiagonals(nodoList);
-						removeNave(naviNemicheList, nodoList.size());
+						
+						
+						if (avoidFalseSinking(nodoList, naviNemicheList)) {
+							setShipLimits(nodoList);
+							setDiagonals(nodoList);
+							removeNave(naviNemicheList, nodoList.size());
+						}
 					}
 				} else {
 
@@ -516,8 +520,8 @@ class Griglia {
 	}
 
 	/**
-	 * Cerca e rimuove una nave dalla lista delle navi quando la sua dimensione
-	 * è pari al parametro passato
+	 * Cerca e rimuove una nave dalla lista delle navi quando la sua dimensione è
+	 * pari al parametro passato
 	 * 
 	 * @param naviNemicheList Lista delle navi
 	 * @param lunghezzaNave   Intero che indica la lunghezza della nave da cercare
@@ -641,8 +645,8 @@ class Griglia {
 
 	/**
 	 * Richiama ricorsivamente la funzione searchAndDestroy dalla quale questa
-	 * funzione è lanciata sull'opportuna cella e con gli opportuni parametri.
-	 * Se l'ispezione del lato sinistro termina per qualche motivo, la funzione
+	 * funzione è lanciata sull'opportuna cella e con gli opportuni parametri. Se
+	 * l'ispezione del lato sinistro termina per qualche motivo, la funzione
 	 * richiama searchAndDestroy segnalando il cambio di direzione tramite
 	 * l'opportuno parametro
 	 * 
@@ -685,11 +689,10 @@ class Griglia {
 		}
 	}
 
-	
 	/**
 	 * Richiama ricorsivamente la funzione searchAndDestroy dalla quale questa
-	 * funzione è lanciata sull'opportuna cella e con gli opportuni parametri.
-	 * Se l'ispezione del lato superiore termina per qualche motivo, la funzione
+	 * funzione è lanciata sull'opportuna cella e con gli opportuni parametri. Se
+	 * l'ispezione del lato superiore termina per qualche motivo, la funzione
 	 * richiama searchAndDestroy segnalando il cambio di direzione tramite
 	 * l'opportuno parametro
 	 * 
@@ -708,7 +711,7 @@ class Griglia {
 	 *                          che si sta ispezionando è già stata ispezionata
 	 * @param nodoList          Struttura contenente le informazioni sui nodi e
 	 *                          sulle caselle adiacenti
-	 */	
+	 */
 	private void goUpDirection(final int i, final int riga, final int colonna, final int r, final boolean checkColpito,
 			final boolean checkAffondato, final boolean oppositeDirection, ArrayList<Nodo> nodoList,
 			List<Nave> naviNemicheList) {
@@ -732,11 +735,10 @@ class Griglia {
 		}
 	}
 
-	
 	/**
 	 * Richiama ricorsivamente la funzione searchAndDestroy dalla quale questa
-	 * funzione è lanciata sull'opportuna cella e con gli opportuni parametri.
-	 * Se l'ispezione del lato inferiore termina per qualche motivo, la funzione
+	 * funzione è lanciata sull'opportuna cella e con gli opportuni parametri. Se
+	 * l'ispezione del lato inferiore termina per qualche motivo, la funzione
 	 * richiama searchAndDestroy segnalando il cambio di direzione tramite
 	 * l'opportuno parametro
 	 * 
@@ -755,7 +757,7 @@ class Griglia {
 	 *                          che si sta ispezionando è già stata ispezionata
 	 * @param nodoList          Struttura contenente le informazioni sui nodi e
 	 *                          sulle caselle adiacenti
-	 */	
+	 */
 	private void goDownDirection(final int i, final int riga, final int colonna, final int r,
 			final boolean checkColpito, final boolean checkAffondato, final boolean oppositeDirection,
 			ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {
@@ -799,7 +801,7 @@ class Griglia {
 	public void changeInAssigned(int r, int c) {
 		griglia[r][c] = Casella.ASSEGNATO;
 	}
-	
+
 	/**
 	 * Il metodo restituisce VERO se una nave è presente nella lista delle navi
 	 * presenti in gioco; FALSO altrimenti
@@ -811,9 +813,15 @@ class Griglia {
 	 */
 	public boolean avoidFalseSinking(ArrayList<Nodo> nodoList, List<Nave> naviList) {
 
-		int maxShipDimension = naviList.get(0).getDimensione(); //Dimensione massima della nave
-		int minShipDimension = naviList.get(naviList.size() - 1).getDimensione(); //Dimensione minima della nave
-		boolean inDimension = (nodoList.size() >= minShipDimension && nodoList.size() <= maxShipDimension); //VERO se la nave è nelle dimensioni stabilite; Falso altrimenti
+		int maxShipDimension = naviList.get(0).getDimensione(); // Dimensione massima della nave
+		int minShipDimension = naviList.get(naviList.size() - 1).getDimensione(); // Dimensione minima della nave
+		boolean inDimension = (nodoList.size() >= minShipDimension && nodoList.size() <= maxShipDimension); // VERO se
+																											// la nave è
+																											// nelle
+																											// dimensioni
+																											// stabilite;
+																											// Falso
+																											// altrimenti
 		boolean trovato = false;
 
 		if (inDimension) {
@@ -825,12 +833,12 @@ class Griglia {
 					trovato = true;
 				}
 			}
-			
+
 			if (!trovato)
 				System.out.println("Non esiste nessuna nave di dimensione!" + nodoList.size());
-			
+
 		} else {
-			
+
 			// Verifica se la nave è troppo grande o troppo piccola
 			if (nodoList.size() < minShipDimension)
 				System.out.println("Nave di dimensione " + nodoList.size() + "troppo piccola!");
