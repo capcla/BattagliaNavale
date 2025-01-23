@@ -433,7 +433,7 @@ class Griglia {
 			if (validInputKeyboard == false)
 				System.out.println("Valore inserito errato");
 			else {
-				setGriglia(inputKeyboard, riga * getColonne() + colonna);
+//				setGriglia(inputKeyboard, riga * getColonne() + colonna);
 				checkColpito = input.checkColpito(inputKeyboard);
 				checkAffondato = input.checkAffondato(inputKeyboard);
 
@@ -445,6 +445,7 @@ class Griglia {
 					nodo = new Nodo(new Cella(riga, colonna));
 					nodo.setNeighboursNodoes(riga * getColonne() + colonna, this);
 					nodoList.add(nodo);
+//					getGriglia();
 
 					// Se la nave è dichiarata affondata, vengono imposati i limiti
 					// della nave
@@ -455,16 +456,22 @@ class Griglia {
 							setShipLimits(nodoList);
 							setDiagonals(nodoList);
 							removeNave(naviNemicheList, nodoList.size());
-						}
+						}else
+							nodoList.remove(nodoList.size()-1);
 					}
+					
+					if(afs)
+						setGriglia(inputKeyboard, riga * getColonne() + colonna);
+									
 				} else {
-
+					setGriglia(inputKeyboard, riga * getColonne() + colonna);
+					
 					// Se un nodo presente nella lista dei nodi orizzontali e verticali
 					// è contrassegnato come ACQUA va tolto da questa lista perché
 					// la direzione da lui occupata non è percorribile
-					if (input.checkAcqua(inputKeyboard)) {
+					//if (input.checkAcqua(inputKeyboard)) {
 						nodoList.get(0).removeHorizontalVertical(riga, colonna);
-					}
+					//}
 
 					if (oppositeDirection) {
 
@@ -481,11 +488,11 @@ class Griglia {
 				}
 			}
 
-		} while (!validInputKeyboard);
+		} while (!(validInputKeyboard && afs) || (!validInputKeyboard) && input.checkAcqua(inputKeyboard));
 
 		getGriglia(griglia);
 
-		if (!quit ^ !afs) {
+		if (!quit) {
 
 			if (riga != r) {
 				// Verifica se si deve ispezionare il lato superiore (riga > r) o inferiore
@@ -842,7 +849,7 @@ class Griglia {
 
 			// Verifica se la nave è troppo grande o troppo piccola
 			if (nodoList.size() < minShipDimension)
-				System.out.println("Nave di dimensione " + nodoList.size() + "troppo piccola!");
+				System.out.println("Nave di dimensione " + nodoList.size() + " troppo piccola!");
 			else
 				System.out.println("Nave troppo grande di " + (nodoList.size() - maxShipDimension) + " elementi");
 		}
