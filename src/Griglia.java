@@ -420,6 +420,7 @@ class Griglia {
 		final int c = i % getColonne();
 		boolean quit = false;
 		Nodo nodo;
+		boolean afs = false;
 
 		// Chiede all'utente conferma del colpo
 		do {
@@ -450,7 +451,7 @@ class Griglia {
 					if (checkAffondato) {
 						
 						
-						if (avoidFalseSinking(nodoList, naviNemicheList)) {
+						if (afs = avoidFalseSinking(nodoList, naviNemicheList)) {
 							setShipLimits(nodoList);
 							setDiagonals(nodoList);
 							removeNave(naviNemicheList, nodoList.size());
@@ -484,7 +485,7 @@ class Griglia {
 
 		getGriglia(griglia);
 
-		if (!quit) {
+		if (!quit ^ !afs) {
 
 			if (riga != r) {
 				// Verifica se si deve ispezionare il lato superiore (riga > r) o inferiore
