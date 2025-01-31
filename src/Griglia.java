@@ -465,6 +465,7 @@ class Griglia {
 									
 				} else {
 					setGriglia(inputKeyboard, riga * getColonne() + colonna);
+					getGriglia();
 					
 					// Se un nodo presente nella lista dei nodi orizzontali e verticali
 					// è contrassegnato come ACQUA va tolto da questa lista perché
@@ -488,7 +489,8 @@ class Griglia {
 				}
 			}
 
-		} while (!(validInputKeyboard && afs) || (!validInputKeyboard) && input.checkAcqua(inputKeyboard));
+		} //while (!(validInputKeyboard && afs) || (!validInputKeyboard) && input.checkAcqua(inputKeyboard));
+		while (!validInputKeyboard && afs);
 
 		getGriglia(griglia);
 
