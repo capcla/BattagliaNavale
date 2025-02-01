@@ -420,7 +420,8 @@ class Griglia {
 		final int c = i % getColonne();
 		boolean quit = false;
 		Nodo nodo;
-		boolean afs = false;
+		boolean afs = true;
+		boolean uscita;
 
 		// Chiede all'utente conferma del colpo
 		do {
@@ -489,8 +490,10 @@ class Griglia {
 				}
 			}
 
+		uscita = !((!validInputKeyboard && afs) ^ (!validInputKeyboard ^ afs));
+		
 		} //while (!(validInputKeyboard && afs) || (!validInputKeyboard) && input.checkAcqua(inputKeyboard));
-		while (!validInputKeyboard && afs);
+		while (uscita);
 
 		getGriglia(griglia);
 
