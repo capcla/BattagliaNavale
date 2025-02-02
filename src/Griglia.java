@@ -490,10 +490,12 @@ class Griglia {
 				}
 			}
 
-		uscita = !((!validInputKeyboard && afs) ^ (!validInputKeyboard ^ afs));
+			boolean uscita2 = !(!validInputKeyboard ^ afs);
+			uscita = !((!validInputKeyboard && afs) ^ (!validInputKeyboard ^ afs));
+		
 		
 		} //while (!(validInputKeyboard && afs) || (!validInputKeyboard) && input.checkAcqua(inputKeyboard));
-		while (uscita);
+		while (!(!validInputKeyboard ^ afs));
 
 		getGriglia(griglia);
 
