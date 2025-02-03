@@ -420,11 +420,13 @@ class Griglia {
 		final int c = i % getColonne();
 		boolean quit = false;
 		Nodo nodo;
-		boolean afs = true;
+		boolean afs;
 		boolean uscita;
+		boolean continua;
 
 		// Chiede all'utente conferma del colpo
 		do {
+			afs = false;
 			getRigaColonna(riga * getColonne() + colonna);
 			System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
 			input.setInputTastiera();
@@ -457,8 +459,10 @@ class Griglia {
 							setShipLimits(nodoList);
 							setDiagonals(nodoList);
 							removeNave(naviNemicheList, nodoList.size());
-						}else
+						}else {
 							nodoList.remove(nodoList.size()-1);
+							
+						}
 					}
 					
 					if(afs)
@@ -490,12 +494,16 @@ class Griglia {
 				}
 			}
 
-			boolean uscita2 = !(!validInputKeyboard ^ afs);
-			uscita = !((!validInputKeyboard && afs) ^ (!validInputKeyboard ^ afs));
+			if(input.checkAffondato(inputKeyboard) || input.checkColpito(inputKeyboard))
+				continua = true;
+			else	
+				continua = (validInputKeyboard ^ afs );
+			
+			//uscita = !((!validInputKeyboard && afs) ^ (!validInputKeyboard ^ afs));
 		
 		
 		} //while (!(validInputKeyboard && afs) || (!validInputKeyboard) && input.checkAcqua(inputKeyboard));
-		while (!(!validInputKeyboard ^ afs));
+		while (continua);
 
 		getGriglia(griglia);
 
