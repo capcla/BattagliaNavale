@@ -420,7 +420,7 @@ class Griglia {
 		final int c = i % getColonne();
 		boolean quit = false;
 		Nodo nodo;
-		boolean afs = false;
+		boolean afs = true;
 		boolean ripeti = true;
 
 		// Chiede all'utente conferma del colpo
@@ -453,7 +453,6 @@ class Griglia {
 					// della nave
 					if (checkAffondato) {
 						
-						
 						if (afs = avoidFalseSinking(nodoList, naviNemicheList)) {
 							setShipLimits(nodoList);
 							setDiagonals(nodoList);
@@ -461,7 +460,6 @@ class Griglia {
 						}else {
 							nodoList.remove(nodoList.size()-1);
 							ripeti = true;
-							
 						}
 					}
 					
@@ -469,6 +467,8 @@ class Griglia {
 						setGriglia(inputKeyboard, riga * getColonne() + colonna);
 									
 				} else {
+					
+					ripeti = false;
 					setGriglia(inputKeyboard, riga * getColonne() + colonna);
 					getGriglia();
 					
