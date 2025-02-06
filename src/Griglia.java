@@ -452,32 +452,40 @@ class Griglia {
 					// Se la nave è dichiarata affondata, vengono imposati i limiti
 					// della nave
 					if (checkAffondato) {
-						
+
 						if (afs = avoidFalseSinking(nodoList, naviNemicheList)) {
 							setShipLimits(nodoList);
 							setDiagonals(nodoList);
 							removeNave(naviNemicheList, nodoList.size());
-						}else {
-							nodoList.remove(nodoList.size()-1);
+						} else {
+							nodoList.remove(nodoList.size() - 1);
 							ripeti = true;
 						}
 					}
-					
-					if(afs)
+
+					if (afs)
 						setGriglia(inputKeyboard, riga * getColonne() + colonna);
-									
-				} else {
-					
-					ripeti = false;
-					setGriglia(inputKeyboard, riga * getColonne() + colonna);
-					getGriglia();
-					
+
+				} else { // La casella attuale è stata contrassegnata come ACQUA
+
+					// La direzione opposta è stata già ispezionata, la casella
+					// successiva ad una nave lunga più di due elementi, non può
+					// essere contrassegnata come ACQUA
+					if (oppositeDirection && nodoList.size() > 1) {
+						ripeti = true;
+						System.out.println("Reimmettere la scelta. La casella attuale non può essere contrassegnata come (A)CQUA");
+					} else {
+						ripeti = false;
+						setGriglia(inputKeyboard, riga * getColonne() + colonna);
+						getGriglia();
+					}
+
 					// Se un nodo presente nella lista dei nodi orizzontali e verticali
 					// è contrassegnato come ACQUA va tolto da questa lista perché
 					// la direzione da lui occupata non è percorribile
-					//if (input.checkAcqua(inputKeyboard)) {
-						nodoList.get(0).removeHorizontalVertical(riga, colonna);
-					//}
+					// if (input.checkAcqua(inputKeyboard)) {
+					nodoList.get(0).removeHorizontalVertical(riga, colonna);
+					// }
 
 					if (oppositeDirection) {
 
@@ -493,45 +501,75 @@ class Griglia {
 					}
 				}
 			}
-		
-		
+
 		} while (ripeti);
 
 		getGriglia(griglia);
 
-		if (!quit) {
+		if (!quit)
 
-			if (riga != r) {
-				// Verifica se si deve ispezionare il lato superiore (riga > r) o inferiore
-				// (riga < r) della nave. Il valore riga indica il valore della riga della
-				// cella attuale mentre r indica il valore della riga della prima cella
-				// colpita
-				if (riga > r)
-					goDownDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList,
-							naviNemicheList);
-				else
-					goUpDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList,
-							naviNemicheList);
-			} else {
-				// Verifica se si deve ispezionare il lato destro (colonna > c) o il sinistro
-				// (colonna < c) della nave. Il valore colonna indica il valore colonna
-				// della cella attuale mentre c indica il valore della colonna della
-				// prima cella colpita
-
-				if (colonna > c)
-					goRightDirection(i, riga, colonna, c, checkColpito, checkAffondato, oppositeDirection, nodoList,
-							naviNemicheList);
-				else
-					goLeftDirection(i, riga, colonna, c, checkColpito, checkAffondato, oppositeDirection, nodoList,
-							naviNemicheList);
-			}
-		}
+			choiceDirection(i, riga, colonna, r, c, checkColpito, checkAffondato, oppositeDirection, nodoList,
+					naviNemicheList);
 
 		if (griglia[riga][colonna] != Casella.COLPITO && (oppositeDirection || nodoList.size() == 1)) {
 			// Dialogo con l'utente o cambio della scelta
 			setAssigned(r, c);
 			getGriglia();
 		}
+	}
+
+	/**
+	 * Il metodo riceve una serie di parametri in input in modo da poter scegliere
+	 * il metodo opportuno da lanciare per continuare l'ispezione del lato
+	 * 
+	 * @param i                 Intero complessivo indicante sia la riga che la
+	 *                          colonna della prima cella colpita di una nave
+	 * @param riga              Intero indicante la riga della cella che si sta
+	 *                          ispezionando
+	 * @param colonna           Intero indicante la colonna della cella che si sta
+	 *                          ispezionando
+	 * @param r                 Intero indicante la posizione della riga attualmente
+	 *                          ispezionata
+	 * @param c                 Intero indicante la posizione della colonna
+	 *                          attualmente ispezionata
+	 * @param checkColpito      boolean che segnala se una cella è stata dichiarata
+	 *                          colpita
+	 * @param checkAffondato    boolean che segnala se la nave è stata dichiarata
+	 *                          affondata
+	 * @param oppositeDirection Boolean che segnala se la direzione opposta a quella
+	 *                          che si sta ispezionando è già stata ispezionata
+	 * @param nodoList          Struttura contenente le informazioni sui nodi e
+	 *                          sulle caselle adiacenti
+	 * @param naviNemicheList   Lista delle navi nemiche e delle loro informaizoni
+	 */
+	private void choiceDirection(int i, int riga, int colonna, int r, int c, boolean checkColpito,
+			boolean checkAffondato, boolean oppositeDirection, ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {
+
+		if (riga != r) {
+			// Verifica se si deve ispezionare il lato superiore (riga > r) o inferiore
+			// (riga < r) della nave. Il valore riga indica il valore della riga della
+			// cella attuale mentre r indica il valore della riga della prima cella
+			// colpita
+			if (riga > r)
+				goDownDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList,
+						naviNemicheList);
+			else
+				goUpDirection(i, riga, colonna, r, checkColpito, checkAffondato, oppositeDirection, nodoList,
+						naviNemicheList);
+		} else {
+			// Verifica se si deve ispezionare il lato destro (colonna > c) o il sinistro
+			// (colonna < c) della nave. Il valore colonna indica il valore colonna
+			// della cella attuale mentre c indica il valore della colonna della
+			// prima cella colpita
+
+			if (colonna > c)
+				goRightDirection(i, riga, colonna, c, checkColpito, checkAffondato, oppositeDirection, nodoList,
+						naviNemicheList);
+			else
+				goLeftDirection(i, riga, colonna, c, checkColpito, checkAffondato, oppositeDirection, nodoList,
+						naviNemicheList);
+		}
+
 	}
 
 	/**
