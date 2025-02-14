@@ -901,4 +901,9 @@ class Griglia {
 
 		return (inDimension && trovato);
 	}
+	
+	private boolean ifOppositePossible() {
+		
+		return false;
+	}
 }
