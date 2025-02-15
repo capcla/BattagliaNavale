@@ -363,28 +363,45 @@ class Griglia {
 	}
 
 	/**
-	 * Controlla se una cella è vuota
+	 * Controlla se una cella è vuota a condizione che l'intero identificativo i sia
+	 * nei range
 	 * 
-	 * @param i Intero complessivo indicante la riga e la colonna di una cella
-	 * @return Restituisce VERO se la cella(r,c) è vuota; FALSO altrimenti
+	 * @param i Intero complessivo indicante la riga e la colonna di una cella che
+	 *          si vuole ispezionare
+	 * @return Restituisce VERO se la cella(r,c) esiste ed è vuota; FALSO altrimenti
 	 */
 	public boolean checkEmptyCell(final int i) {
 		final int r = i / getColonne();
 		final int c = i % getColonne();
+		boolean risultato;
 
-		return griglia[r][c] == Casella.VUOTO;
+		if (r >= 0 && r <= getRighe() && c >= 0 && c <= getColonne())
+			risultato = griglia[r][c] == Casella.VUOTO;
+		else
+			risultato = false;
+
+		return risultato;
 	}
 
 	/**
-	 * Controlla se una cella è vuota
+	 * Controlla se una cella è vuota a condizione che gli interi identificativi r e
+	 * c siano negli opportuni range
 	 * 
-	 * @param r Intero indicante il valore colonna di una cella
-	 * @param c Intero indicante il valore riga di una cella
-	 * @return Restituisce VERO se la cella(r,c) è vuota; FALSO altrimenti
+	 * @param r Intero indicante il valore colonna di una cella che si vuole
+	 *          ispezionare
+	 * @param c Intero indicante il valore riga di una cella che si vuole
+	 *          ispezionare
+	 * @return Restituisce VERO se la cella(r,c) esiste è vuota; FALSO altrimenti
 	 */
 	public boolean checkEmptyCell(int r, int c) {
+		boolean risultato;
 
-		return griglia[r][c] == Casella.VUOTO;
+		if (r >= 0 && r <= getRighe() && c >= 0 && c <= getColonne())
+			risultato = griglia[r][c] == Casella.VUOTO;
+		else
+			risultato = false;
+
+		return risultato;
 	}
 
 	/**
@@ -471,9 +488,11 @@ class Griglia {
 					// La direzione opposta è stata già ispezionata, la casella
 					// successiva ad una nave lunga più di due elementi, non può
 					// essere contrassegnata come ACQUA
-					if (oppositeDirection && nodoList.size() > 1) {
+					// if (oppositeDirection && nodoList.size() > 1) {
+					if (oppositeDirection = !isOppositeDirectionPossible(nodoList.get(0).getCella(), riga, colonna) && nodoList.size() > 1) {
 						ripeti = true;
-						System.out.println("Reimmettere la scelta. La casella attuale non può essere contrassegnata come (A)CQUA");
+						System.out.println(
+								"Reimmettere la scelta. La casella attuale non può essere contrassegnata come (A)CQUA");
 					} else {
 						ripeti = false;
 						setGriglia(inputKeyboard, riga * getColonne() + colonna);
@@ -901,9 +920,35 @@ class Griglia {
 
 		return (inDimension && trovato);
 	}
-	
-	private boolean ifOppositePossible() {
-		
-		return false;
+
+	/**
+	 * Il metodo verifica se è possibile ispezionare una casella adiacente alla
+	 * prima cella di nodoList ma in direzione opposta rispetto a quella percorsa
+	 * fino a quel momento
+	 * 
+	 * @param cella   Cella indicante la prima cella di NodoList, ovvero la prima
+	 *                posizione rilevata della nave
+	 * @param riga    Intero indicante la coordinata della riga della cella attuale
+	 * @param colonna Intero indicante la coordinata della colonna della cella
+	 *                attuale
+	 * @return VERO se la casella esiste ed è possibile ispezionarla; FALSO
+	 *         altrimenti
+	 */
+	private boolean isOppositeDirectionPossible(Cella cella, int riga, int colonna) {
+		boolean risultato;
+
+		if (cella.getRiga() == riga) {
+			if (cella.getColonna() > colonna)
+				risultato = checkEmptyCell(riga, cella.getColonna() + 1);
+			else
+				risultato = checkEmptyCell(riga, cella.getColonna() - 1);
+		} else {
+			if (cella.getRiga() > riga)
+				risultato = checkEmptyCell(cella.getRiga() + 1, colonna);
+			else
+				risultato = checkEmptyCell(cella.getRiga() - 1, colonna);
+		}
+
+		return risultato;
 	}
 }
