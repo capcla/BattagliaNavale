@@ -438,13 +438,20 @@ class Griglia {
 		Nodo nodo;
 		boolean afs = true;
 		boolean ripeti = true;
+		Nave nave = new Nave();
 
 		// Chiede all'utente conferma del colpo
 		do {
 			getRigaColonna(riga * getColonne() + colonna);
-			System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
-			input.setInputTastiera();
-			checkColpito = input.checkColpito(input.getInputTastiera());
+
+			do {
+				input.setInputTastiera();
+				checkColpito = input.checkColpito(input.getInputTastiera());
+				boolean nd = naviNemicheList.get(0).inShipDimensions(nodoList.size());
+				
+			} while (!checkColpito );
+			
+			
 			checkAffondato = input.checkAffondato(input.getInputTastiera());
 
 			// Controlla se la nava è stata colpita o affondata

@@ -44,67 +44,54 @@ public class Main {
 					System.out.println();
 					grigliaAttacco.getRigaColonna(sparo);
 					System.out.print("(" + (i + 1) + ") ");
-					System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
 					input.setInputTastiera();
-					inputKeyboard = input.getInputTastiera();
-					validInputKeyboard = input.checkStringFormat(inputKeyboard);
 
-					// Controlla la validità dell'input l'input è valido
-					if (validInputKeyboard) {
+					// Inserimento dello sparo nella sulla griglia
+					if (input.checkColpito(input.getInputTastiera())) {
+						grigliaAttacco.setGriglia(input.getInputTastiera(), sparo);
+						grigliaAttacco.getGriglia();
 
-						// Inserimento dello sparo nella sulla griglia
-						if (input.checkColpito(inputKeyboard)) {
-							grigliaAttacco.setGriglia(inputKeyboard, sparo);
-							grigliaAttacco.getGriglia();
+						// Scelta casuale della direzione da andare a colpire tra
+						// le celle libere
+						Random random = new Random();
 
-							// Scelta casuale della direzione da andare a colpire tra
-							// le celle libere
-							Random random = new Random();
-
-							// Ripete l'estrazione di una direzione random fino a
-							// quando la dimensione di nodoList == 1, quindi c'è
-							// un solo nodo nella lista, e la dimensione di horizontalVertical
-							// è > 0 e quindi c'è una direzione orizontale o verticale
-							// da esplorare
-							while (nodoList.size() == 1 && nodoList.get(0).getHorizontalVertical().size() > 0) {
-								int randomNumber = random.nextInt(nodo.getHorizontalVertical().size());
-								int riga = nodo.getHorizontalVertical().get(randomNumber).getRiga();
-								int colonna = nodo.getHorizontalVertical().get(randomNumber).getColonna();
-								grigliaAttacco.searchAndDestroy(sparo, riga, colonna, false, nodoList, naviNemicheList);
-							}
-
-							// Se il nodo non ha vicini orizzontali o verticali liberi,
-							// va impostato come assegnato
-							if (nodoList.get(0).getHorizontalVertical().size() == 0) {
-								grigliaAttacco.changeInAssigned(sparo / colonne, sparo % colonne);
-							}
-						} else {
-							// se è AFFONDATO ripetere la casella perché una nave non può essere affondata
-							// al primo colpo
-							if (input.checkAffondato(inputKeyboard)) {
-								System.out.println("Una nave non può essere affondata al primo colpo");
-								System.out.println("Reinserire la scelta");
-								i--;
-							} else // Il colpo è stato valutato come ACQUA
-								grigliaAttacco.setGriglia(inputKeyboard, sparo);
+						// Ripete l'estrazione di una direzione random fino a
+						// quando la dimensione di nodoList == 1, quindi c'è
+						// un solo nodo nella lista, e la dimensione di horizontalVertical
+						// è > 0 e quindi c'è una direzione orizontale o verticale
+						// da esplorare
+						while (nodoList.size() == 1 && nodoList.get(0).getHorizontalVertical().size() > 0) {
+							int randomNumber = random.nextInt(nodo.getHorizontalVertical().size());
+							int riga = nodo.getHorizontalVertical().get(randomNumber).getRiga();
+							int colonna = nodo.getHorizontalVertical().get(randomNumber).getColonna();
+							grigliaAttacco.searchAndDestroy(sparo, riga, colonna, false, nodoList, naviNemicheList);
 						}
-					}
-					// L'input non è valido
-					else {
-						System.out.println("Valori dell\'input errati!");
-						System.out.println("Reinserire la scelta");
-						i--;
-					}
-					
-				} 
-				// Se la cella non ha vicini liberi, la casella deve essere impostata come ASSEGANTA
-				else {
-					grigliaAttacco.setAssigned(sparo / colonne, sparo % colonne);
-				}
 
-				grigliaAttacco.getGriglia();
+						// Se il nodo non ha vicini orizzontali o verticali liberi,
+						// va impostato come assegnato
+						if (nodoList.get(0).getHorizontalVertical().size() == 0) {
+							grigliaAttacco.changeInAssigned(sparo / colonne, sparo % colonne);
+						}
+					} else {
+						// se è AFFONDATO ripetere la casella perché una nave non può essere affondata
+						// al primo colpo
+						if (input.checkAffondato(input.getInputTastiera())) {
+							System.out.println("Una nave non può essere affondata al primo colpo");
+							System.out.println("Reinserire la scelta");
+							i--;
+						} else // Il colpo è stato valutato come ACQUA
+							grigliaAttacco.setGriglia(input.getInputTastiera(), sparo);
+					}
+				}
+			}
+			// Se la cella non ha vicini liberi, la casella deve essere impostata come
+			// ASSEGANTA
+			else {
+				grigliaAttacco.setAssigned(sparo / colonne, sparo % colonne);
 			}
 
+			grigliaAttacco.getGriglia();
 		}
+
 	}
 }

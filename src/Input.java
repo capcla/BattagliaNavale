@@ -24,7 +24,8 @@ class Input {
 
 		do {
 			ripeti = false;
-
+			System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
+			
 			try {
 				this.inputTastiera = iT.readLine().toUpperCase();
 			} catch (IOException e) {
@@ -58,7 +59,7 @@ class Input {
 	 * @return restituisce vero se l'input dell'utente è corrispondete ad un tipo di
 	 *         stringa ben formato; falso altrimenti
 	 */
-	boolean checkStringFormat(final String stringa) {
+	private boolean checkStringFormat(final String stringa) {
 		boolean checkFormat = true;
 
 		if (stringa.matches("[0-9][A-Z]|[0-9][0-9][A-Z]|[A-Z][0-9]|[A-Z][0-9]" + "[0-9]|[A]|[C]|[F]")) {
