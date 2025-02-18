@@ -1,12 +1,8 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.io.IOException;
 
 class Input {
-	private int i;
-	private char c;
 	private BufferedReader iT = new BufferedReader(new InputStreamReader(System.in));
 	private String inputTastiera;
 
@@ -24,12 +20,24 @@ class Input {
 	 * Prende l'input da tastiera dell'utente e lo trasforma in lettere maiuscole
 	 */
 	void setInputTastiera() {
-		try {
-			this.inputTastiera = iT.readLine().toUpperCase();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-//        this.inputTastiera = this.inputTastiera.toUpperCase();
+		boolean ripeti;
+
+		do {
+			ripeti = false;
+
+			try {
+				this.inputTastiera = iT.readLine().toUpperCase();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			if (!checkStringFormat(this.inputTastiera)) {
+				System.out.println("Valore inserito errato");
+				ripeti = true;
+			}
+
+		} while (ripeti);
+
 	}
 
 	/**
@@ -104,7 +112,6 @@ class Input {
 	boolean checkAcqua(final String s) {
 		return s.matches("[A]");
 	}
-
 
 //			}
 

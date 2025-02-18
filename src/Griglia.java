@@ -431,8 +431,7 @@ class Griglia {
 			ArrayList<Nodo> nodoList, List<Nave> naviNemicheList) {
 
 		Input input = new Input();
-		String inputKeyboard;
-		boolean validInputKeyboard, checkColpito = false, checkAffondato = false;
+		boolean checkColpito = false, checkAffondato = false;
 		final int r = i / getColonne();
 		final int c = i % getColonne();
 		boolean quit = false;
@@ -445,79 +444,71 @@ class Griglia {
 			getRigaColonna(riga * getColonne() + colonna);
 			System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
 			input.setInputTastiera();
-			inputKeyboard = input.getInputTastiera();
-			validInputKeyboard = input.checkStringFormat(inputKeyboard);
+			checkColpito = input.checkColpito(input.getInputTastiera());
+			checkAffondato = input.checkAffondato(input.getInputTastiera());
 
-			if (validInputKeyboard == false)
-				System.out.println("Valore inserito errato");
-			else {
-//				setGriglia(inputKeyboard, riga * getColonne() + colonna);
-				checkColpito = input.checkColpito(inputKeyboard);
-				checkAffondato = input.checkAffondato(inputKeyboard);
+			// Controlla se la nava è stata colpita o affondata
+			if (checkColpito || checkAffondato) {
 
-				// Controlla se la nava è stata colpita o affondata
-				if (checkColpito || checkAffondato) {
+				// Crea un nuovo nodo, ne setta i vicini e lo aggiunge alla
+				// lista dei nodi
+				nodo = new Nodo(new Cella(riga, colonna));
+				nodo.setNeighboursNodoes(riga * getColonne() + colonna, this);
+				nodoList.add(nodo);
+				ripeti = false;
 
-					// Crea un nuovo nodo, ne setta i vicini e lo aggiunge alla
-					// lista dei nodi
-					nodo = new Nodo(new Cella(riga, colonna));
-					nodo.setNeighboursNodoes(riga * getColonne() + colonna, this);
-					nodoList.add(nodo);
-					ripeti = false;
-//					getGriglia();
+				// Se la nave è dichiarata affondata, vengono imposati i limiti
+				// della nave
+				if (checkAffondato) {
 
-					// Se la nave è dichiarata affondata, vengono imposati i limiti
-					// della nave
-					if (checkAffondato) {
-
-						if (afs = avoidFalseSinking(nodoList, naviNemicheList)) {
-							setShipLimits(nodoList);
-							setDiagonals(nodoList);
-							removeNave(naviNemicheList, nodoList.size());
-						} else {
-							nodoList.remove(nodoList.size() - 1);
-							ripeti = true;
-						}
-					}
-
-					if (afs)
-						setGriglia(inputKeyboard, riga * getColonne() + colonna);
-
-				} else { // La casella attuale è stata contrassegnata come ACQUA
-
-					// La direzione opposta è stata già ispezionata, la casella
-					// successiva ad una nave lunga più di due elementi, non può
-					// essere contrassegnata come ACQUA
-					// if (oppositeDirection && nodoList.size() > 1) {
-					if (oppositeDirection = !isOppositeDirectionPossible(nodoList.get(0).getCella(), riga, colonna) && nodoList.size() > 1) {
-						ripeti = true;
-						System.out.println(
-								"Reimmettere la scelta. La casella attuale non può essere contrassegnata come (A)CQUA");
+					if (afs = avoidFalseSinking(nodoList, naviNemicheList)) {
+						setShipLimits(nodoList);
+						setDiagonals(nodoList);
+						removeNave(naviNemicheList, nodoList.size());
 					} else {
-						ripeti = false;
-						setGriglia(inputKeyboard, riga * getColonne() + colonna);
-						getGriglia();
+						nodoList.remove(nodoList.size() - 1);
+						ripeti = true;
+					}
+				}
+
+				if (afs)
+					setGriglia(input.getInputTastiera(), riga * getColonne() + colonna);
+
+			} else { // La casella attuale è stata contrassegnata come ACQUA
+
+				// La direzione opposta è stata già ispezionata, la casella
+				// successiva ad una nave lunga più di due elementi, non può
+				// essere contrassegnata come ACQUA
+				// if (oppositeDirection && nodoList.size() > 1) {
+				if (oppositeDirection = !isOppositeDirectionPossible(nodoList.get(0).getCella(), riga, colonna)
+						&& nodoList.size() > 1) {
+					ripeti = true;
+					System.out.println(
+							"Reimmettere la scelta. La casella attuale non può essere contrassegnata come (A)CQUA");
+				} else {
+					ripeti = false;
+					setGriglia(input.getInputTastiera(), riga * getColonne() + colonna);
+					getGriglia();
+				}
+
+				// Se un nodo presente nella lista dei nodi orizzontali e verticali
+				// è contrassegnato come ACQUA va tolto da questa lista perché
+				// la direzione da lui occupata non è percorribile
+				// if (input.checkAcqua(inputKeyboard)) {
+				nodoList.get(0).removeHorizontalVertical(riga, colonna);
+				// }
+
+				if (oppositeDirection) {
+
+					quit = true;
+
+					// Dialogo con l'utente o cambio della scelta
+					if (nodoList.size() == 1) {
+						setAssigned(r, i % getColonne());
+					} else {
+
 					}
 
-					// Se un nodo presente nella lista dei nodi orizzontali e verticali
-					// è contrassegnato come ACQUA va tolto da questa lista perché
-					// la direzione da lui occupata non è percorribile
-					// if (input.checkAcqua(inputKeyboard)) {
-					nodoList.get(0).removeHorizontalVertical(riga, colonna);
-					// }
-
-					if (oppositeDirection) {
-
-						quit = true;
-
-						// Dialogo con l'utente o cambio della scelta
-						if (nodoList.size() == 1) {
-							setAssigned(r, i % getColonne());
-						} else {
-
-						}
-
-					}
 				}
 			}
 
