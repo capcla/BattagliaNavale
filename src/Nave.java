@@ -58,6 +58,7 @@ public class Nave {
 	 *         funzioni getMIN_DIM_NAVE e getMAX_DIM_NAVE; FALSO altrimenti
 	 */
 	public boolean inShipDimensions(int caselle) {
+		
 		return getMIN_DIM_NAVE() >= caselle && caselle <= getMAX_DIM_NAVE();
 	}
 	

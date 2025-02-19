@@ -438,18 +438,19 @@ class Griglia {
 		Nodo nodo;
 		boolean afs = true;
 		boolean ripeti = true;
-		Nave nave = new Nave();
-
+		
 		// Chiede all'utente conferma del colpo
 		do {
 			getRigaColonna(riga * getColonne() + colonna);
-
+			boolean nd = false;
+			
 			do {
 				input.setInputTastiera();
 				checkColpito = input.checkColpito(input.getInputTastiera());
-				boolean nd = naviNemicheList.get(0).inShipDimensions(nodoList.size());
+				nd = naviNemicheList.get(0).inShipDimensions(nodoList.size());
 				
-			} while (!checkColpito );
+				
+			} while (!checkColpito || !nd);
 			
 			
 			checkAffondato = input.checkAffondato(input.getInputTastiera());
