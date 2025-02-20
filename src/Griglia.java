@@ -438,12 +438,12 @@ class Griglia {
 		Nodo nodo;
 		boolean afs = true;
 		boolean ripeti = true;
-		
+
 		// Chiede all'utente conferma del colpo
 		do {
 			getRigaColonna(riga * getColonne() + colonna);
-			boolean nd = false;
-		
+			//boolean nd = false;
+			input.setInputTastiera();
 			checkColpito = input.checkColpito(input.getInputTastiera());
 			checkAffondato = input.checkAffondato(input.getInputTastiera());
 
@@ -470,7 +470,14 @@ class Griglia {
 						ripeti = true;
 					}
 				} else {
-					nd = naviNemicheList.get(0).inShipDimensions(nodoList.size());
+					// nd = naviNemicheList.get(0).inShipDimensions(nodoList.size());
+					if (nodoList.size() == naviNemicheList.get(0).dimensione) {
+						System.out.println("La nave ha una dimensione uguale a "
+								+ "quella della nave più grande ancora in gioco ma "
+								+ "non è stata dichiarata affondata. Cambiare la sceta");
+						ripeti = true;
+					}
+
 				}
 
 				if (afs)
