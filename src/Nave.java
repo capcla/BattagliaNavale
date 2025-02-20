@@ -59,6 +59,8 @@ public class Nave {
 	 */
 	public boolean inShipDimensions(int caselle) {
 		
+		System.out.println(getMIN_DIM_NAVE() + " " + caselle + " " + getMAX_DIM_NAVE());
+		
 		return getMIN_DIM_NAVE() >= caselle && caselle <= getMAX_DIM_NAVE();
 	}
 	

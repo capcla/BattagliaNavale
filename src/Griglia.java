@@ -443,16 +443,8 @@ class Griglia {
 		do {
 			getRigaColonna(riga * getColonne() + colonna);
 			boolean nd = false;
-			
-			do {
-				input.setInputTastiera();
-				checkColpito = input.checkColpito(input.getInputTastiera());
-				nd = naviNemicheList.get(0).inShipDimensions(nodoList.size());
-				
-				
-			} while (!checkColpito || !nd);
-			
-			
+		
+			checkColpito = input.checkColpito(input.getInputTastiera());
 			checkAffondato = input.checkAffondato(input.getInputTastiera());
 
 			// Controlla se la nava è stata colpita o affondata
@@ -477,6 +469,8 @@ class Griglia {
 						nodoList.remove(nodoList.size() - 1);
 						ripeti = true;
 					}
+				} else {
+					nd = naviNemicheList.get(0).inShipDimensions(nodoList.size());
 				}
 
 				if (afs)
