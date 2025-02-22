@@ -474,7 +474,7 @@ class Griglia {
 					if (nodoList.size() == naviNemicheList.get(0).dimensione) {
 						System.out.println("La nave ha una dimensione uguale a "
 								+ "quella della nave più grande ancora in gioco ma "
-								+ "non è stata dichiarata affondata. Cambiare la sceta");
+								+ "non è stata dichiarata affondata. Cambiare la scelta");
 						ripeti = true;
 					}
 
