@@ -442,7 +442,7 @@ class Griglia {
 		// Chiede all'utente conferma del colpo
 		do {
 			getRigaColonna(riga * getColonne() + colonna);
-			//boolean nd = false;
+			// boolean nd = false;
 			input.setInputTastiera();
 			checkColpito = input.checkColpito(input.getInputTastiera());
 			checkAffondato = input.checkAffondato(input.getInputTastiera());
@@ -470,12 +470,22 @@ class Griglia {
 						ripeti = true;
 					}
 				} else {
-					// nd = naviNemicheList.get(0).inShipDimensions(nodoList.size());
+
+					// Se la nave non è dichiarata affondata, viene controllata la
+					// casella successiva che si vuole ispezionare
+					if (oppositeDirection) {
+
+						if (ifExistNextPosition(r, c, riga, colonna)) {
+
+							ripeti = true;
+						}
+					}
+
 					if (nodoList.size() == naviNemicheList.get(0).dimensione) {
 						System.out.println("La nave ha una dimensione uguale a "
 								+ "quella della nave più grande ancora in gioco ma "
 								+ "non è stata dichiarata affondata. Cambiare la scelta");
-						nodoList.remove(nodoList.size()-1);
+						nodoList.remove(nodoList.size() - 1);
 						ripeti = true;
 					}
 
@@ -951,5 +961,18 @@ class Griglia {
 		}
 
 		return risultato;
+	}
+
+	/**
+	 * 
+	 * @param r
+	 * @param c
+	 * @param riga
+	 * @param colonna
+	 * @return
+	 */
+	private boolean ifExistNextPosition(int r, int c, int riga, int colonna) {
+
+		return false;
 	}
 }
