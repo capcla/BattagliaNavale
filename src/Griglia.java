@@ -475,6 +475,7 @@ class Griglia {
 						System.out.println("La nave ha una dimensione uguale a "
 								+ "quella della nave più grande ancora in gioco ma "
 								+ "non è stata dichiarata affondata. Cambiare la scelta");
+						nodoList.remove(nodoList.size()-1);
 						ripeti = true;
 					}
 
