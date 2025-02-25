@@ -475,8 +475,11 @@ class Griglia {
 					// casella successiva che si vuole ispezionare
 					if (oppositeDirection) {
 
-						if (ifExistNextPosition(r, c, riga, colonna)) {
-
+						if(!isOppositeDirectionPossible(nodoList.get(nodoList.size()-2).getCella(), riga, colonna)) {
+							System.out.println("Sei arrivato al limite della griglia. "
+									+ "O la nave va a(F)fondata o la casella deve "
+									+ "essere dichiarata come (A)cqua");
+							nodoList.remove(nodoList.size() - 1);
 							ripeti = true;
 						}
 					}
@@ -933,16 +936,15 @@ class Griglia {
 	}
 
 	/**
-	 * Il metodo verifica se è possibile ispezionare una casella adiacente alla
-	 * prima cella di nodoList ma in direzione opposta rispetto a quella percorsa
-	 * fino a quel momento
+	 * Il metodo prende in input una Cella di partenza e le coordinate della riga
+	 * e della colonna della posizione attuale. Successivamente viene verificato
+	 * se una Cella è libera a seconda delle condizioni che si realizzano
 	 * 
-	 * @param cella   Cella indicante la prima cella di NodoList, ovvero la prima
-	 *                posizione rilevata della nave
+	 * @param cella   Cella di nodoList da cui far partire il confronto
 	 * @param riga    Intero indicante la coordinata della riga della cella attuale
 	 * @param colonna Intero indicante la coordinata della colonna della cella
 	 *                attuale
-	 * @return VERO se la casella esiste ed è possibile ispezionarla; FALSO
+	 * @return VERO se la cella esiste ed è possibile ispezionarla; FALSO
 	 *         altrimenti
 	 */
 	private boolean isOppositeDirectionPossible(Cella cella, int riga, int colonna) {
