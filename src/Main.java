@@ -25,12 +25,22 @@ public class Main {
 		for (int i = 0; i < grigliaAttacco.getRigheColonne(); i++) {
 			grigliaAttacco.getRigaColonna(grigliaAttacco.getSparo(i));
 		}
-
+		
 		int i = -1;
+		
+		// TEST
+		grigliaAttacco.setGriglia("A", 30);
+		grigliaAttacco.setGriglia("A", 32);
+		grigliaAttacco.setGriglia("A", 51);
+		i = 30;
+		// FINE TEST
 
 		while (validInputKeyboard && ++i < grigliaAttacco.getRigheColonne() && naviNemicheList.size() > 0) {
-			int sparo = grigliaAttacco.getSparo(i);
-
+			// TEST
+			//int sparo = grigliaAttacco.getSparo(i);
+			int sparo = 31;
+			// FINE TEST
+			
 			// Se si sta attaccando in una cella vuota
 			if (grigliaAttacco.checkEmptyCell(sparo)) {
 				ArrayList<Nodo> nodoList = new ArrayList<Nodo>();
