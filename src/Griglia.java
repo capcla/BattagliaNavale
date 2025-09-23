@@ -475,7 +475,7 @@ class Griglia {
 					// casella successiva che si vuole ispezionare
 					if (oppositeDirection) {
 
-						if(!isOppositeDirectionPossible(nodoList.get(nodoList.size()-2).getCella(), riga, colonna)) {
+						if(isOppositeDirectionPossible(nodoList.get(nodoList.size()-2).getCella(), riga, colonna)) {
 							System.out.println("Sei arrivato al limite della griglia. "
 									+ "O la nave va a(F)fondata o la casella deve "
 									+ "essere dichiarata come (A)cqua");
@@ -503,8 +503,11 @@ class Griglia {
 				// successiva ad una nave lunga più di due elementi, non può
 				// essere contrassegnata come ACQUA
 				// if (oppositeDirection && nodoList.size() > 1) {
+				boolean iODP = !isOppositeDirectionPossible(nodoList.get(0).getCella(), riga, colonna);
+				boolean NLS = nodoList.size() > 1;
+				
 				if (oppositeDirection = !isOppositeDirectionPossible(nodoList.get(0).getCella(), riga, colonna)
-						&& nodoList.size() > 1) {
+						&& nodoList.size() >= 1) {
 					ripeti = true;
 					System.out.println(
 							"Reimmettere la scelta. La casella attuale non può essere contrassegnata come (A)CQUA");
