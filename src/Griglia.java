@@ -475,12 +475,16 @@ class Griglia {
 					// casella successiva che si vuole ispezionare
 					if (oppositeDirection) {
 
-						if(isOppositeDirectionPossible(nodoList.get(nodoList.size()-2).getCella(), riga, colonna)) {
+						int nls = nodoList.size();
+
+						if (isOppositeDirectionPossible(nodoList.get(nodoList.size() - 2).getCella(), riga, colonna)) {
 							System.out.println("Sei arrivato al limite della griglia. "
-									+ "O la nave va a(F)fondata o la casella deve "
-									+ "essere dichiarata come (A)cqua");
+									+ "O la nave va a(F)fondata o la casella deve " + "essere dichiarata come (A)cqua");
 							nodoList.remove(nodoList.size() - 1);
 							ripeti = true;
+						} else {
+							ripeti = true;
+							
 						}
 					}
 
@@ -494,7 +498,7 @@ class Griglia {
 
 				}
 
-				if (afs)
+				if (afs && !ripeti)
 					setGriglia(input.getInputTastiera(), riga * getColonne() + colonna);
 
 			} else { // La casella attuale è stata contrassegnata come ACQUA
@@ -504,10 +508,10 @@ class Griglia {
 				// essere contrassegnata come ACQUA
 				// if (oppositeDirection && nodoList.size() > 1) {
 				boolean iODP = !isOppositeDirectionPossible(nodoList.get(0).getCella(), riga, colonna);
-				boolean NLS = nodoList.size() > 1;
-				
+				// boolean NLS = nodoList.size() >= 1;
+
 				if (oppositeDirection = !isOppositeDirectionPossible(nodoList.get(0).getCella(), riga, colonna)
-						&& nodoList.size() >= 1) {
+				/* && nodoList.size() >= 1 */) {
 					ripeti = true;
 					System.out.println(
 							"Reimmettere la scelta. La casella attuale non può essere contrassegnata come (A)CQUA");
@@ -939,16 +943,15 @@ class Griglia {
 	}
 
 	/**
-	 * Il metodo prende in input una Cella di partenza e le coordinate della riga
-	 * e della colonna della posizione attuale. Successivamente viene verificato
-	 * se una Cella è libera a seconda delle condizioni che si realizzano
+	 * Il metodo prende in input una Cella di partenza e le coordinate della riga e
+	 * della colonna della posizione attuale. Successivamente viene verificato se
+	 * una Cella è libera a seconda delle condizioni che si realizzano
 	 * 
 	 * @param cella   Cella di nodoList da cui far partire il confronto
 	 * @param riga    Intero indicante la coordinata della riga della cella attuale
 	 * @param colonna Intero indicante la coordinata della colonna della cella
 	 *                attuale
-	 * @return VERO se la cella esiste ed è possibile ispezionarla; FALSO
-	 *         altrimenti
+	 * @return VERO se la cella esiste ed è possibile ispezionarla; FALSO altrimenti
 	 */
 	private boolean isOppositeDirectionPossible(Cella cella, int riga, int colonna) {
 		boolean risultato;
