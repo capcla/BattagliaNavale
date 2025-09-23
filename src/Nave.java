@@ -8,17 +8,17 @@
 
 public class Nave {
 	// Dimensione massima della nave
-	final int MAX_DIM_NAVE = 5;
+	private final int MAX_DIM_NAVE = 5;
 
 	// Dimensione minima della nave
-	final int MIN_DIM_NAVE = 2;
+	private final int MIN_DIM_NAVE = 2;
 	
 	// Numero delle navi in gioco
-	final int NUM_NAVI = 5;
+	private final int NUM_NAVI = 5;
 	
 	// Numero navi affondate
-	int naviAffondate = 0;
-	int dimensione; //Dimensione della nave
+	private int naviAffondate = 0;
+	private int dimensione; //Dimensione della nave
 
 
 
@@ -71,5 +71,13 @@ public class Nave {
 	 */
 	public int getDimensione() {
 		return dimensione;
+	}
+
+	public int getNaviAffondate() {
+		return naviAffondate;
+	}
+
+	public void setNaviAffondate(int naviAffondate) {
+		this.naviAffondate = naviAffondate;
 	}
 }
