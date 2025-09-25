@@ -454,7 +454,10 @@ class Griglia {
 				// lista dei nodi
 				nodo = new Nodo(new Cella(riga, colonna));
 				nodo.setNeighboursNodoes(riga * getColonne() + colonna, this);
-				nodoList.add(nodo);
+				
+				if (ripeti ^ oppositeDirection)
+					nodoList.add(nodo);
+				
 				ripeti = false;
 
 				// Se la nave è dichiarata affondata, vengono imposati i limiti
@@ -477,7 +480,7 @@ class Griglia {
 
 						int nls = nodoList.size();
 
-						if (isOppositeDirectionPossible(nodoList.get(nodoList.size() - 2).getCella(), riga, colonna)) {
+					if (isOppositeDirectionPossible(nodoList.get(nodoList.size() - 2).getCella(), riga, colonna)) {
 							System.out.println("Sei arrivato al limite della griglia. "
 									+ "O la nave va a(F)fondata o la casella deve " + "essere dichiarata come (A)cqua");
 							nodoList.remove(nodoList.size() - 1);
