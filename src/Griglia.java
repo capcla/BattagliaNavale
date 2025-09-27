@@ -450,14 +450,12 @@ class Griglia {
 			// Controlla se la nava è stata colpita o affondata
 			if (checkColpito || checkAffondato) {
 
-				// Crea un nuovo nodo, ne setta i vicini e lo aggiunge alla
-				// lista dei nodi
+				// Crea un nuovo nodo, ne
+				// setta i vicini e lo aggiunge alla lista dei nodi
 				nodo = new Nodo(new Cella(riga, colonna));
 				nodo.setNeighboursNodoes(riga * getColonne() + colonna, this);
-				
-				if (ripeti ^ oppositeDirection)
-					nodoList.add(nodo);
-				
+				nodoList.add(nodo);
+
 				ripeti = false;
 
 				// Se la nave è dichiarata affondata, vengono imposati i limiti
@@ -478,17 +476,18 @@ class Griglia {
 					// casella successiva che si vuole ispezionare
 					if (oppositeDirection) {
 
-						int nls = nodoList.size();
-
-					if (isOppositeDirectionPossible(nodoList.get(nodoList.size() - 2).getCella(), riga, colonna)) {
-							System.out.println("Sei arrivato al limite della griglia. "
-									+ "O la nave va a(F)fondata o la casella deve " + "essere dichiarata come (A)cqua");
+//						int nls = nodoList.size();
+//
+//						if (isOppositeDirectionPossible(nodoList.get(nodoList.size() - 2/* 0 */).getCella(), riga,
+//								colonna)) {
+//							System.out.println("Sei arrivato al limite della griglia. "
+//									+ "O la nave va a(F)fondata o la casella deve " + "essere dichiarata come (A)cqua");
 							nodoList.remove(nodoList.size() - 1);
 							ripeti = true;
-						} else {
-							ripeti = true;
-							
-						}
+//						} else {
+//							ripeti = true;
+//
+//						}
 					}
 
 					if (nodoList.size() == naviNemicheList.get(0).getDimensione()) {
@@ -514,7 +513,7 @@ class Griglia {
 				// boolean NLS = nodoList.size() >= 1;
 
 				if (oppositeDirection = !isOppositeDirectionPossible(nodoList.get(0).getCella(), riga, colonna)
-				/* && nodoList.size() >= 1 */) {
+				 && nodoList.size() > 1) {
 					ripeti = true;
 					System.out.println(
 							"Reimmettere la scelta. La casella attuale non può essere contrassegnata come (A)CQUA");
