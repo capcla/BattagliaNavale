@@ -513,7 +513,7 @@ class Griglia {
 				// boolean NLS = nodoList.size() >= 1;
 
 				if (oppositeDirection = !isOppositeDirectionPossible(nodoList.get(0).getCella(), riga, colonna)
-				 && nodoList.size() > 1) {
+				 /*&& nodoList.size() > 1*/) {
 					ripeti = true;
 					System.out.println(
 							"Reimmettere la scelta. La casella attuale non può essere contrassegnata come (A)CQUA");
