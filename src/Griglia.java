@@ -473,8 +473,31 @@ class Griglia {
 				} else {
 
 					// Se la nave non è dichiarata affondata, viene controllata la
-					// casella successiva che si vuole ispezionare
+					// casella successiva che si vuole ispezionare per verificare che
+					// ci sia ancora una casella libera da colpire
 					if (oppositeDirection) {
+
+						boolean checkFree = true;
+
+						
+						//Controlla se la cella successiva alla direzione intrapresa
+						// sia libera
+						if (r != nodoList.get(0).getCella().getRiga()) {
+
+							if (r > nodoList.get(0).getCella().getRiga()) {
+								checkFree = checkEmptyCell(r + 1, c);
+							} else {
+								checkFree = checkEmptyCell(r - 1, c);
+							}
+
+						} else {
+
+							if (c > nodoList.get(0).getCella().getColonna()) {
+								checkFree = checkEmptyCell(r, c + 1);
+							} else {
+								checkFree = checkEmptyCell(r, c - 1);
+							}
+						}
 
 //						int nls = nodoList.size();
 //
@@ -482,8 +505,15 @@ class Griglia {
 //								colonna)) {
 //							System.out.println("Sei arrivato al limite della griglia. "
 //									+ "O la nave va a(F)fondata o la casella deve " + "essere dichiarata come (A)cqua");
+
+						
+						//Se non c'è una cella libera successiva alla direzione
+						// che si sta ispezionando, il nodo aggiunto viene cancellato
+						// e si impone che il processo sia ripetuto
+						if (!checkFree) {
 							nodoList.remove(nodoList.size() - 1);
 							ripeti = true;
+						}
 //						} else {
 //							ripeti = true;
 //
@@ -513,7 +543,7 @@ class Griglia {
 				// boolean NLS = nodoList.size() >= 1;
 
 				if (oppositeDirection = !isOppositeDirectionPossible(nodoList.get(0).getCella(), riga, colonna)
-				 /*&& nodoList.size() > 1*/) {
+				/* && nodoList.size() > 1 */) {
 					ripeti = true;
 					System.out.println(
 							"Reimmettere la scelta. La casella attuale non può essere contrassegnata come (A)CQUA");

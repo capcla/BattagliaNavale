@@ -32,6 +32,7 @@ public class Main {
 		grigliaAttacco.setGriglia("A", 30);
 		grigliaAttacco.setGriglia("A", 32);
 		grigliaAttacco.setGriglia("A", 51);
+		grigliaAttacco.setGriglia("A", 11);
 		i = 30;
 		// FINE TEST
 
