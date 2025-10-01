@@ -29,17 +29,14 @@ public class Main {
 		int i = -1;
 		
 		// TEST
-		grigliaAttacco.setGriglia("A", 30);
-		grigliaAttacco.setGriglia("A", 32);
-		grigliaAttacco.setGriglia("A", 51);
-		grigliaAttacco.setGriglia("A", 11);
-		i = 30;
+		grigliaAttacco.setGriglia("A", 2);
+		i = 0;
 		// FINE TEST
 
 		while (validInputKeyboard && ++i < grigliaAttacco.getRigheColonne() && naviNemicheList.size() > 0) {
 			// TEST
-			//int sparo = grigliaAttacco.getSparo(i);
-			int sparo = 31;
+//			int sparo = grigliaAttacco.getSparo(i);
+			int sparo = i;
 			// FINE TEST
 			
 			// Se si sta attaccando in una cella vuota

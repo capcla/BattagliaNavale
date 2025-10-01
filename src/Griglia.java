@@ -477,25 +477,25 @@ class Griglia {
 					// ci sia ancora una casella libera da colpire
 					if (oppositeDirection) {
 
-						boolean checkFree = true;
+						boolean nextCellFree = true;
 
 						
 						//Controlla se la cella successiva alla direzione intrapresa
 						// sia libera
-						if (r != nodoList.get(0).getCella().getRiga()) {
+						if (riga != nodoList.get(0).getCella().getRiga()) {
 
-							if (r > nodoList.get(0).getCella().getRiga()) {
-								checkFree = checkEmptyCell(r + 1, c);
+							if (riga > nodoList.get(0).getCella().getRiga()) {
+								nextCellFree = checkEmptyCell(riga + 1, colonna);
 							} else {
-								checkFree = checkEmptyCell(r - 1, c);
+								nextCellFree = checkEmptyCell(riga - 1, colonna);
 							}
 
 						} else {
 
-							if (c > nodoList.get(0).getCella().getColonna()) {
-								checkFree = checkEmptyCell(r, c + 1);
+							if (colonna > nodoList.get(0).getCella().getColonna()) {
+								nextCellFree = checkEmptyCell(riga, colonna + 1);
 							} else {
-								checkFree = checkEmptyCell(r, c - 1);
+								nextCellFree = checkEmptyCell(riga, colonna - 1);
 							}
 						}
 
@@ -510,7 +510,12 @@ class Griglia {
 						//Se non c'è una cella libera successiva alla direzione
 						// che si sta ispezionando, il nodo aggiunto viene cancellato
 						// e si impone che il processo sia ripetuto
-						if (!checkFree) {
+						if (!nextCellFree) {
+							
+							System.out.println("Non ci sono altre caselle libere "
+									+ "da colpire dopo di questa. La nave va "
+									+ "affondata o comunque va cambiata la scelta "
+									+ "per la casella");
 							nodoList.remove(nodoList.size() - 1);
 							ripeti = true;
 						}
