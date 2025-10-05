@@ -450,14 +450,12 @@ class Griglia {
 			// Controlla se la nava è stata colpita o affondata
 			if (checkColpito || checkAffondato) {
 
-				// Crea un nuovo nodo, ne setta i vicini e lo aggiunge alla
-				// lista dei nodi
+				// Crea un nuovo nodo, ne
+				// setta i vicini e lo aggiunge alla lista dei nodi
 				nodo = new Nodo(new Cella(riga, colonna));
 				nodo.setNeighboursNodoes(riga * getColonne() + colonna, this);
-				
-				if (ripeti ^ oppositeDirection)
-					nodoList.add(nodo);
-				
+				nodoList.add(nodo);
+
 				ripeti = false;
 
 				// Se la nave è dichiarata affondata, vengono imposati i limiti
@@ -475,20 +473,34 @@ class Griglia {
 				} else {
 
 					// Se la nave non è dichiarata affondata, viene controllata la
-					// casella successiva che si vuole ispezionare
+					// casella successiva che si vuole ispezionare per verificare che
+					// ci sia ancora una casella libera da colpire
 					if (oppositeDirection) {
 
-						int nls = nodoList.size();
+						boolean nextCellFree = checkNextCell(nodoList.get(0).getCella(), riga, colonna);
 
-					if (isOppositeDirectionPossible(nodoList.get(nodoList.size() - 2).getCella(), riga, colonna)) {
-							System.out.println("Sei arrivato al limite della griglia. "
-									+ "O la nave va a(F)fondata o la casella deve " + "essere dichiarata come (A)cqua");
+//						int nls = nodoList.size();
+//
+//						if (isOppositeDirectionPossible(nodoList.get(nodoList.size() - 2/* 0 */).getCella(), riga,
+//								colonna)) {
+//							System.out.println("Sei arrivato al limite della griglia. "
+//									+ "O la nave va a(F)fondata o la casella deve " + "essere dichiarata come (A)cqua");
+
+						// Se non c'è una cella libera successiva alla direzione
+						// che si sta ispezionando, il nodo aggiunto viene cancellato
+						// e si impone che il processo sia ripetuto
+						if (!nextCellFree) {
+
+							System.out.println("Non ci sono altre caselle libere "
+									+ "da colpire dopo di questa. La nave va affondata "
+									+ "o comunque va cambiata la scelta per la casella");
 							nodoList.remove(nodoList.size() - 1);
 							ripeti = true;
-						} else {
-							ripeti = true;
-							
 						}
+//						} else {
+//							ripeti = true;
+//
+//						}
 					}
 
 					if (nodoList.size() == naviNemicheList.get(0).getDimensione()) {
@@ -510,25 +522,26 @@ class Griglia {
 				// successiva ad una nave lunga più di due elementi, non può
 				// essere contrassegnata come ACQUA
 				// if (oppositeDirection && nodoList.size() > 1) {
-				boolean iODP = !isOppositeDirectionPossible(nodoList.get(0).getCella(), riga, colonna);
+				boolean iODP = !checkOppositeCell(nodoList.get(0).getCella(), riga, colonna);
 				// boolean NLS = nodoList.size() >= 1;
 
-				if (oppositeDirection = !isOppositeDirectionPossible(nodoList.get(0).getCella(), riga, colonna)
-				/* && nodoList.size() >= 1 */) {
+				if (oppositeDirection = !checkOppositeCell(nodoList.get(0).getCella(), riga, colonna)
+						&& nodoList.get(0).getHorizontalVertical().size() <= 1) {
 					ripeti = true;
 					System.out.println(
 							"Reimmettere la scelta. La casella attuale non può essere contrassegnata come (A)CQUA");
 				} else {
 					ripeti = false;
+					// Se un nodo presente nella lista dei nodi orizzontali e verticali
+					// è contrassegnato come ACQUA va tolto da questa lista perché
+					// la direzione da lui occupata non è percorribile
+					// if (input.checkAcqua(inputKeyboard)) {
+					nodoList.get(0).removeHorizontalVertical(riga, colonna);
 					setGriglia(input.getInputTastiera(), riga * getColonne() + colonna);
 					getGriglia();
 				}
 
-				// Se un nodo presente nella lista dei nodi orizzontali e verticali
-				// è contrassegnato come ACQUA va tolto da questa lista perché
-				// la direzione da lui occupata non è percorribile
-				// if (input.checkAcqua(inputKeyboard)) {
-				nodoList.get(0).removeHorizontalVertical(riga, colonna);
+				
 				// }
 
 				if (oppositeDirection) {
@@ -946,44 +959,65 @@ class Griglia {
 	}
 
 	/**
-	 * Il metodo prende in input una Cella di partenza e le coordinate della riga e
+	 * Il metodo prende in input una cella di partenza e le coordinate della riga e
 	 * della colonna della posizione attuale. Successivamente viene verificato se
-	 * una Cella è libera a seconda delle condizioni che si realizzano
+	 * una cella adiacente alla cella di partenza è libera a seconda delle
+	 * condizioni che si realizzano
 	 * 
 	 * @param cella   Cella di nodoList da cui far partire il confronto
-	 * @param riga    Intero indicante la coordinata della riga della cella attuale
-	 * @param colonna Intero indicante la coordinata della colonna della cella
-	 *                attuale
+	 * @param riga    Intero indicante la coordinata riga della cella attuale
+	 * @param colonna Intero indicante la coordinata colonna della cella attuale
 	 * @return VERO se la cella esiste ed è possibile ispezionarla; FALSO altrimenti
 	 */
-	private boolean isOppositeDirectionPossible(Cella cella, int riga, int colonna) {
+	private boolean checkOppositeCell(Cella cella, int riga, int colonna) {
 		boolean risultato;
 
-		if (cella.getRiga() == riga) {
-			if (cella.getColonna() > colonna)
-				risultato = checkEmptyCell(riga, cella.getColonna() + 1);
-			else
-				risultato = checkEmptyCell(riga, cella.getColonna() - 1);
-		} else {
+		if (riga != cella.getRiga()) {
+
 			if (cella.getRiga() > riga)
 				risultato = checkEmptyCell(cella.getRiga() + 1, colonna);
 			else
 				risultato = checkEmptyCell(cella.getRiga() - 1, colonna);
+		} else {
+
+			if (cella.getColonna() > colonna)
+				risultato = checkEmptyCell(riga, cella.getColonna() + 1);
+			else
+				risultato = checkEmptyCell(riga, cella.getColonna() - 1);
 		}
 
 		return risultato;
 	}
 
 	/**
+	 * Il metodo prende in input una cella di partenza e le coordinate della riga e
+	 * della colonnadella posizione attuale. Successivamente viene verificato se una
+	 * cella adiacente alla posizione attuale è libera
 	 * 
-	 * @param r
-	 * @param c
-	 * @param riga
-	 * @param colonna
-	 * @return
+	 * @param cella   Cella di nodoList da cui far partire il confronto
+	 * @param riga    Intero Indicante la coordinata riga della della cattuale
+	 * @param colonna Intero indicante la coordinata colonna della cella attuale
+	 * @return VERO se la cella esiste ed è ispezionabile; FALSO altrimenti
 	 */
-	private boolean ifExistNextPosition(int r, int c, int riga, int colonna) {
+	private boolean checkNextCell(Cella cella, int riga, int colonna) {
+		boolean risultato;
 
-		return false;
+		if (riga != cella.getRiga()) {
+
+			if (riga > cella.getRiga())
+				risultato = checkEmptyCell(riga + 1, colonna);
+			else
+				risultato = checkEmptyCell(riga - 1, colonna);
+
+		} else {
+
+			if (colonna > cella.getColonna())
+				risultato = checkEmptyCell(riga, colonna + 1);
+			else
+				risultato = checkEmptyCell(riga, colonna - 1);
+		}
+
+		return risultato;
 	}
+
 }
