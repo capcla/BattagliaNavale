@@ -120,7 +120,7 @@ class Griglia {
 					if (j > 0 && j < getColonne() + 1)
 						// Stampa lo stato di griglia[i][j]
 						// System.out.printf("%" + getSpazio() + 'c', '~'/*griglia[i][j]*/);
-						System.out.printf("%" + getSpazio() + 'c', +getCharCasella(griglia, i - 1, j - 1));
+						System.out.printf("%" + getSpazio() + 'c', + getCharCasella(griglia, i - 1, j - 1));
 
 					else
 
@@ -352,7 +352,7 @@ class Griglia {
 	}
 
 	/**
-	 * Restituisce lo stato di una casella di coordinare (r, c)
+	 * Restituisce lo stato di una casella di coordinate (r, c)
 	 * 
 	 * @param r Intero indicante il valore riga di una cella
 	 * @param c Intero indicante il valore colonna di una cella
@@ -475,9 +475,10 @@ class Griglia {
 					// Se la nave non è dichiarata affondata, viene controllata la
 					// casella successiva che si vuole ispezionare per verificare che
 					// ci sia ancora una casella libera da colpire
+					boolean nextCellFree = checkNextCell(nodoList.get(0).getCella(), riga, colonna);
+					
+//					if (nextCellFree && (oppositeDirection = checkOppositeCell(nodoList.get(0).getCella(), riga, colonna))) {
 					if (oppositeDirection) {
-
-						boolean nextCellFree = checkNextCell(nodoList.get(0).getCella(), riga, colonna);
 
 //						int nls = nodoList.size();
 //
@@ -521,15 +522,12 @@ class Griglia {
 				// La direzione opposta è stata già ispezionata, la casella
 				// successiva ad una nave lunga più di due elementi, non può
 				// essere contrassegnata come ACQUA
-				// if (oppositeDirection && nodoList.size() > 1) {
-				boolean iODP = !checkOppositeCell(nodoList.get(0).getCella(), riga, colonna);
-				// boolean NLS = nodoList.size() >= 1;
-
 				if (oppositeDirection = !checkOppositeCell(nodoList.get(0).getCella(), riga, colonna)
 						&& nodoList.get(0).getHorizontalVertical().size() <= 1) {
 					ripeti = true;
 					System.out.println(
-							"Reimmettere la scelta. La casella attuale non può essere contrassegnata come (A)CQUA");
+							"Reimmettere la scelta. La casella attuale non può essere "
+							+ "contrassegnata come (A)CQUA");
 				} else {
 					ripeti = false;
 					// Se un nodo presente nella lista dei nodi orizzontali e verticali
@@ -540,9 +538,6 @@ class Griglia {
 					setGriglia(input.getInputTastiera(), riga * getColonne() + colonna);
 					getGriglia();
 				}
-
-				
-				// }
 
 				if (oppositeDirection) {
 
@@ -1008,7 +1003,6 @@ class Griglia {
 				risultato = checkEmptyCell(riga + 1, colonna);
 			else
 				risultato = checkEmptyCell(riga - 1, colonna);
-
 		} else {
 
 			if (colonna > cella.getColonna())
