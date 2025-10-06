@@ -472,9 +472,9 @@ class Griglia {
 					}
 				} else {
 
-					// Se la nave non è dichiarata affondata, viene controllata la
-					// casella successiva che si vuole ispezionare per verificare che
-					// ci sia ancora una casella libera da colpire
+					// Se la casella è dichiarata COLPITA, viene controllata la
+					// casella successiva che si vuole ispezionare per verificare
+					// che ci sia ancora una casella libera da colpire
 					boolean nextCellFree = checkNextCell(nodoList.get(0).getCella(), riga, colonna);
 					
 //					if (nextCellFree && (oppositeDirection = checkOppositeCell(nodoList.get(0).getCella(), riga, colonna))) {
