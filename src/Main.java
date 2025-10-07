@@ -29,8 +29,9 @@ public class Main {
 		int i = -1;
 		
 		// TEST
-		grigliaAttacco.setGriglia("A", 2);
-		i = 0;
+		grigliaAttacco.setGriglia("A", 5);
+		grigliaAttacco.setGriglia("A", 12);
+		i = 1;
 		// FINE TEST
 
 		while (validInputKeyboard && ++i < grigliaAttacco.getRigheColonne() && naviNemicheList.size() > 0) {

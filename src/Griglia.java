@@ -120,7 +120,7 @@ class Griglia {
 					if (j > 0 && j < getColonne() + 1)
 						// Stampa lo stato di griglia[i][j]
 						// System.out.printf("%" + getSpazio() + 'c', '~'/*griglia[i][j]*/);
-						System.out.printf("%" + getSpazio() + 'c', + getCharCasella(griglia, i - 1, j - 1));
+						System.out.printf("%" + getSpazio() + 'c', +getCharCasella(griglia, i - 1, j - 1));
 
 					else
 
@@ -476,7 +476,7 @@ class Griglia {
 					// casella successiva che si vuole ispezionare per verificare
 					// che ci sia ancora una casella libera da colpire
 					boolean nextCellFree = checkNextCell(nodoList.get(0).getCella(), riga, colonna);
-					
+
 //					if (nextCellFree && (oppositeDirection = checkOppositeCell(nodoList.get(0).getCella(), riga, colonna))) {
 					if (oppositeDirection) {
 
@@ -502,6 +502,15 @@ class Griglia {
 //							ripeti = true;
 //
 //						}
+					} else {
+						if (!nextCellFree) {
+							oppositeDirection = !checkOppositeCell(nodoList.get(0).getCella(), riga, colonna);
+//							System.out.println("Non ci sono altre caselle libere "
+//									+ "da colpire dopo di questa. La nave va affondata "
+//									+ "o comunque va cambiata la scelta per la casella");
+//							nodoList.remove(nodoList.size() - 1);
+//							ripeti = true;
+						}
 					}
 
 					if (nodoList.size() == naviNemicheList.get(0).getDimensione()) {
@@ -525,8 +534,7 @@ class Griglia {
 				if (oppositeDirection = !checkOppositeCell(nodoList.get(0).getCella(), riga, colonna)
 						&& nodoList.get(0).getHorizontalVertical().size() <= 1) {
 					ripeti = true;
-					System.out.println(
-							"Reimmettere la scelta. La casella attuale non può essere "
+					System.out.println("Reimmettere la scelta. La casella attuale non può essere "
 							+ "contrassegnata come (A)CQUA");
 				} else {
 					ripeti = false;
