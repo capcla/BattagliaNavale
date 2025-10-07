@@ -30,7 +30,7 @@ public class Test {
 		// TEST
 //		grigliaAttacco.setGriglia("A", 5);
 //		grigliaAttacco.setGriglia("A", 12);
-		i = 58;
+		i = 57;
 		// FINE TEST
 
 		while (validInputKeyboard && ++i < grigliaAttacco.getRigheColonne() && naviNemicheList.size() > 0) {

@@ -396,7 +396,7 @@ class Griglia {
 	public boolean checkEmptyCell(int r, int c) {
 		boolean risultato;
 
-		if (r >= 0 && r <= getRighe() && c >= 0 && c <= getColonne())
+		if (r >= 0 && r < getRighe() && c >= 0 && c < getColonne())
 			risultato = griglia[r][c] == Casella.VUOTO;
 		else
 			risultato = false;
@@ -454,7 +454,9 @@ class Griglia {
 				// setta i vicini e lo aggiunge alla lista dei nodi
 				nodo = new Nodo(new Cella(riga, colonna));
 				nodo.setNeighboursNodoes(riga * getColonne() + colonna, this);
+				nodoList.get(nodoList.size() - 1).removeHorizontalVertical(riga, colonna);
 				nodoList.add(nodo);
+				
 
 				ripeti = false;
 
@@ -528,23 +530,27 @@ class Griglia {
 
 			} else { // La casella attuale è stata contrassegnata come ACQUA
 
-				// La direzione opposta è stata già ispezionata, la casella
-				// successiva ad una nave lunga più di due elementi, non può
+				// La direzione opposta è stata già ispezionata e, intorno alla
+				// cella iniziale, (nodoList.get(0)), non ci sono elementi liberi 
+				// orizzontalia o verticali 
 				// essere contrassegnata come ACQUA
 				if (oppositeDirection /*= !checkOppositeCell(nodoList.get(0).getCella(), riga, colonna)*/
 						&& nodoList.get(0).getHorizontalVertical().size() <= 1) {
+					
+					
 					ripeti = true;
 					System.out.println("Reimmettere la scelta. La casella attuale non può essere "
 							+ "contrassegnata come (A)CQUA");
 				} else {
-					ripeti = true;
+					
 					// Se un nodo presente nella lista dei nodi orizzontali e verticali
 					// è contrassegnato come ACQUA va tolto da questa lista perché
 					// la direzione da lui occupata non è percorribile
 					// if (input.checkAcqua(inputKeyboard)) {
-//					nodoList.get(0).removeHorizontalVertical(riga, colonna);
-//					setGriglia(input.getInputTastiera(), riga * getColonne() + colonna);
+					nodoList.get(nodoList.size() - 1).removeHorizontalVertical(riga, colonna);
+					setGriglia(input.getInputTastiera(), riga * getColonne() + colonna);
 					getGriglia();
+					ripeti = false;
 				}
 
 				if (oppositeDirection && checkAffondato) {
