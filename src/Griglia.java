@@ -531,23 +531,23 @@ class Griglia {
 				// La direzione opposta è stata già ispezionata, la casella
 				// successiva ad una nave lunga più di due elementi, non può
 				// essere contrassegnata come ACQUA
-				if (oppositeDirection = !checkOppositeCell(nodoList.get(0).getCella(), riga, colonna)
+				if (oppositeDirection /*= !checkOppositeCell(nodoList.get(0).getCella(), riga, colonna)*/
 						&& nodoList.get(0).getHorizontalVertical().size() <= 1) {
 					ripeti = true;
 					System.out.println("Reimmettere la scelta. La casella attuale non può essere "
 							+ "contrassegnata come (A)CQUA");
 				} else {
-					ripeti = false;
+					ripeti = true;
 					// Se un nodo presente nella lista dei nodi orizzontali e verticali
 					// è contrassegnato come ACQUA va tolto da questa lista perché
 					// la direzione da lui occupata non è percorribile
 					// if (input.checkAcqua(inputKeyboard)) {
-					nodoList.get(0).removeHorizontalVertical(riga, colonna);
-					setGriglia(input.getInputTastiera(), riga * getColonne() + colonna);
+//					nodoList.get(0).removeHorizontalVertical(riga, colonna);
+//					setGriglia(input.getInputTastiera(), riga * getColonne() + colonna);
 					getGriglia();
 				}
 
-				if (oppositeDirection) {
+				if (oppositeDirection && checkAffondato) {
 
 					quit = true;
 

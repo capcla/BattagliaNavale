@@ -10,7 +10,6 @@ public class Main {
 		Griglia grigliaAttacco = new Griglia(righe, colonne);
 		Input input = new Input();
 		boolean validInputKeyboard = true;
-		String inputKeyboard;
 		List<Nave> naviNemicheList = new ArrayList<>();
 
 		// Creazione delle navi nemiche e immissione di queste in una lista
@@ -28,17 +27,9 @@ public class Main {
 		
 		int i = -1;
 		
-		// TEST
-		grigliaAttacco.setGriglia("A", 5);
-		grigliaAttacco.setGriglia("A", 12);
-		i = 1;
-		// FINE TEST
-
 		while (validInputKeyboard && ++i < grigliaAttacco.getRigheColonne() && naviNemicheList.size() > 0) {
-			// TEST
-//			int sparo = grigliaAttacco.getSparo(i);
-			int sparo = i;
-			// FINE TEST
+
+			int sparo = grigliaAttacco.getSparo(i);
 			
 			// Se si sta attaccando in una cella vuota
 			if (grigliaAttacco.checkEmptyCell(sparo)) {
