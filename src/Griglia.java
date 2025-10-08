@@ -434,10 +434,11 @@ class Griglia {
 		boolean checkColpito = false, checkAffondato = false;
 		final int r = i / getColonne();
 		final int c = i % getColonne();
-		boolean quit = false;
+		boolean quit = false; //
 		Nodo nodo;
 		boolean afs = true;
-		boolean ripeti = true;
+		boolean ripeti = true; // Fa ripetere il ciclo do-while se un colpo non
+								// è ritenuto valido
 
 		// Chiede all'utente conferma del colpo
 		do {
@@ -456,8 +457,6 @@ class Griglia {
 				nodo.setNeighboursNodoes(riga * getColonne() + colonna, this);
 				nodoList.get(nodoList.size() - 1).removeHorizontalVertical(riga, colonna);
 				nodoList.add(nodo);
-				
-
 				ripeti = false;
 
 				// Se la nave è dichiarata affondata, vengono imposati i limiti
@@ -531,26 +530,43 @@ class Griglia {
 			} else { // La casella attuale è stata contrassegnata come ACQUA
 
 				// La direzione opposta è stata già ispezionata e, intorno alla
-				// cella iniziale, (nodoList.get(0)), non ci sono elementi liberi 
-				// orizzontalia o verticali 
+				// cella iniziale, (nodoList.get(0)), non ci sono elementi liberi
+				// orizzontalia o verticali
 				// essere contrassegnata come ACQUA
-				if (oppositeDirection /*= !checkOppositeCell(nodoList.get(0).getCella(), riga, colonna)*/
+				if (oppositeDirection /* = !checkOppositeCell(nodoList.get(0).getCella(), riga, colonna) */
 						&& nodoList.get(0).getHorizontalVertical().size() <= 1) {
-					
-					
+
 					ripeti = true;
 					System.out.println("Reimmettere la scelta. La casella attuale non può essere "
 							+ "contrassegnata come (A)CQUA");
 				} else {
-					
-					// Se un nodo presente nella lista dei nodi orizzontali e verticali
-					// è contrassegnato come ACQUA va tolto da questa lista perché
-					// la direzione da lui occupata non è percorribile
-					// if (input.checkAcqua(inputKeyboard)) {
-					nodoList.get(nodoList.size() - 1).removeHorizontalVertical(riga, colonna);
-					setGriglia(input.getInputTastiera(), riga * getColonne() + colonna);
-					getGriglia();
-					ripeti = false;
+
+					if (oppositeDirection) {
+						int hvSize = 0;
+						// Quando un nodo viene contrassegnato come ACQUA. questo va
+						// rimosso dalla lista dei nodi horizontalVertical del nodo
+						// precedente in quanto non è più un nodo disponibile
+						if (nodoList.get(0).getHorizontalVertical().size() > 1) {
+							nodoList.get(0).removeHorizontalVertical(riga, colonna);
+							setGriglia(input.getInputTastiera(), riga * getColonne() + colonna);
+							ripeti = false;
+							hvSize = nodoList.get(0).getHorizontalVertical().size();
+						} else
+							nodoList.get(nodoList.size() - 1).removeHorizontalVertical(riga, colonna);
+
+						if (hvSize <= 1) {
+							System.out.println("Reimmettere la scelta. La casella attuale non può essere "
+									+ "contrassegnata come (A)CQUA");
+							ripeti = true;
+						}
+
+					} else {
+
+						nodoList.get(nodoList.size() - 1).removeHorizontalVertical(riga, colonna);
+						setGriglia(input.getInputTastiera(), riga * getColonne() + colonna);
+						getGriglia();
+						ripeti = false;
+					}
 				}
 
 				if (oppositeDirection && checkAffondato) {
@@ -910,14 +926,15 @@ class Griglia {
 	}
 
 	/**
-	 * Cambia il valore della cella di coordinate (r, c) a prescindere dal suo
-	 * valore precedente
+	 * Cambia il valore della cella di coordinate (r, c) in ASSEGANTO tranne se
+	 * questa è impostata su COLPITO
 	 * 
 	 * @param r Intero indicante la riga della cella attuale
 	 * @param c Intero indicante la colonna della cella attuale
 	 */
 	public void changeInAssigned(int r, int c) {
-		griglia[r][c] = Casella.ASSEGNATO;
+		if (griglia[r][c] != Casella.COLPITO)
+			griglia[r][c] = Casella.ASSEGNATO;
 	}
 
 	/**
