@@ -120,7 +120,7 @@ class Griglia {
 					if (j > 0 && j < getColonne() + 1)
 						// Stampa lo stato di griglia[i][j]
 						// System.out.printf("%" + getSpazio() + 'c', '~'/*griglia[i][j]*/);
-						System.out.printf("%" + getSpazio() + 'c', +getCharCasella(griglia, i - 1, j - 1));
+						System.out.printf("%" + getSpazio() + "s", getCharCasella(griglia, i - 1, j - 1));
 
 					else
 
@@ -249,7 +249,11 @@ class Griglia {
 		this.spazioTraCaratteri = (int) Math.log10(i) + 1;
 	}
 
-	// Restituisce lo spazio che deve esserci tra i caratteri della griglia
+	/**
+	 *  Restituisce lo spazio che deve esserci tra i caratteri della griglia
+	 * 
+	 * @return
+	 */
 	private int getSpazio() {
 		return this.spazioTraCaratteri;
 	}
@@ -327,14 +331,11 @@ class Griglia {
 	 * @param c Intero indicante il valore colonna di una cella
 	 * @return ritorna un char che sintetizza lo stato di una casella
 	 */
-	private char getCharCasella(Casella g[][], int r, int c) {
+	/*private char getCharCasella(Casella g[][], int r, int c) {
 		char ris = ' ';
 
 		switch (g[r][c]) {
-		/*
-		 * case VUOTO: ris = ' '; break;
-		 */
-
+		
 		case ACQUA:
 			ris = '~';
 			break;
@@ -345,6 +346,28 @@ class Griglia {
 
 		case ASSEGNATO:
 			ris = 'A';
+			break;
+		}
+
+		return ris;
+	}*/
+	
+	private String getCharCasella(Casella g[][], int r, int c) {
+		String ris = " ";
+
+		switch (g[r][c]) {
+		
+
+		case ACQUA:
+			ris = "~";
+			break;
+
+		case COLPITO:
+			ris = "X";
+			break;
+
+		case ASSEGNATO:
+			ris = "A";
 			break;
 		}
 
