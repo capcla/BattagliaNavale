@@ -353,17 +353,20 @@ class Griglia {
 	}*/
 	
 	private String getCharCasella(Casella g[][], int r, int c) {
+		String reset = "\u001b[0m";
+        String rosso = "\u001b[31m";
+        String blu = "\u001b[34m";
 		String ris = " ";
 
 		switch (g[r][c]) {
 		
 
 		case ACQUA:
-			ris = "~";
+			ris = blu + " ~" + reset;
 			break;
 
 		case COLPITO:
-			ris = "X";
+			ris = rosso + " X" + reset;
 			break;
 
 		case ASSEGNATO:
