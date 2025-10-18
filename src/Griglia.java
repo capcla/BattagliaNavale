@@ -353,20 +353,20 @@ class Griglia {
 	}*/
 	
 	private String getCharCasella(Casella g[][], int r, int c) {
-		String reset = "\u001b[0m";
-        String rosso = "\u001b[31m";
-        String blu = "\u001b[34m";
+		String reset = "\u001b[0m"; //Resetta il colore
+        String grassettoRosso = "\u001b[1;31m"; //Imposta il grassetto rosso
+        String grassettoBlu = "\u001b[1;34m"; //Imposta il grasestto blu
 		String ris = " ";
 
 		switch (g[r][c]) {
 		
 
 		case ACQUA:
-			ris = blu + " ~" + reset;
+			ris = grassettoBlu + " ~" + reset;
 			break;
 
 		case COLPITO:
-			ris = rosso + " X" + reset;
+			ris = grassettoRosso + " X" + reset;
 			break;
 
 		case ASSEGNATO:
