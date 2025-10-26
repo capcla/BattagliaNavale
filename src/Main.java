@@ -11,6 +11,7 @@ public class Main {
 		Input input = new Input();
 		boolean validInputKeyboard = true;
 		List<Nave> naviNemicheList = new ArrayList<>();
+		//Nave nave = new Nave();
 
 		// Creazione delle navi nemiche e immissione di queste in una lista
 		// Le navi sono inserite dalla più grande alla più piccola
@@ -91,6 +92,19 @@ public class Main {
 			}
 
 			grigliaAttacco.getGriglia();
+			
+			System.out.println("\n"+ naviNemicheList.size() +" navi rimanenti");
+			
+			for (int x = 0; x < naviNemicheList.size(); x++) {
+				System.out.print("("+ naviNemicheList.get(x).getDimensione() +") ");
+				
+				for (int y = 0; y < naviNemicheList.get(x).getDimensione(); y++)
+					System.out.print("*");
+				
+				
+				System.out.println();
+				
+			}
 		}
 
 	}

@@ -80,4 +80,18 @@ public class Nave {
 	public void setNaviAffondate(int naviAffondate) {
 		this.naviAffondate = naviAffondate;
 	}
+	
+	/*public void getNaviList(int nNavi) {
+		
+		System.out.println("\nNavi rimanenti\n" );
+		
+		for (int i = 0; i < nNavi  ;i++) {
+			for (int j = 0; j < this.getDimensione(); j++)
+				System.out.println("*");
+			
+			System.out.println();
+			
+		}
+		
+	}*/
 }
