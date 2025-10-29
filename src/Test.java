@@ -24,9 +24,9 @@ public class Test {
 		for (int i = 0; i < grigliaAttacco.getRigheColonne(); i++) {
 			grigliaAttacco.getRigaColonna(grigliaAttacco.getSparo(i));
 		}
-		
+
 		int i = -1;
-		
+
 		// TEST
 //		grigliaAttacco.setGriglia("A", 5);
 //		grigliaAttacco.setGriglia("A", 12);
@@ -38,7 +38,7 @@ public class Test {
 //			int sparo = grigliaAttacco.getSparo(i);
 			int sparo = i;
 			// FINE TEST
-			
+
 			// Se si sta attaccando in una cella vuota
 			if (grigliaAttacco.checkEmptyCell(sparo)) {
 				ArrayList<Nodo> nodoList = new ArrayList<Nodo>();
@@ -50,9 +50,10 @@ public class Test {
 				// verticale
 				if (nodo.getHorizontalVertical().size() > 0) {
 					System.out.println();
-					grigliaAttacco.getRigaColonna(sparo);
 					System.out.print("(" + (i + 1) + ") ");
-					input.setInputTastiera();
+					input.setInputTastiera("(" + sparo + "), " + (sparo / colonne + 1) + "(" + sparo / colonne + "), "
+							+ (char) (sparo % colonne + ((int) ('A'))) + "(" + sparo / colonne
+							+ ")" /* Sostituzione del comando grigliaAttacco.getRigaColonna(sparo); */);
 
 					// Inserimento dello sparo nella sulla griglia
 					if (input.checkColpito(input.getInputTastiera())) {
@@ -99,6 +100,18 @@ public class Test {
 			}
 
 			grigliaAttacco.getGriglia();
+
+			System.out.println("\n" + naviNemicheList.size() + " navi rimanenti");
+
+			for (int x = 0; x < naviNemicheList.size(); x++) {
+				System.out.print("(" + naviNemicheList.get(x).getDimensione() + ") ");
+
+				for (int y = 0; y < naviNemicheList.get(x).getDimensione(); y++)
+					System.out.print("*");
+
+				System.out.println();
+
+			}
 		}
 
 	}

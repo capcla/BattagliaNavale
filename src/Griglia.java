@@ -155,12 +155,11 @@ class Griglia {
 	 * 
 	 * @param i
 	 */
-	public void getRigaColonna(final int i) {
+	public String getRigaColonna(final int i) {
 		final int q = i / getColonne();
 		final int r = i % getColonne();
 
-		System.out.println(
-				"(" + i + "), " + (q + 1) + "(" + q + "), " + getCharFromInt(r + getIntFromChar('A')) + "(" + r + ")");
+		return(q + 1 + ", " + getCharFromInt(r + getIntFromChar('A')));
 	}
 
 	/**
@@ -468,9 +467,7 @@ class Griglia {
 
 		// Chiede all'utente conferma del colpo
 		do {
-			getRigaColonna(riga * getColonne() + colonna);
-			// boolean nd = false;
-			input.setInputTastiera();
+			input.setInputTastiera(getRigaColonna(riga * getColonne() + colonna));
 			checkColpito = input.checkColpito(input.getInputTastiera());
 			checkAffondato = input.checkAffondato(input.getInputTastiera());
 

@@ -19,13 +19,14 @@ class Input {
 	/**
 	 * Prende l'input da tastiera dell'utente e lo trasforma in lettere maiuscole
 	 */
-	void setInputTastiera() {
+	void setInputTastiera(String coordinate) {
 		boolean ripeti;
 
 		do {
 			ripeti = false;
-			System.out.print("Inserisci il report dello sparo\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
-			
+			System.out.print(
+					"Inserisci il report dello sparo: " + coordinate + "\n(A)cqua, " + "(C)olpito, a(F)fondato: ");
+
 			try {
 				this.inputTastiera = iT.readLine().toUpperCase();
 			} catch (IOException e) {

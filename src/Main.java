@@ -20,11 +20,6 @@ public class Main {
 		naviNemicheList.add(new Nave(3));
 		naviNemicheList.add(new Nave(3));
 		naviNemicheList.add(new Nave(2));
-
-		// Elenco del normale ordine di tutti gli spari che verranno effettuati
-		for (int i = 0; i < grigliaAttacco.getRigheColonne(); i++) {
-			grigliaAttacco.getRigaColonna(grigliaAttacco.getSparo(i));
-		}
 		
 		int i = -1;
 		
@@ -43,9 +38,8 @@ public class Main {
 				// verticale
 				if (nodo.getHorizontalVertical().size() > 0) {
 					System.out.println();
-					grigliaAttacco.getRigaColonna(sparo);
 					System.out.print("(" + (i + 1) + ") ");
-					input.setInputTastiera();
+					input.setInputTastiera(grigliaAttacco.getRigaColonna(sparo));
 
 					// Inserimento dello sparo nella sulla griglia
 					if (input.checkColpito(input.getInputTastiera())) {
